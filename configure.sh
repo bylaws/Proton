@@ -143,6 +143,8 @@ function configure() {
 
   stat "Using $arg_container_engine."
 
+  LLVM_TOOLCHAIN="$($1 run --rm $steamrt_image objcopy -V | grep -q llvm; echo $((1-$?)) 2>&1)"
+
   ## Write out config
   # Don't die after this point or we'll have rather unhelpfully deleted the Makefile
   [[ ! -e "$MAKEFILE" ]] || rm "$MAKEFILE"
@@ -159,6 +161,7 @@ function configure() {
       echo "STEAMRT_IMAGE := $(escape_for_make "$arg_protonsdk_image")"
     fi
 
+    echo "LLVM_TOOLCHAIN := $LLVM_TOOLCHAIN"
     echo "ROOTLESS_CONTAINER := $ROOTLESS_CONTAINER"
     echo "CONTAINER_ENGINE := $arg_container_engine"
     if [[ -n "$arg_docker_opts" ]]; then

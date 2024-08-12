@@ -62,6 +62,14 @@ COMMON_FLAGS32 := -mstackrealign
 COMMON_FLAGS64 := -mcmodel=small
 CARGO_BUILD_ARGS += --release
 
+ifeq ($(LLVM_TOOLCHAIN),1)
+OBJCOPY_FLAGS   :=
+NEED_RPATH_LINK := 0
+else
+OBJCOPY_FLAGS   := -p --file-alignment=4096
+NEED_RPATH_LINK := 1
+endif
+
 ifneq ($(SUPPRESS_WARNINGS),)
 	COMMON_FLAGS += -w
 endif
@@ -488,8 +496,17 @@ WINE_SOURCE_ARGS = \
 
 WINE_CONFIGURE_ARGS = \
   --enable-werror \
-  --with-mingw \
   --disable-tests
+
+ifeq ($(LLVM_TOOLCHAIN),1)
+WINE_CONFIGURE_ARGS += --with-mingw=clang
+# When wine is built using clang, it uses the link.exe interface directly so the
+# MinGW CROSSLDFLAGS can't be used.
+WINE_CROSSLDFLAGS = -Wl,-filealign:4096
+else
+WINE_CONFIGURE_ARGS += --with-mingw
+WINE_CROSSLDFLAGS = $(CROSSLDFLAGS)
+endif
 
 WINE_CONFIGURE_ARGS64 = --enable-win64
 
@@ -499,6 +516,12 @@ $(eval $(call rules-source,wine,$(SRCDIR)/wine))
 $(eval $(call rules-autoconf,wine,32))
 $(eval $(call rules-autoconf,wine,64))
 $(eval $(call rules-wine-requests,wine))
+
+WINE_ENV_EXTRA = \
+  CROSSLDFLAGS="$(WINE_CROSSLDFLAGS)"
+
+WINE_ENV32 += $(WINE_ENV_EXTRA)
+WINE_ENV64 += $(WINE_ENV_EXTRA)
 
 $(OBJ)/.wine-post-source:
 	cd $(WINE_SRC) && dlls/winevulkan/make_vulkan -x vk.xml
