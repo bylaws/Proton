@@ -33,6 +33,7 @@
  * Windows version of Steam running. */
 
 #include "ntstatus.h"
+#include <wctype.h>
 #define WIN32_NO_STATUS
 #include <windows.h>
 #include <winsvc.h>
@@ -56,17 +57,15 @@
 #pragma pop_macro("__cdecl")
 #pragma pop_macro("strncpy")
 
+#include "cJSON.h"
 #include "wine/debug.h"
-
-#pragma push_macro("wcsncpy")
-#undef wcsncpy
-#include "json/json.h"
-#pragma pop_macro("wcsncpy")
-
 #include "wine/unixlib.h"
 #include "wine/heap.h"
 #include "wine/vulkan.h"
+#pragma push_macro("wcsncpy")
+#undef wcsncpy
 #include "openvr.h"
+#pragma pop_macro("wcsncpy")
 #include "../src/ivrclientcore.h"
 
 #include <msi.h>
@@ -427,13 +426,19 @@ static bool convert_path_to_win(std::string &s)
     return true;
 }
 
-static void convert_json_array_paths(Json::Value &arr)
+static void convert_json_array_paths(cJSON *paths)
 {
-    for(uint32_t i = 0; i < arr.size(); ++i)
+    cJSON *path = nullptr;
+    cJSON_ArrayForEach(path, paths)
     {
-        std::string path(arr[i].asString());
-        if(convert_path_to_win(path))
-            arr[i] = path;
+        char *res = cJSON_GetStringValue(path);
+        if (!res) continue;
+        std::string s(res);
+        if (convert_path_to_win(s)) {
+            cJSON *string = cJSON_CreateString(s.c_str());
+            cJSON_ReplaceItemViaPointer(paths, path, string);
+            path = string;
+        }
     }
 }
 
@@ -491,10 +496,8 @@ static bool convert_linux_vrpaths(void)
         return false;
     }
 
-    Json::Value root;
-    Json::Reader reader;
-
-    if(!reader.parse(contents, root))
+    cJSON *root = cJSON_Parse(contents.c_str());
+    if (!root)
     {
         WINE_WARN("Invalid openvr vrpaths JSON\n");
         return false;
@@ -502,60 +505,62 @@ static bool convert_linux_vrpaths(void)
 
     /* pass original runtime path into Wine */
     const char *vr_override = getenv("VR_OVERRIDE");
+    cJSON *runtime = cJSON_GetObjectItemCaseSensitive(root, "runtime");
     if(vr_override)
     {
         set_env_from_unix(PROTON_VR_RUNTIME_W, vr_override);
     }
-    else if(root.isMember("runtime") && root["runtime"].isArray() && root["runtime"].size() > 0)
+    else if (cJSON_IsArray(runtime) && cJSON_GetArraySize(runtime) > 0)
     {
-        set_env_from_unix(PROTON_VR_RUNTIME_W, root["runtime"][0].asString());
+        cJSON *item = cJSON_GetArrayItem(runtime, 0);
+        char *str = cJSON_GetStringValue(item);
+        if (str) set_env_from_unix(PROTON_VR_RUNTIME_W, str);
     }
 
     /* set hard-coded paths */
-    root["runtime"] = Json::Value(Json::ValueType::arrayValue);
-    root["runtime"][0] = "C:\\vrclient\\";
-    root["runtime"][1] = "C:\\vrclient";
+    const char *runtime_paths[] = {"C:\\vrclient\\", "C:\\vrclient"};
+    cJSON *runtime_array = cJSON_CreateStringArray(runtime_paths, 2);
+    if (runtime)
+        cJSON_ReplaceItemInObjectCaseSensitive(root, "runtime", runtime_array);
+    else
+        cJSON_AddItemToObject(root, "runtime", runtime_array);
+
 
     /* map linux paths into windows filesystem */
-    if(root.isMember("config") && root["config"].isArray())
-        convert_json_array_paths(root["config"]);
+    cJSON *config = cJSON_GetObjectItemCaseSensitive(root, "config");
+    if (cJSON_IsArray(config))
+        convert_json_array_paths(config);
 
-    if(root.isMember("log") && root["log"].isArray())
-        convert_json_array_paths(root["log"]);
+    cJSON *log = cJSON_GetObjectItemCaseSensitive(root, "log");
+    if (cJSON_IsArray(log))
+        convert_json_array_paths(log);
 
     /* external_drivers is currently unsupported in Proton */
-    root["external_drivers"] = Json::Value(Json::ValueType::nullValue);
+    if (cJSON_GetObjectItemCaseSensitive(root, "external_drivers"))
+        cJSON_ReplaceItemInObjectCaseSensitive(root, "external_drivers", cJSON_CreateNull());
 
     /* write out windows vrpaths */
     SetEnvironmentVariableW(VR_PATHREG_OVERRIDE_W, NULL);
     SetEnvironmentVariableW(VR_OVERRIDE_W, NULL);
     convert_environment_path("VR_CONFIG_PATH", VR_CONFIG_PATH_W);
     convert_environment_path("VR_LOG_PATH", VR_LOG_PATH_W);
-    Json::StyledWriter writer;
 
     WCHAR windows_vrpaths[MAX_PATH];
     if(!get_windows_vr_path(windows_vrpaths, true))
+    {
+        cJSON_Delete(root);
         return false;
+    }
 
-    contents = writer.write(root);
-
-    write_string_to_file(windows_vrpaths, contents);
+    write_string_to_file(windows_vrpaths, cJSON_Print(root));
+    cJSON_Delete(root);
 
     return true;
 }
 
 static void setup_vrpaths(void)
 {
-    bool success = false;
-
-    try{
-        success = convert_linux_vrpaths();
-    }catch(std::exception e){
-        WINE_ERR("got error parsing vrpaths file\n");
-        success = false;
-    }
-
-    if(!success)
+    if (!convert_linux_vrpaths())
     {
         /* delete the windows file only if the linux conversion fails */
         WCHAR windows_vrpaths[MAX_PATH];
