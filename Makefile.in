@@ -550,8 +550,8 @@ DXVK_SOURCE_DATE_EPOCH64 := $(shell expr $(BASE_SOURCE_DATE_EPOCH64) - 1)
 DXVK_SOURCE_ARGS = \
   --exclude version.h.in \
 
-DXVK_MESON_ARGS32 = --bindir=$(DXVK_DST32)/lib/wine/dxvk
-DXVK_MESON_ARGS64 = --bindir=$(DXVK_DST64)/lib64/wine/dxvk
+DXVK_MESON_ARGS32 = --bindir=$(DXVK_DST32)/lib/wine/dxvk/i386-windows
+DXVK_MESON_ARGS64 = --bindir=$(DXVK_DST64)/lib64/wine/dxvk/x86_64-windows
 DXVK_DEPENDS = glslang
 
 $(eval $(call rules-source,dxvk,$(SRCDIR)/dxvk))
@@ -564,13 +564,13 @@ $(OBJ)/.dxvk-post-source:
 	touch $@
 
 $(OBJ)/.dxvk-post-build64:
-	mkdir -p "$(DST_DIR)"/lib64/wine/dxvk
-	rm -f "$(DST_DIR)"/lib64/wine/dxvk/version && if test -e $(SRCDIR)/.git; then ( cd $(SRCDIR) && git submodule status -- dxvk ) > "$(DST_DIR)"/lib64/wine/dxvk/version; fi
+	mkdir -p "$(DST_DIR)"/lib64/wine/dxvk/x86_64-windows
+	rm -f "$(DST_DIR)"/lib64/wine/dxvk/x86_64-windows/version && if test -e $(SRCDIR)/.git; then ( cd $(SRCDIR) && git submodule status -- dxvk ) > "$(DST_DIR)"/lib64/wine/dxvk/x86_64-windows/version; fi
 	touch $@
 
 $(OBJ)/.dxvk-post-build32:
-	mkdir -p "$(DST_DIR)"/lib/wine/dxvk
-	rm -f "$(DST_DIR)"/lib/wine/dxvk/version && if test -e $(SRCDIR)/.git; then ( cd $(SRCDIR) && git submodule status -- dxvk ) > "$(DST_DIR)"/lib/wine/dxvk/version; fi
+	mkdir -p "$(DST_DIR)"/lib/wine/dxvk/i386-windows
+	rm -f "$(DST_DIR)"/lib/wine/dxvk/i386-windows/version && if test -e $(SRCDIR)/.git; then ( cd $(SRCDIR) && git submodule status -- dxvk ) > "$(DST_DIR)"/lib/wine/dxvk/i386-windows/version; fi
 	touch $@
 
 
@@ -578,21 +578,21 @@ $(OBJ)/.dxvk-post-build32:
 ## dxvk-nvapi
 ##
 
-DXVK_NVAPI_MESON_ARGS32 = --bindir=$(DXVK_NVAPI_DST32)/lib/wine/nvapi
-DXVK_NVAPI_MESON_ARGS64 = --bindir=$(DXVK_NVAPI_DST64)/lib64/wine/nvapi
+DXVK_NVAPI_MESON_ARGS32 = --bindir=$(DXVK_NVAPI_DST32)/lib/wine/nvapi/i386-windows
+DXVK_NVAPI_MESON_ARGS64 = --bindir=$(DXVK_NVAPI_DST64)/lib64/wine/nvapi/x86_64-windows
 
 $(eval $(call rules-source,dxvk-nvapi,$(SRCDIR)/dxvk-nvapi))
 $(eval $(call rules-meson,dxvk-nvapi,32,CROSS))
 $(eval $(call rules-meson,dxvk-nvapi,64,CROSS))
 
 $(OBJ)/.dxvk-nvapi-post-build64:
-	mkdir -p "$(DST_DIR)"/lib64/wine/nvapi
-	rm -f "$(DST_DIR)"/lib64/wine/nvapi/version && if test -e $(SRCDIR)/.git; then ( cd $(SRCDIR) && git submodule status -- dxvk-nvapi ) > "$(DST_DIR)"/lib64/wine/nvapi/version; fi
+	mkdir -p "$(DST_DIR)"/lib64/wine/nvapi/x86_64-windows
+	rm -f "$(DST_DIR)"/lib64/wine/nvapi/x86_64-windows/version && if test -e $(SRCDIR)/.git; then ( cd $(SRCDIR) && git submodule status -- dxvk-nvapi ) > "$(DST_DIR)"/lib64/wine/nvapi/x86_64-windows/version; fi
 	touch $@
 
 $(OBJ)/.dxvk-nvapi-post-build32:
-	mkdir -p "$(DST_DIR)"/lib/wine/nvapi
-	rm -f "$(DST_DIR)"/lib/wine/nvapi/version && if test -e $(SRCDIR)/.git; then ( cd $(SRCDIR) && git submodule status -- dxvk-nvapi ) > "$(DST_DIR)"/lib/wine/nvapi/version; fi
+	mkdir -p "$(DST_DIR)"/lib/wine/nvapi/i386-windows
+	rm -f "$(DST_DIR)"/lib/wine/nvapi/i386-windows/version && if test -e $(SRCDIR)/.git; then ( cd $(SRCDIR) && git submodule status -- dxvk-nvapi ) > "$(DST_DIR)"/lib/wine/nvapi/i386-windows/version; fi
 	touch $@
 
 
@@ -632,15 +632,15 @@ $(eval $(call rules-autoconf,vkd3d,32,CROSS))
 $(eval $(call rules-autoconf,vkd3d,64,CROSS))
 
 $(OBJ)/.vkd3d-post-build64:
-	mkdir -p $(DST_DIR)/lib64/vkd3d/
-	$(call install-strip,$(VKD3D_DST64)/bin/libvkd3d-1.dll,$(DST_LIBDIR64)/vkd3d)
-	$(call install-strip,$(VKD3D_DST64)/bin/libvkd3d-shader-1.dll,$(DST_LIBDIR64)/vkd3d)
+	mkdir -p $(DST_DIR)/lib64/vkd3d/x86_64-windows/
+	$(call install-strip,$(VKD3D_DST64)/bin/libvkd3d-1.dll,$(DST_LIBDIR64)/vkd3d/x86_64-windows)
+	$(call install-strip,$(VKD3D_DST64)/bin/libvkd3d-shader-1.dll,$(DST_LIBDIR64)/vkd3d/x86_64-windows)
 	touch $@
 
 $(OBJ)/.vkd3d-post-build32:
-	mkdir -p $(DST_DIR)/lib/vkd3d/
-	$(call install-strip,$(VKD3D_DST32)/bin/libvkd3d-1.dll,$(DST_LIBDIR32)/vkd3d)
-	$(call install-strip,$(VKD3D_DST32)/bin/libvkd3d-shader-1.dll,$(DST_LIBDIR32)/vkd3d)
+	mkdir -p $(DST_DIR)/lib/vkd3d/i386-windows/
+	$(call install-strip,$(VKD3D_DST32)/bin/libvkd3d-1.dll,$(DST_LIBDIR32)/vkd3d/i386-windows)
+	$(call install-strip,$(VKD3D_DST32)/bin/libvkd3d-shader-1.dll,$(DST_LIBDIR32)/vkd3d/i386-windows)
 	touch $@
 
 ##
@@ -655,8 +655,8 @@ VKD3D_PROTON_SOURCE_ARGS = \
   --exclude vkd3d_build.h.in \
   --exclude vkd3d_version.h.in \
 
-VKD3D_PROTON_MESON_ARGS32 = --bindir=$(VKD3D_PROTON_DST32)/lib/wine/vkd3d-proton
-VKD3D_PROTON_MESON_ARGS64 = --bindir=$(VKD3D_PROTON_DST64)/lib64/wine/vkd3d-proton
+VKD3D_PROTON_MESON_ARGS32 = --bindir=$(VKD3D_PROTON_DST32)/lib/wine/vkd3d-proton/i386-windows
+VKD3D_PROTON_MESON_ARGS64 = --bindir=$(VKD3D_PROTON_DST64)/lib64/wine/vkd3d-proton/x86_64-windows
 VKD3D_PROTON_DEPENDS = glslang
 
 ifneq ($(UNSTRIPPED_BUILD),)
@@ -675,13 +675,13 @@ $(OBJ)/.vkd3d-proton-post-source:
 	touch $@
 
 $(OBJ)/.vkd3d-proton-post-build32:
-	mkdir -p "$(DST_DIR)"/lib/wine/vkd3d-proton
-	rm -f "$(DST_DIR)"/lib/wine/vkd3d-proton/version && if test -e $(SRCDIR)/.git; then ( cd $(SRCDIR) && git submodule status -- vkd3d-proton ) > "$(DST_DIR)"/lib/wine/vkd3d-proton/version; fi
+	mkdir -p "$(DST_DIR)"/lib/wine/vkd3d-proton/i386-windows
+	rm -f "$(DST_DIR)"/lib/wine/vkd3d-proton/i386-windows/version && if test -e $(SRCDIR)/.git; then ( cd $(SRCDIR) && git submodule status -- vkd3d-proton ) > "$(DST_DIR)"/lib/wine/vkd3d-proton/i386-windows/version; fi
 	touch $@
 
 $(OBJ)/.vkd3d-proton-post-build64:
-	mkdir -p "$(DST_DIR)"/lib64/wine/vkd3d-proton
-	rm -f "$(DST_DIR)"/lib64/wine/vkd3d-proton/version && if test -e $(SRCDIR)/.git; then ( cd $(SRCDIR) && git submodule status -- vkd3d-proton ) > "$(DST_DIR)"/lib64/wine/vkd3d-proton/version; fi
+	mkdir -p "$(DST_DIR)"/lib64/wine/vkd3d-proton/x86_64-windows
+	rm -f "$(DST_DIR)"/lib64/wine/vkd3d-proton/x86_64-windows/version && if test -e $(SRCDIR)/.git; then ( cd $(SRCDIR) && git submodule status -- vkd3d-proton ) > "$(DST_DIR)"/lib64/wine/vkd3d-proton/x86_64-windows/version; fi
 	touch $@
 
 

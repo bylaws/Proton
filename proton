@@ -423,9 +423,17 @@ class Proton:
         self.wine64_bin = self.bin_dir + "wine64"
         self.wineserver_bin = self.bin_dir + "wineserver"
         self.dist_lock = FileLock(self.path("dist.lock"), timeout=-1)
+        self.host_arch = "x86_64-windows"
+        self.wow64_arch = "i386-windows"
 
     def path(self, d):
         return self.base_dir + d
+
+    def arch_dll_dir(self, d, wow64):
+        if wow64:
+            return self.lib_dir + d + "/" + self.wow64_arch + "/"
+        else:
+            return self.lib64_dir + d + "/" + self.host_arch + "/"
 
     def cleanup_legacy_dist(self):
         old_dist_dir = self.path("dist/")
@@ -853,6 +861,8 @@ class CompatData:
                 g_proton.fonts_dir,
                 g_proton.lib_dir,
                 g_proton.lib64_dir,
+                g_proton.host_arch,
+                g_proton.wow64_arch,
                 steamdir,
                 getmtimestr(steamdir, 'legacycompat', 'steamclient.dll'),
                 getmtimestr(steamdir, 'legacycompat', 'steamclient64.dll'),
@@ -910,14 +920,14 @@ class CompatData:
 
                 #copy openvr files into place
                 makedirs(self.prefix_dir + "/drive_c/vrclient/bin")
-                try_copy(g_proton.lib_dir + "wine/i386-windows/vrclient.dll", "drive_c/vrclient/bin",
+                try_copy(g_proton.arch_dll_dir("wine", True) + "vrclient.dll", "drive_c/vrclient/bin",
                         prefix=self.prefix_dir, track_file=tracked_files, link_debug=True)
-                try_copy(g_proton.lib64_dir + "wine/x86_64-windows/vrclient_x64.dll", "drive_c/vrclient/bin",
+                try_copy(g_proton.arch_dll_dir("wine", False) + "vrclient_x64.dll", "drive_c/vrclient/bin",
                         prefix=self.prefix_dir, track_file=tracked_files, link_debug=True)
 
-                try_copy(g_proton.lib_dir + "wine/dxvk/openvr_api_dxvk.dll", "drive_c/windows/syswow64",
+                try_copy(g_proton.arch_dll_dir("wine/dxvk", True) + "openvr_api_dxvk.dll", "drive_c/windows/syswow64",
                         prefix=self.prefix_dir, track_file=tracked_files, link_debug=True)
-                try_copy(g_proton.lib64_dir + "wine/dxvk/openvr_api_dxvk.dll", "drive_c/windows/system32",
+                try_copy(g_proton.arch_dll_dir("wine/dxvk", False) + "openvr_api_dxvk.dll", "drive_c/windows/system32",
                         prefix=self.prefix_dir, track_file=tracked_files, link_debug=True)
 
                 makedirs(self.prefix_dir + "/drive_c/openxr")
@@ -925,13 +935,13 @@ class CompatData:
                         prefix=self.prefix_dir, track_file=tracked_files, link_debug=True)
 
                 #copy vkd3d files into place
-                try_copy(g_proton.lib64_dir + "vkd3d/libvkd3d-1.dll", "drive_c/windows/system32",
+                try_copy(g_proton.arch_dll_dir("vkd3d", False) + "libvkd3d-1.dll", "drive_c/windows/system32",
                         prefix=self.prefix_dir, track_file=tracked_files, link_debug=True)
-                try_copy(g_proton.lib_dir + "vkd3d/libvkd3d-1.dll", "drive_c/windows/syswow64",
+                try_copy(g_proton.arch_dll_dir("vkd3d", True) + "libvkd3d-1.dll", "drive_c/windows/syswow64",
                         prefix=self.prefix_dir, track_file=tracked_files, link_debug=True)
-                try_copy(g_proton.lib64_dir + "vkd3d/libvkd3d-shader-1.dll", "drive_c/windows/system32",
+                try_copy(g_proton.arch_dll_dir("vkd3d", False) + "libvkd3d-shader-1.dll", "drive_c/windows/system32",
                         prefix=self.prefix_dir, track_file=tracked_files, link_debug=True)
-                try_copy(g_proton.lib_dir + "vkd3d/libvkd3d-shader-1.dll", "drive_c/windows/syswow64",
+                try_copy(g_proton.arch_dll_dir("vkd3d", True) + "libvkd3d-shader-1.dll", "drive_c/windows/syswow64",
                         prefix=self.prefix_dir, track_file=tracked_files, link_debug=True)
 
                 if use_wined3d:
@@ -960,25 +970,25 @@ class CompatData:
                             prefix=self.prefix_dir, track_file=tracked_files, link_debug=True)
 
                 for f in dxvkfiles:
-                    try_copy(g_proton.lib64_dir + "wine/dxvk/" + f + ".dll", "drive_c/windows/system32",
+                    try_copy(g_proton.arch_dll_dir("wine/dxvk", False) + f + ".dll", "drive_c/windows/system32",
                             prefix=self.prefix_dir, track_file=tracked_files, link_debug=True)
-                    try_copy(g_proton.lib_dir + "wine/dxvk/" + f + ".dll", "drive_c/windows/syswow64",
+                    try_copy(g_proton.arch_dll_dir("wine/dxvk", True) + f + ".dll", "drive_c/windows/syswow64",
                             prefix=self.prefix_dir, track_file=tracked_files, link_debug=True)
                     g_session.dlloverrides[f] = "n"
 
                 for f in vkd3d_protonfiles:
-                    try_copy(g_proton.lib64_dir + "wine/vkd3d-proton/" + f + ".dll", "drive_c/windows/system32",
+                    try_copy(g_proton.arch_dll_dir("wine/vkd3d-proton", False) + f + ".dll", "drive_c/windows/system32",
                             prefix=self.prefix_dir, track_file=tracked_files, link_debug=True)
-                    try_copy(g_proton.lib_dir + "wine/vkd3d-proton/" + f + ".dll", "drive_c/windows/syswow64",
+                    try_copy(g_proton.arch_dll_dir("wine/vkd3d-proton", True) + f + ".dll", "drive_c/windows/syswow64",
                             prefix=self.prefix_dir, track_file=tracked_files, link_debug=True)
                     g_session.dlloverrides[f] = "n"
 
                 # If the user requested the NVAPI be available, copy it into place.
                 # If they didn't, clean up any stray nvapi DLLs.
                 if use_nvapi:
-                    try_copy(g_proton.lib64_dir + "wine/nvapi/nvapi64.dll", "drive_c/windows/system32",
+                    try_copy(g_proton.arch_dll_dir("wine/nvapi", False) + "nvapi64.dll", "drive_c/windows/system32",
                             prefix=self.prefix_dir, track_file=tracked_files, link_debug=True)
-                    try_copy(g_proton.lib_dir + "wine/nvapi/nvapi.dll", "drive_c/windows/syswow64",
+                    try_copy(g_proton.arch_dll_dir("wine/nvapi", True) + "nvapi.dll", "drive_c/windows/syswow64",
                             prefix=self.prefix_dir, track_file=tracked_files, link_debug=True)
                     g_session.dlloverrides["nvapi64"] = "n"
                     g_session.dlloverrides["nvapi"] = "n"
