@@ -14,7 +14,7 @@ MFLAGS += V=1 VERBOSE=1
 --verbose? := --verbose
 endif
 
-SHELL := /bin/bash
+SHELL := /usr/bin/env bash
 
 ##
 ## General/global config
