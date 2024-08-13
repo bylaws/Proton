@@ -86,6 +86,71 @@ static const WCHAR VR_OVERRIDE_W[] = {'V','R','_','O','V','E','R','R','I','D','E
 static const WCHAR VR_CONFIG_PATH_W[] = {'V','R','_','C','O','N','F','I','G','_','P','A','T','H',0};
 static const WCHAR VR_LOG_PATH_W[] = {'V','R','_','L','O','G','_','P','A','T','H',0};
 
+class dynstr
+{
+private:
+    size_t off = 0;
+    size_t cap = 512;
+    char *str;
+
+public:
+    dynstr() : str((char*)malloc(cap))
+    {
+        str[0] = '\0';
+    }
+
+    dynstr(const char *src, size_t srclen) : dynstr()
+    {
+        append(src, srclen);
+    }
+
+    dynstr(const char *src) : dynstr(src, strlen(src)) {}
+
+    dynstr(const dynstr &other) : dynstr(other.c_str(), other.off) {}
+
+    dynstr(dynstr &&other)
+    {
+        off = other.off;
+        cap = other.cap;
+        str = other.str;
+        other.str = NULL;
+    }
+
+    ~dynstr()
+    {
+        free(str);
+    }
+
+    const char *c_str() const
+    {
+        return str;
+    }
+
+    bool empty() const
+    {
+        return off == 0;
+    }
+
+    void append(const char *src, size_t srclen)
+    {
+        if (off + srclen + 1 > cap)
+        {
+            cap = off + srclen + 512;
+            str = (char*)realloc(str, cap);
+        }
+
+        memcpy(str + off, src, srclen);
+        off += srclen;
+        str[off] = '\0';
+    }
+
+    void append(const char *src)
+    {
+        append(src, strlen(src));
+    }
+};
+
+
 static bool env_nonzero(const char *env)
 {
     const char *v = getenv(env);
@@ -260,7 +325,7 @@ static void setup_eac_bridge(void)
     setenv("PROTON_EAC_RUNTIME", path, 1);
 }
 
-static std::string get_linux_vr_path(void)
+static dynstr get_linux_vr_path(void)
 {
     const char *e;
 
@@ -271,12 +336,19 @@ static std::string get_linux_vr_path(void)
         return e;
 
     e = getenv("XDG_CONFIG_HOME");
-    if(e && *e)
-        return std::string(e) + openvr_path;
+    if(e && *e) {
+        dynstr out(e);
+        out.append(openvr_path);
+        return out;
+    }
 
     e = getenv("HOME");
-    if(e && *e)
-        return std::string(e) + "/.config" + openvr_path;
+    if(e && *e) {
+        dynstr out(e);
+        out.append("/.config");
+        out.append(openvr_path);
+        return out;
+    }
 
     return "";
 }
@@ -300,9 +372,9 @@ static bool get_windows_vr_path(WCHAR *out_path, bool create)
     return true;
 }
 
-static WCHAR *str_to_wchar(const std::string &str)
+static WCHAR *str_to_wchar(const char *str)
 {
-    DWORD sz = MultiByteToWideChar(CP_UNIXCP, 0, str.c_str(), -1, NULL, 0);
+    DWORD sz = MultiByteToWideChar(CP_UNIXCP, 0, str, -1, NULL, 0);
     if(!sz)
         return NULL;
 
@@ -310,7 +382,7 @@ static WCHAR *str_to_wchar(const std::string &str)
     if(!ret)
         return NULL;
 
-    sz = MultiByteToWideChar(CP_UNIXCP, 0, str.c_str(), -1, ret, sz);
+    sz = MultiByteToWideChar(CP_UNIXCP, 0, str, -1, ret, sz);
     if(!sz)
     {
         HeapFree(GetProcessHeap(), 0, ret);
@@ -320,7 +392,7 @@ static WCHAR *str_to_wchar(const std::string &str)
     return ret;
 }
 
-static std::string read_text_file(const WCHAR *filename)
+static dynstr read_text_file(const WCHAR *filename)
 {
     HANDLE ifile = CreateFileW(filename, GENERIC_READ,
             FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL,
@@ -363,14 +435,14 @@ static std::string read_text_file(const WCHAR *filename)
             buf[outsize++] = buf[i];
     }
 
-    std::string ret(buf, outsize);
+    dynstr ret(buf, outsize);
 
     HeapFree(GetProcessHeap(), 0, buf);
 
     return ret;
 }
 
-static bool write_string_to_file(const WCHAR *filename, const std::string &contents)
+static bool write_string_to_file(const WCHAR *filename, const char *contents)
 {
     HANDLE ofile = CreateFileW(filename, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS,
             FILE_ATTRIBUTE_NORMAL, NULL);
@@ -379,7 +451,7 @@ static bool write_string_to_file(const WCHAR *filename, const std::string &conte
 
     DWORD written;
 
-    if(!WriteFile(ofile, contents.data(), (DWORD)contents.length(), &written, NULL))
+    if(!WriteFile(ofile, contents, (DWORD)strlen(contents), &written, NULL))
     {
         CloseHandle(ofile);
         return false;
@@ -390,9 +462,9 @@ static bool write_string_to_file(const WCHAR *filename, const std::string &conte
     return true;
 }
 
-static bool convert_path_to_win(std::string &s)
+static bool convert_path_to_win(char *&s)
 {
-    WCHAR *path = wine_get_dos_file_name(s.c_str());
+    WCHAR *path = wine_get_dos_file_name(s);
     if(!path)
         return false;
 
@@ -420,7 +492,6 @@ static bool convert_path_to_win(std::string &s)
 
     s = pathUTF8;
 
-    HeapFree(GetProcessHeap(), 0, pathUTF8);
     HeapFree(GetProcessHeap(), 0, path);
 
     return true;
@@ -431,11 +502,10 @@ static void convert_json_array_paths(cJSON *paths)
     cJSON *path = nullptr;
     cJSON_ArrayForEach(path, paths)
     {
-        char *res = cJSON_GetStringValue(path);
-        if (!res) continue;
-        std::string s(res);
+        char *s = cJSON_GetStringValue(path);
+        if (!s) continue;
         if (convert_path_to_win(s)) {
-            cJSON *string = cJSON_CreateString(s.c_str());
+            cJSON *string = cJSON_CreateString(s);
             cJSON_ReplaceItemViaPointer(paths, path, string);
             path = string;
         }
@@ -459,12 +529,12 @@ static void convert_environment_path(const char *nameA, const WCHAR *nameW)
     HeapFree(GetProcessHeap(), 0, path);
 }
 
-static void set_env_from_unix(const WCHAR *name, const std::string &val)
+static void set_env_from_unix(const WCHAR *name, const char *val)
 {
     WCHAR valW[MAX_PATH];
     DWORD sz;
 
-    sz = MultiByteToWideChar(CP_UTF8, 0, val.c_str(), -1, valW, MAX_PATH);
+    sz = MultiByteToWideChar(CP_UTF8, 0, val, -1, valW, MAX_PATH);
     if(!sz)
     {
         WINE_WARN("Invalid utf8 seq in vr runtime key\n");
@@ -477,18 +547,18 @@ static void set_env_from_unix(const WCHAR *name, const std::string &val)
 static bool convert_linux_vrpaths(void)
 {
     /* read in linux vrpaths */
-    std::string linux_vrpaths = get_linux_vr_path();
+    dynstr linux_vrpaths = get_linux_vr_path();
     if(linux_vrpaths.empty())
     {
         WINE_TRACE("Couldn't get openvr vrpaths path\n");
         return false;
     }
 
-    WCHAR *linux_vrpathsW = str_to_wchar(linux_vrpaths);
+    WCHAR *linux_vrpathsW = str_to_wchar(linux_vrpaths.c_str());
     if(!linux_vrpathsW)
         return false;
 
-    std::string contents = read_text_file(linux_vrpathsW);
+    dynstr contents = read_text_file(linux_vrpathsW);
     HeapFree(GetProcessHeap(), 0, linux_vrpathsW);
     if(contents.empty())
     {
@@ -1469,6 +1539,34 @@ static BOOL steam_command_handler(int argc, char *argv[])
     return TRUE;
 }
 
+bool write_path(dynstr &contents, char *path, unsigned int index)
+{
+    unsigned int i;
+    char idx_str[10];
+    if (convert_path_to_win(path))
+    {
+        sprintf(idx_str, "%u", index);
+        contents.append("\t\"");
+        contents.append(idx_str);
+        contents.append("\"\n\t{\n\t\t\"path\"\t\t\"");
+
+        for (i = 0; path[i] != '\0'; ++i)
+        {
+            contents.append(&path[i], 1);
+            if (path[i] == '\\')
+                contents.append("\\");
+        }
+        contents.append("\"\n\t}\n");
+        HeapFree(GetProcessHeap(), 0, path);
+        return true;
+    }
+    else
+    {
+        WINE_ERR("Could not convert %s to win path.\n", wine_dbgstr_a(path));
+        return false;
+    }
+}
+
 static void setup_steam_files(void)
 {
     static const WCHAR config_pathW[] =
@@ -1486,12 +1584,12 @@ static void setup_steam_files(void)
         'C',':','\\','P','r','o','g','r','a','m',' ','F','i','l','e','s',' ','(','x','8','6',')','\\','S','t','e','a','m',
         '\\','s','t','e','a','m','a','p','p','s','\\','l','i','b','r','a','r','y','f','o','l','d','e','r','s','.','v','d','f',0,
     };
+
     const char *steam_install_path = getenv("STEAM_COMPAT_CLIENT_INSTALL_PATH");
     const char *steam_library_paths = getenv("STEAM_COMPAT_LIBRARY_PATHS");
     const char *start, *end, *next;
     unsigned int i, index = 0;
-    std::string contents;
-    char idx_str[10];
+    dynstr contents;
 
     if (!CreateDirectoryW(config_pathW, NULL) && GetLastError() != ERROR_ALREADY_EXISTS)
     {
@@ -1505,42 +1603,19 @@ static void setup_steam_files(void)
         return;
     }
 
-    contents += "\"LibraryFolders\"\n{\n";
+    contents.append("\"LibraryFolders\"\n{\n");
 
     WINE_TRACE("steam_install_path %s.\n", wine_dbgstr_a(steam_install_path));
 
-    if (steam_install_path)
-    {
-        std::string s = steam_install_path;
-
-        if (convert_path_to_win(s))
-        {
-            sprintf(idx_str, "%u", index);
-            ++index;
-
-            for (i = 0; i < s.length(); ++i)
-            {
-                if (s[i] == '\\')
-                {
-                    s.insert(i, 1, '\\');
-                    ++i;
-                }
-            }
-
-            contents += std::string("\t\"") + idx_str + "\"\n\t{\n\t\t\"path\"\t\t\"" + s + "\"\n\t}\n";
-        }
-        else
-        {
-            WINE_ERR("Could not convert %s to win path.\n", wine_dbgstr_a(s.c_str()));
-        }
-    }
+    if (steam_install_path && write_path(contents, (char*)steam_install_path, index))
+        ++index;
 
     WINE_TRACE("steam_library_paths %s.\n", wine_dbgstr_a(steam_library_paths));
 
     start = steam_library_paths;
     while (start && *start)
     {
-        std::string s;
+        char tmp[1024];
 
         if (!(next = strchr(start, ':')))
             next = start + strlen(start);
@@ -1554,35 +1629,18 @@ static void setup_steam_files(void)
         if (end != start)
             --end;
 
-        s.append(start, end - start);
-        if (convert_path_to_win(s))
-        {
-            sprintf(idx_str, "%u", index);
+        strncat(tmp, start, end - start);
+        if (write_path(contents, tmp, index))
             ++index;
 
-            for (i = 0; i < s.length(); ++i)
-            {
-                if (s[i] == '\\')
-                {
-                    s.insert(i, 1, '\\');
-                    ++i;
-                }
-            }
-
-            contents += std::string("\t\"") + idx_str + "\"\n\t{\n\t\t\"path\"\t\t\"" + s + "\"\n\t}\n";
-        }
-        else
-        {
-            WINE_ERR("Could not convert %s to win path.\n", wine_dbgstr_a(s.c_str()));
-        }
         if (*next == ':')
             ++next;
         start = next;
     }
 
-    contents += "}\n";
+    contents.append("}\n");
 
-    if (!write_string_to_file(libraryfolders_nameW, contents))
+    if (!write_string_to_file(libraryfolders_nameW, contents.c_str()))
         WINE_ERR("Could not write %s.\n", wine_dbgstr_w(libraryfolders_nameW));
 }
 
