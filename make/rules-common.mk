@@ -20,12 +20,6 @@ $$(OBJ)/.$(1)-configure$(3): | $$(OBJ)/.$(1)-post-source
 $(1)-configure$(3): $$(OBJ)/.$(1)-configure$(3)
 .INTERMEDIATE: $(1)-configure$(3)
 
-all-configure$(3) $(1)-configure: $(1)-configure$(3)
-.PHONY: all-configure$(3) $(1)-configure
-
-all-configure: $(1)-configure
-.PHONY: all-configure
-
 
 $$(OBJ)/.$(1)-build$(3): CCACHE_BASEDIR = $$($(2)_SRC)
 $$(OBJ)/.$(1)-build$(3): $$(OBJ)/.$(1)-source
@@ -35,12 +29,6 @@ $$(OBJ)/.$(1)-post-build$(3): $$(OBJ)/.$(1)-build$(3)
 
 $(1)-build$(3): $$(OBJ)/.$(1)-build$(3)
 .INTERMEDIATE: $(1)-build$(3)
-
-all-build$(3) $(1)-build: $(1)-build$(3)
-.PHONY: all-build$(3) $(1)-build
-
-all-build: $(1)-build
-.PHONY: all-build
 
 
 $$(OBJ)/.$(1)-dist$(3): $$(OBJ)/.$(1)-build$(3)
@@ -86,21 +74,34 @@ endif
 $(1)-dist$(3): $$(OBJ)/.$(1)-dist$(3)
 .INTERMEDIATE: $(1)-dist$(3)
 
+$(1)$(3): $(1)-configure$(3) $(1)-build$(3) $(1)-dist$(3)
+.INTERMEDIATE: $(1)$(3)
+
+ifneq ($(filter $(3),$($(5)ARCHS)),)
+all-configure$(3) $(1)-configure: $(1)-configure$(3)
+.PHONY: all-configure$(3) $(1)-configure
+
+all-configure: $(1)-configure
+.PHONY: all-configure
+
+all-build$(3) $(1)-build: $(1)-build$(3)
+.PHONY: all-build$(3) $(1)-build
+
+all-build: $(1)-build
+.PHONY: all-build
+
 all-dist$(3) $(1)-dist: $(1)-dist$(3)
 .PHONY: all-dist$(3) $(1)-dist
 
 all-dist: $(1)-dist
 .PHONY: all-dist
 
-
-$(1)$(3): $(1)-configure$(3) $(1)-build$(3) $(1)-dist$(3)
-.INTERMEDIATE: $(1)$(3)
-
 all$(3) $(1): $(1)$(3)
 .PHONY: all$(3) $(1)
 
 all: $(1)
 .PHONY: all
+endif
 
 $(2)_INCFLAGS$(3) = $$(foreach d,$$($(2)_DEPS$(3)),-I$$($$(d)_INCDIR$(3)))
 $(2)_LIBFLAGS$(3) = $$(foreach d,$$($(2)_DEPS$(3)),-L$$($$(d)_LIBDIR$(3)))

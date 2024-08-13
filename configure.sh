@@ -176,6 +176,8 @@ function configure() {
     if [[ -n "$arg_enable_bear" ]]; then
       echo "ENABLE_BEAR := 1"
     fi
+    echo "ARCHS := $arg_archs"
+    echo "CROSSARCHS := $arg_cross_archs"
 
     # Include base
     echo ""
@@ -197,6 +199,8 @@ arg_docker_opts=""
 arg_relabel_volumes=""
 arg_enable_ccache=""
 arg_enable_bear=""
+arg_cross_archs="64 32"
+arg_archs="64 32"
 arg_help=""
 invalid_args=""
 function parse_args() {
@@ -245,6 +249,12 @@ function parse_args() {
       arg_enable_ccache="1"
     elif [[ $arg = --enable-bear ]]; then
       arg_enable_bear="1"
+    elif [[ $arg = --cross-archs ]]; then
+      arg_cross_archs="$val"
+      val_used=1
+    elif [[ $arg = --archs ]]; then
+      arg_archs="$val"
+      val_used=1
     elif [[ $arg = --proton-sdk-image ]]; then
       val_used=1
       arg_protonsdk_image="$val"
@@ -301,6 +311,10 @@ usage() {
   "$1" "    --enable-ccache Mount \$CCACHE_DIR or \$HOME/.ccache inside of the container and use ccache for the build."
   "$1" ""
   "$1" "    --enable-bear Invokes make via bear creating compile_commands.json."
+  "$1" ""
+  "$1" "    --cross-archs='<architectures>' PE architectures to build"
+  "$1" ""
+  "$1" "    --archs='<architectures>' SO architectures to build"
   "$1" ""
   "$1" "  Steam Runtime"
   "$1" "    Proton builds that are to be installed & run under the steam client must be built with"
