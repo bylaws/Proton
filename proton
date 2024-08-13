@@ -88,6 +88,8 @@ def file_is_wine_builtin_dll(path):
                     '/lib64/wine/i386-windows',
                     '/lib64/wine/x86_64-unix',
                     '/lib64/wine/x86_64-windows'
+                    '/lib/wine/aarch64-unix',
+                    '/lib/wine/aarch64-windows'
                 )):
             # This may be a broken link to a dll in a removed Proton install
             return True
@@ -415,6 +417,8 @@ class Proton:
         self.lib64_dir = self.path("files/lib64/")
         if (not file_exists(self.lib_dir, follow_symlinks=True)):
             self.lib_dir = self.lib64_dir
+        elif (not file_exists(self.lib64_dir, follow_symlinks=True)):
+            self.lib64_dir = self.lib_dir
         self.fonts_dir = self.path("files/share/fonts/")
         self.media_dir = self.path("files/share/media/")
         self.wine_fonts_dir = self.path("files/share/wine/fonts/")
@@ -429,6 +433,8 @@ class Proton:
         self.wineserver_bin = self.bin_dir + "wineserver"
         self.dist_lock = FileLock(self.path("dist.lock"), timeout=-1)
         self.host_arch = "x86_64-windows"
+        if (not file_exists(self.lib64_dir + "wine/" + self.host_arch, follow_symlinks=True)):
+            self.host_arch = "aarch64-windows"
         self.wow64_arch = "i386-windows"
 
     def path(self, d):
@@ -661,7 +667,9 @@ class CompatData:
                      '/lib/wine/i386-windows',
                      '/lib64/wine/i386-windows',
                      '/lib64/wine/x86_64-unix',
-                     '/lib64/wine/x86_64-windows')):
+                     '/lib64/wine/x86_64-windows',
+                     '/lib/wine/aarch64-unix',
+                     '/lib/wine/aarch64-windows')):
                 # wine builtin dll
                 # make the destination an absolute symlink
                 contents = os.path.normpath(os.path.join(os.path.dirname(src), contents))
