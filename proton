@@ -412,6 +412,8 @@ class Proton:
         self.bin_dir = self.path("files/bin/")
         self.lib_dir = self.path("files/lib/")
         self.lib64_dir = self.path("files/lib64/")
+        if (not file_exists(self.lib_dir, follow_symlinks=True)):
+            self.lib_dir = self.lib64_dir
         self.fonts_dir = self.path("files/share/fonts/")
         self.media_dir = self.path("files/share/media/")
         self.wine_fonts_dir = self.path("files/share/wine/fonts/")
@@ -421,6 +423,8 @@ class Proton:
         self.user_settings_file = self.path("user_settings.py")
         self.wine_bin = self.bin_dir + "wine"
         self.wine64_bin = self.bin_dir + "wine64"
+        if (not file_exists(self.wine64_bin, follow_symlinks=True)):
+            self.wine64_bin = self.wine_bin
         self.wineserver_bin = self.bin_dir + "wineserver"
         self.dist_lock = FileLock(self.path("dist.lock"), timeout=-1)
         self.host_arch = "x86_64-windows"
