@@ -2,7 +2,8 @@
 #   $(1): lowercase package name
 #   $(2): uppercase package name
 #   $(3): 32/64/A64, build type
-#   $(4): CROSS/<empty>, cross compile
+#   $(4): CROSS/<empty>, use a cross compilation environment
+#   $(5): CROSS/<empty>, this is a cross target
 define create-rules-common
 $(2)_OBJ$(3) := $$(OBJ)/obj-$(1)$(3)
 $(2)_DST$(3) := $$(OBJ)/dst-$(1)$(3)

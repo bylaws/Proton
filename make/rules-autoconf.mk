@@ -5,7 +5,7 @@
 #   $(4): CROSS/<empty>, cross compile
 #
 define create-rules-autoconf
-$(call create-rules-common,$(1),$(2),$(3),$(4))
+$(call create-rules-common,$(1),$(2),$(3),$(4),$(4))
 
 $$($(2)_SRC)/configure: $$($(2)_ORIGIN)/configure.ac | $$(OBJ)/.$(1)-post-source
 	@echo ":: autoreconfing $(1)..." >&2

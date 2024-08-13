@@ -7,7 +7,7 @@
 define create-rules-meson
 # Don't pass CROSS here, we need a native environment and we'll handle
 # cross compilation below with the CROSS-prefixed variables.
-$(call create-rules-common,$(1),$(2),$(3))
+$(call create-rules-common,$(1),$(2),$(3),,$(4))
 
 define $(2)_MESON_CROSS$(3)
 cat <<EOF

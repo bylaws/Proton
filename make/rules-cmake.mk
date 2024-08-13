@@ -5,7 +5,7 @@
 #   $(4): CROSS/<empty>, cross compile
 #
 define create-rules-cmake
-$(call create-rules-common,$(1),$(2),$(3),$(4))
+$(call create-rules-common,$(1),$(2),$(3),$(4),$(4))
 
 $$($(2)_SRC)/CMakeLists.txt: | $$(OBJ)/.$(1)-post-source
 $$(OBJ)/.$(1)-configure$(3): $$($(2)_SRC)/CMakeLists.txt

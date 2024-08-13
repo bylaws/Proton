@@ -5,7 +5,7 @@
 #   $(4): CROSS/<empty>, cross compile
 #
 define create-rules-configure
-$(call create-rules-common,$(1),$(2),$(3),$(4))
+$(call create-rules-common,$(1),$(2),$(3),$(4),$(4))
 
 $$(OBJ)/.$(1)-configure$(3):
 	@echo ":: configuring $(3)bit $(1)..." >&2
