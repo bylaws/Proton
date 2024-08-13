@@ -35,6 +35,12 @@ $$(OBJ)/.$(1)-configure$(3):
 	    -e '/^i386_CXXFLAGS/c i386_CXXFLAGS = $$($(2)_INCFLAGS32) $$($(2)_CXXFLAGS) $$(COMMON_FLAGS) $$(COMMON_FLAGS32) -std=c++17' \
 	    -e '/^i386_LDFLAGS/c i386_LDFLAGS = $$($(2)_LIBFLAGS32) $$($(2)_LDFLAGS32) $$(CROSSLDFLAGS)' \
 	    \
+	    -e '/^arm64ec_CC/a arm64ec_CXX = $$(TARGET_CROSSA64)-g++' \
+	    -e '/^arm64ec_CFLAGS/c arm64ec_CFLAGS = $$($(2)_INCFLAGSA64) $$($(2)_CFLAGS) $$(COMMON_FLAGS) $$(COMMON_FLAGSA64)' \
+	    -e '/^arm64ec_CPPFLAGS/c arm64ec_CPPFLAGS = $$($(2)_INCFLAGSA64) $$($(2)_CPPFLAGS) $$(COMMON_FLAGS) $$(COMMON_FLAGSA64)' \
+	    -e '/^arm64ec_CXXFLAGS/c arm64ec_CXXFLAGS = $$($(2)_INCFLAGSA64) $$($(2)_CXXFLAGS) $$(COMMON_FLAGS) $$(COMMON_FLAGSA64) -std=c++17' \
+	    -e '/^arm64ec_LDFLAGS/c arm64ec_LDFLAGS = $$($(2)_LIBFLAGSA64) $$($(2)_LDFLAGSA64) $$(CROSSLDFLAGS)' \
+	    \
 	    $$(WINE_OBJ$(3))/Makefile > $$($(2)_OBJ$(3))/Makefile
 
 	cd "$$($(2)_OBJ$(3))" && env $$($(2)_ENV$(3)) \

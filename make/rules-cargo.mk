@@ -27,3 +27,4 @@ rules-cargo = $(call create-rules-cargo,$(1),$(call toupper,$(1)),$(2))
 
 CARGO_TARGET_32 := i686-unknown-linux-gnu
 CARGO_TARGET_64 := x86_64-unknown-linux-gnu
+CARGO_TARGET_A64 := aarch64-unknown-linux-gnu

@@ -33,5 +33,6 @@ endef
 
 CONFIGURE_ARCH32 = x86
 CONFIGURE_ARCH64 = x86_64
+CONFIGURE_ARCHA64 = aarch64
 
 rules-configure = $(call create-rules-configure,$(1),$(call toupper,$(1)),$(2),$(3))

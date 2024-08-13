@@ -67,5 +67,6 @@ endef
 
 MESON_CPU32 = x86
 MESON_CPU64 = x86_64
+MESON_CPUA64 = aarch64
 
 rules-meson = $(call create-rules-meson,$(1),$(call toupper,$(1)),$(2),$(3))

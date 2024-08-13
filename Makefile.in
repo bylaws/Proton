@@ -36,6 +36,7 @@ unexport SOURCE_DATE_EPOCH
 
 LIBDIR32 := lib
 LIBDIR64 := lib64
+LIBDIRA64 := lib
 
 ifeq ($(words $(ARCHS)),1)
 NEW_WOW64 = 1
@@ -48,6 +49,7 @@ DST_BASE := $(OBJ)/dist
 DST_DIR := $(DST_BASE)/files
 DST_LIBDIR32 := $(DST_DIR)/$(LIBDIR32)
 DST_LIBDIR64 := $(DST_DIR)/$(LIBDIR64)
+DST_LIBDIRA64 := $(DST_DIR)/$(LIBDIRA64)
 DIST_PREFIX := $(DST_DIR)/share/default_pfx/
 DIST_VERSION := $(DST_BASE)/version
 DEPLOY_DIR := ./deploy
@@ -67,11 +69,13 @@ CROSSLDFLAGS   += -Wl,--file-alignment,4096
 OPTIMIZE_FLAGS := -O2
 OPTIMIZE_FLAGS32 := -march=nocona -mtune=core-avx2 -mfpmath=sse
 OPTIMIZE_FLAGS64 := -march=nocona -mtune=core-avx2 -mfpmath=sse
+OPTIMIZE_FLAGSA64 :=
 SANITY_FLAGS   := -fwrapv -fno-strict-aliasing
 DEBUG_FLAGS    := -ggdb -ffunction-sections -fdata-sections -fno-omit-frame-pointer
 COMMON_FLAGS    = $(DEBUG_FLAGS) $(OPTIMIZE_FLAGS) $(SANITY_FLAGS) -ffile-prefix-map=$(CCACHE_BASEDIR)=.
 COMMON_FLAGS32 := -mstackrealign $(OPTIMIZE_FLAGS32)
 COMMON_FLAGS64 := -mcmodel=small $(OPTIMIZE_FLAGS64)
+COMMON_FLAGSA64 := -mcmodel=small $(OPTIMIZE_FLAGSA64)
 CARGO_BUILD_ARGS += --release
 
 ifeq ($(LLVM_TOOLCHAIN),1)
