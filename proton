@@ -940,6 +940,15 @@ class CompatData:
                 try_copy(g_proton.arch_dll_dir("wine/dxvk", False) + "openvr_api_dxvk.dll", "drive_c/windows/system32",
                         prefix=self.prefix_dir, track_file=tracked_files, link_debug=True)
 
+                try_copy(g_proton.arch_dll_dir("wine/steam", True) + "steam_api_steam.dll", "drive_c/windows/syswow64",
+                        prefix=self.prefix_dir, track_file=tracked_files, link_debug=True)
+                try_copy(g_proton.arch_dll_dir("wine/steam", False) + "steam_api64_steam.dll", "drive_c/windows/system32",
+                        prefix=self.prefix_dir, track_file=tracked_files, link_debug=True)
+                try_copy(g_proton.arch_dll_dir("wine/steam", True) + "openvr_api_steam.dll", "drive_c/windows/syswow64",
+                        prefix=self.prefix_dir, track_file=tracked_files, link_debug=True)
+                try_copy(g_proton.arch_dll_dir("wine/steam", False) + "openvr_api_steam.dll", "drive_c/windows/system32",
+                        prefix=self.prefix_dir, track_file=tracked_files, link_debug=True)
+
                 makedirs(self.prefix_dir + "/drive_c/openxr")
                 try_copy(g_proton.default_pfx_dir + "drive_c/openxr/wineopenxr64.json", "drive_c/openxr",
                         prefix=self.prefix_dir, track_file=tracked_files, link_debug=True)

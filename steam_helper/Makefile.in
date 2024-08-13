@@ -1,8 +1,9 @@
 MODULE    = steam.exe
 IMPORTS   = user32 advapi32 shlwapi shell32 msi ole32
 
-EXTRADLLFLAGS = -mwindows -mcygwin -static-libgcc -static-libstdc++ -ldl
-EXTRADEFS = -DWINE_NO_LONG_TYPES
+EXTRADLLFLAGS = -mconsole
+EXTRA_CFLAGS = -fno-exceptions
+EXTRADEFS = -DWINE_NO_INLINE_STRING -DWINE_UNICODE_NATIVE
 
 SOURCES = \
 	steam.cpp \

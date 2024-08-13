@@ -385,10 +385,15 @@ STEAMEXE_CPPFLAGS = \
 	-I$(SRC)/lsteamclient/steamworks_sdk_142/ \
 	-I$(SRC)/openvr/headers/ \
 
-STEAMEXE_LDFLAGS = \
-	-L$(SRC)/steam_helper/32/ \
-	-L$(SRC)/steam_helper/64/ \
-	-lsteam_api
+STEAMEXE_LDFLAGS32 = \
+       -L$(SRC)/steam_helper/32/ \
+       -lsteam_api_steam \
+       -lopenvr_api_steam
+
+STEAMEXE_LDFLAGS64 = \
+       -L$(SRC)/steam_helper/64/ \
+       -lsteam_api64_steam \
+       -lopenvr_api_steam
 
 STEAMEXE_DEPENDS = wine
 
@@ -396,13 +401,38 @@ $(eval $(call rules-source,steamexe,$(SRCDIR)/steam_helper))
 $(eval $(call rules-makedep,steamexe,64))
 $(eval $(call rules-makedep,steamexe,32))
 
-$(OBJ)/.steamexe-post-build32:
-	cp $(SRC)/steam_helper/32/libsteam_api.so $(DST_LIBDIR32)/
-	touch $@
+DIST_STEAMAPI32 := $(DST_LIBDIR32)/wine/steam/i386-windows/steam_api_steam.dll
+$(DIST_STEAMAPI32): $(STEAMEXE_SRC)/32/steam_api_steam.dll | $(DST_DIR)
+	mkdir -p $(DST_LIBDIR32)/wine/steam/i386-windows
+	cp -af $< $@
 
-$(OBJ)/.steamexe-post-build64:
-	cp $(SRC)/steam_helper/64/libsteam_api.so $(DST_LIBDIR64)/
-	touch $@
+DIST_STEAMAPI64 := $(DST_LIBDIR64)/wine/steam/x86_64-windows/steam_api64_steam.dll
+$(DIST_STEAMAPI64): $(STEAMEXE_SRC)/64/steam_api64_steam.dll | $(DST_DIR)
+	mkdir -p $(DST_LIBDIR64)/wine/steam/x86_64-windows
+	cp -af $< $@
+
+DIST_STEAMAPIA64 := $(DST_LIBDIRA64)/wine/steam/aarch64-windows/steam_api64_steam.dll
+$(DIST_STEAMAPIA64): $(STEAMEXE_SRC)/64/steam_api64_steam.dll | $(DST_DIR)
+	mkdir -p $(DST_LIBDIRA64)/wine/steam/aarch64-windows
+	cp -af $< $@
+
+DIST_OPENVRAPI32 := $(DST_LIBDIR32)/wine/steam/i386-windows/openvr_api_steam.dll
+$(DIST_OPENVRAPI32): $(STEAMEXE_SRC)/32/openvr_api_steam.dll | $(DST_DIR)
+	mkdir -p $(DST_LIBDIR32)/wine/steam/i386-windows
+	cp -af $< $@
+
+DIST_OPENVRAPI64 := $(DST_LIBDIR64)/wine/steam/x86_64-windows/openvr_api_steam.dll
+$(DIST_OPENVRAPI64): $(STEAMEXE_SRC)/64/openvr_api_steam.dll | $(DST_DIR)
+	mkdir -p $(DST_LIBDIR64)/wine/steam/x86_64-windows
+	cp -af $< $@
+
+DIST_OPENVRAPIA64 := $(DST_LIBDIRA64)/wine/steam/aarch64-windows/openvr_api_steam.dll
+$(DIST_OPENVRAPIA64): $(STEAMEXE_SRC)/64/openvr_api_steam.dll | $(DST_DIR)
+	mkdir -p $(DST_LIBDIRA64)/wine/steam/aarch64-windows
+	cp -af $< $@
+
+all-dist: $(DIST_STEAMAPI32) $(DIST_STEAMAPI64) $(DIST_STEAMAPIA64) $(DIST_OPENVRAPI32) $(DIST_OPENVRAPI64) $(DIST_OPENVRAPIA64)
+
 
 ##
 ## openfst
