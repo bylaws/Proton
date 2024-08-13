@@ -52,6 +52,13 @@ def make_relative_symlink(target, linkname):
 
 def setup_dll_symlinks(default_pfx_dir, dist_dir):
     skip_dlls = [ 'amd_ags_x64.dll' ]
+    libdir_32 = os.path.join(dist_dir, 'lib/wine/i386-windows')
+    if (not os.path.exists(libdir_32)):
+        libdir_32 = os.path.join(dist_dir, 'lib64/wine/i386-windows')
+    libdir_64 = os.path.join(dist_dir, 'lib64/wine/x86_64-windows')
+    if (not os.path.exists(libdir_64)):
+        libdir_64 = os.path.join(dist_dir, 'lib/wine/aarch64-windows')
+
     for walk_dir, dirs, files in os.walk(default_pfx_dir):
         for file_ in files:
             filename = os.path.join(walk_dir, file_)
@@ -60,9 +67,9 @@ def setup_dll_symlinks(default_pfx_dir, dist_dir):
             if os.path.isfile(filename) and file_is_wine_builtin_dll(filename):
                 bitness = dll_bitness(filename)
                 if bitness == 32:
-                    libdir = os.path.join(dist_dir, 'lib/wine/i386-windows')
+                    libdir = libdir_32
                 elif bitness == 64:
-                    libdir = os.path.join(dist_dir, 'lib64/wine/x86_64-windows')
+                    libdir = libdir_64
                 else:
                     continue
                 if os.path.exists(os.path.join(libdir, file_)):
