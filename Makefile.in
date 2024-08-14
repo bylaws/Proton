@@ -518,7 +518,9 @@ $(eval $(call rules-autoconf,wine,64))
 $(eval $(call rules-wine-requests,wine))
 
 WINE_ENV_EXTRA = \
-  CROSSLDFLAGS="$(WINE_CROSSLDFLAGS)"
+  CROSSLDFLAGS="$(WINE_CROSSLDFLAGS)" \
+  i386_CFLAGS="$(COMMON_FLAGS) $(COMMON_FLAGS32)" \
+  x86_64_CFLAGS="$(COMMON_FLAGS) $(COMMON_FLAGS64)"
 
 WINE_ENV32 += $(WINE_ENV_EXTRA)
 WINE_ENV64 += $(WINE_ENV_EXTRA)
