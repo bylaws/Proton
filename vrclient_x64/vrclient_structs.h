@@ -23,21 +23,26 @@ extern "C"
 #define W32_ARRAY( type, count, name ) type name[count]
 #endif
 
+#ifndef __arm64ec__
 #define W_CDECL   __cdecl
 #define W_STDCALL __stdcall
 #define U_CDECL   __attribute__((sysv_abi))
 #define U_STDCALL __attribute__((sysv_abi))
+#else
+#define W_CDECL
+#define W_STDCALL
+#define U_CDECL
+#define U_STDCALL
+#endif
 
-#ifdef __i386__
+#if defined(__i386__)
 #define U64_PTR( decl, name ) uint64_t name
 #define U32_PTR( decl, name ) decl
 #define W64_PTR( decl, name ) uint64_t name
 #define W32_PTR( decl, name ) decl
 #define U_PTR U32_PTR
 #define W_PTR W32_PTR
-#endif
-
-#ifdef __x86_64__
+#elif defined(__x86_64__) || defined(__aarch64__)
 #define U64_PTR( decl, name ) decl
 #define U32_PTR( decl, name ) uint32_t name
 #define W64_PTR( decl, name ) decl

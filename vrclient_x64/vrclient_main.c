@@ -116,8 +116,10 @@ static int load_vrclient(void)
     WCHAR pathW[PATH_MAX];
     DWORD sz;
 
-#ifdef _WIN64
+#if defined(__x86_64__) && !defined(__arm64ec__)
     static const char append_path[] = "/bin/linux64/vrclient.so";
+#elif defined(__arm64ec__)
+    static const char append_path[] = "/bin/linuxarm64/vrclient.so";
 #else
     static const char append_path[] = "/bin/vrclient.so";
 #endif

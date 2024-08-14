@@ -1112,6 +1112,9 @@ def generate_x64_call_flat_method(cfile, param_count, has_floats, is_4th_float):
 def generate_flatapi_c():
     with open("flatapi.c", "w") as f:
         f.write(r"""/* This file is auto-generated, do not edit. */
+#if 0
+#pragma makedep arm64ec_x64
+#endif
 
 #include <stdarg.h>
 
@@ -1385,7 +1388,7 @@ for name in sorted(set(k.name for k in all_classes.values())):
         out = file.write
         out(f'void init_win{name}_rtti( char *base )\n')
         out(u'{\n')
-        out(u'#ifdef __x86_64__\n')
+        out(u'#if defined(__x86_64__) || defined(__aarch64__)\n')
 
 for _, klass in sorted(all_classes.items()):
     with open(f"win{klass.name}.c", "a") as file:
@@ -1395,7 +1398,7 @@ for _, klass in sorted(all_classes.items()):
 for name in sorted(set(k.name for k in all_classes.values())):
     with open(f"win{name}.c", "a") as file:
         out = file.write
-        out(u'#endif /* __x86_64__ */\n')
+        out(u'#endif /* defined(__x86_64__) || defined(__aarch64__) */\n')
         out(u'}\n')
 
 
@@ -1550,7 +1553,7 @@ with open('vrclient_structs_generated.h', 'w') as file:
             out(f'typedef w32_{version} w_{version};\n')
             out(f'typedef u32_{version} u_{version};\n')
             out(u'#endif\n')
-            out(u'#ifdef __x86_64__\n')
+            out(u'#if defined(__x86_64__) || defined(__aarch64__)\n')
             out(f'typedef w64_{version} w_{version};\n')
             out(f'typedef u64_{version} u_{version};\n')
             out(u'#endif\n')
@@ -1682,7 +1685,7 @@ with open('unixlib_generated.cpp', 'w') as file:
                 continue
 
             if abis["w64"].needs_conversion(abis["u64"]):
-                out(u'#ifdef __x86_64__\n')
+                out(u'#if defined(__x86_64__) || defined(__aarch64__)\n')
                 abis['w64'].write_converter('u64_')
                 out(u'\n')
                 abis['u64'].write_converter('w64_')
