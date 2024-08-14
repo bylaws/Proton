@@ -1,4 +1,7 @@
 /* This file is auto-generated, do not edit. */
+#if 0
+#pragma makedep arm64ec_x64
+#endif
 
 #include <stdarg.h>
 
