@@ -582,7 +582,7 @@ class Struct:
             out(u'}\n')
 
         if self._abi[1:3] == '64':
-            out(u'#ifdef __x86_64__\n')
+            out(u'#if defined(__x86_64__) || defined(__aarch64__)\n')
         elif self._abi[1:3] == '32':
             out(u'#ifdef __i386__\n')
         else:
@@ -1369,7 +1369,7 @@ for name in sorted(set(k.name for k in all_classes.values())):
         out = file.write
         out(f'void init_win{name}_rtti( char *base )\n')
         out(u'{\n')
-        out(u'#ifdef __x86_64__\n')
+        out(u'#if defined(__x86_64__) || defined(__aarch64__)\n')
 
 for _, klass in sorted(all_classes.items()):
     with open(f"win{klass.name}.c", "a") as file:
@@ -1379,7 +1379,7 @@ for _, klass in sorted(all_classes.items()):
 for name in sorted(set(k.name for k in all_classes.values())):
     with open(f"win{name}.c", "a") as file:
         out = file.write
-        out(u'#endif /* __x86_64__ */\n')
+        out(u'#endif /* defined(__x86_64__) || defined(__aarch64__) */\n')
         out(u'}\n')
 
 
@@ -1517,7 +1517,7 @@ with open('steamclient_structs_generated.h', 'w') as file:
             out(f'typedef w32_{version} w_{version};\n')
             out(f'typedef u32_{version} u_{version};\n')
             out(u'#endif\n')
-            out(u'#ifdef __x86_64__\n')
+            out(u'#if defined(__x86_64__) || defined(__aarch64__)\n')
             out(f'typedef w64_{version} w_{version};\n')
             out(f'typedef u64_{version} u_{version};\n')
             out(u'#endif\n')
@@ -1687,7 +1687,7 @@ with open('unixlib_generated.cpp', 'w') as file:
         values.add(value)
     out(u'};\n');
     out(u'#endif\n')
-    out(u'#ifdef __x86_64__\n')
+    out(u'#if defined(__x86_64__) || defined(__aarch64__)\n')
     out(u'const struct callback_def callback_data[] =\n{\n');
     values = set()
     for cbid, sdkver, abis in sorted(callbacks, key=lambda x: x[0]):

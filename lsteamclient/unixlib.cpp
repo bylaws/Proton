@@ -368,8 +368,12 @@ NTSTATUS steamclient_init( void *args )
 #else /* __APPLE__ */
 #ifdef __x86_64__
     snprintf( path, PATH_MAX, "%s/.steam/sdk64/steamclient.so", getenv( "HOME" ) );
-#else
+#elif defined(__i386__)
     snprintf( path, PATH_MAX, "%s/.steam/sdk32/steamclient.so", getenv( "HOME" ) );
+#elif defined(__aarch64__)
+    snprintf( path, PATH_MAX, "%s/.steam/sdkarm64/steamclient.so", getenv( "HOME" ) );
+#else
+#error Unknown target architecture
 #endif
     if (realpath( path, resolved_path ))
     {

@@ -28,8 +28,13 @@ extern "C"
 
 #define W_CDECL   __cdecl
 #define W_STDCALL __stdcall
+#if defined(__i386__) || (defined(__x86_64__) && !defined(__arm64ec__))
 #define U_CDECL   __attribute__((sysv_abi))
 #define U_STDCALL __attribute__((sysv_abi))
+#else
+#define U_CDECL
+#define U_STDCALL
+#endif
 
 #ifdef __i386__
 #define U64_PTR( decl, name ) uint64_t name
@@ -40,7 +45,7 @@ extern "C"
 #define W_PTR W32_PTR
 #endif
 
-#ifdef __x86_64__
+#if defined(__x86_64__) || defined(__aarch64__)
 #define U64_PTR( decl, name ) decl
 #define U32_PTR( decl, name ) uint32_t name
 #define W64_PTR( decl, name ) decl

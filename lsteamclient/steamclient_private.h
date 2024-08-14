@@ -27,8 +27,13 @@ extern "C" {
 
 #define W_CDECL   __cdecl
 #define W_STDCALL __stdcall
+#if defined(__i386__) || (defined(__x86_64__) && !defined(__arm64ec__))
 #define U_CDECL   __attribute__((sysv_abi))
 #define U_STDCALL __attribute__((sysv_abi))
+#else
+#define U_CDECL
+#define U_STDCALL
+#endif
 
 struct w_steam_iface
 {
