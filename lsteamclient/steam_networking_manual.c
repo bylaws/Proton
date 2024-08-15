@@ -522,7 +522,62 @@ void __thiscall winISteamNetworkingSockets_SteamNetworkingSockets009_SendMessage
     for (i = 0; i < nMessages; i++) pMessages[i]->m_pfnRelease( pMessages[i] );
 }
 
+/* ISteamNetworkingUtils_SteamNetworkingUtils001 */
+
+int8_t __thiscall winISteamNetworkingUtils_SteamNetworkingUtils001_GetConfigValueInfo(struct w_steam_iface *_this, uint32_t eValue, const char **pOutName, uint32_t *pOutDataType, uint32_t *pOutScope, uint32_t *pOutNextValue)
+{
+    struct ISteamNetworkingUtils_SteamNetworkingUtils001_GetConfigValueInfo_params params =
+    {
+        .linux_side = _this->u_iface,
+        .eValue = eValue,
+        .pOutName = pOutName,
+        .pOutDataType = pOutDataType,
+        .pOutScope = pOutScope,
+        .pOutNextValue = pOutNextValue,
+    };
+    TRACE("%p\n", _this);
+    STEAMCLIENT_CALL( ISteamNetworkingUtils_SteamNetworkingUtils001_GetConfigValueInfo, &params );
+    if (pOutName) *pOutName = bufcache_obtain( params._str, params._str_size );
+    return params._ret;
+}
+
+/* ISteamNetworkingUtils_SteamNetworkingUtils002 */
+
+int8_t __thiscall winISteamNetworkingUtils_SteamNetworkingUtils002_GetConfigValueInfo(struct w_steam_iface *_this, uint32_t eValue, const char **pOutName, uint32_t *pOutDataType, uint32_t *pOutScope, uint32_t *pOutNextValue)
+{
+    struct ISteamNetworkingUtils_SteamNetworkingUtils002_GetConfigValueInfo_params params =
+    {
+        .linux_side = _this->u_iface,
+        .eValue = eValue,
+        .pOutName = pOutName,
+        .pOutDataType = pOutDataType,
+        .pOutScope = pOutScope,
+        .pOutNextValue = pOutNextValue,
+    };
+    TRACE("%p\n", _this);
+    STEAMCLIENT_CALL( ISteamNetworkingUtils_SteamNetworkingUtils002_GetConfigValueInfo, &params );
+    if (pOutName) *pOutName = bufcache_obtain( params._str, params._str_size );
+    return params._ret;
+}
+
 /* ISteamNetworkingUtils_SteamNetworkingUtils003 */
+
+int8_t __thiscall winISteamNetworkingUtils_SteamNetworkingUtils003_GetConfigValueInfo(struct w_steam_iface *_this, uint32_t eValue, const char **pOutName, uint32_t *pOutDataType, uint32_t *pOutScope, uint32_t *pOutNextValue)
+{
+    struct ISteamNetworkingUtils_SteamNetworkingUtils003_GetConfigValueInfo_params params =
+    {
+        .linux_side = _this->u_iface,
+        .eValue = eValue,
+        .pOutName = pOutName,
+        .pOutDataType = pOutDataType,
+        .pOutScope = pOutScope,
+        .pOutNextValue = pOutNextValue,
+    };
+    TRACE("%p\n", _this);
+    STEAMCLIENT_CALL( ISteamNetworkingUtils_SteamNetworkingUtils003_GetConfigValueInfo, &params );
+    if (pOutName) *pOutName = bufcache_obtain( params._str, params._str_size );
+    return params._ret;
+}
 
 w_SteamNetworkingMessage_t_147 *__thiscall winISteamNetworkingUtils_SteamNetworkingUtils003_AllocateMessage( struct w_steam_iface *_this, int32_t cbAllocateBuffer )
 {
@@ -693,17 +748,33 @@ w_SteamNetworkingMessage_t_153a *__thiscall winISteamNetworkingUtils_SteamNetwor
     return params._ret;
 }
 
-void __thiscall winISteamMatchmakingServers_SteamMatchMakingServers002_ReleaseRequest( struct w_steam_iface *_this, void *hServerListRequest )
-{
-    struct ISteamMatchmakingServers_SteamMatchMakingServers002_ReleaseRequest_params params =
-    {
-        .linux_side = _this->u_iface,
-        .hServerListRequest = hServerListRequest,
-    };
+#define DEF_API_ISteamRemoteStorage_GetUGCDetails(ver) \
+    int8_t __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION ## ver ##_GetUGCDetails(struct w_steam_iface *_this, uint64_t hContent, uint32_t *pnAppID, char **ppchName, int32_t *pnFileSizeInBytes, CSteamID *pSteamIDOwner) \
+    { \
+        struct ISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION ## ver ##_GetUGCDetails_params params = \
+        { \
+            .linux_side = _this->u_iface, \
+            .hContent = hContent, \
+            .pnAppID = pnAppID, \
+            .ppchName = ppchName, \
+            .pnFileSizeInBytes = pnFileSizeInBytes, \
+            .pSteamIDOwner = pSteamIDOwner, \
+        }; \
+        TRACE("%p\n", _this); \
+        if (ppchName) *ppchName = bufcache_obtain( params._str, params._str_size ); \
+        return params._ret;  \
+    }
 
-    TRACE("%p\n", _this);
-
-    execute_pending_callbacks(); /* execute any pending callbacks that might still need to use the request */
-
-    STEAMCLIENT_CALL( ISteamMatchmakingServers_SteamMatchMakingServers002_ReleaseRequest, &params );
-}
+DEF_API_ISteamRemoteStorage_GetUGCDetails(003)
+DEF_API_ISteamRemoteStorage_GetUGCDetails(004)
+DEF_API_ISteamRemoteStorage_GetUGCDetails(005)
+DEF_API_ISteamRemoteStorage_GetUGCDetails(006)
+DEF_API_ISteamRemoteStorage_GetUGCDetails(007)
+DEF_API_ISteamRemoteStorage_GetUGCDetails(008)
+DEF_API_ISteamRemoteStorage_GetUGCDetails(009)
+DEF_API_ISteamRemoteStorage_GetUGCDetails(010)
+DEF_API_ISteamRemoteStorage_GetUGCDetails(011)
+DEF_API_ISteamRemoteStorage_GetUGCDetails(012)
+DEF_API_ISteamRemoteStorage_GetUGCDetails(013)
+DEF_API_ISteamRemoteStorage_GetUGCDetails(014)
+DEF_API_ISteamRemoteStorage_GetUGCDetails(016)

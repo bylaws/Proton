@@ -41,7 +41,8 @@ extern "C"
 #define U32_PTR( decl, name ) decl
 #define W64_PTR( decl, name ) uint64_t name
 #define W32_PTR( decl, name ) decl
-#define U_PTR U32_PTR
+// TMPHACK - needs to have this but work with 32 bit also
+#define U_PTR U64_PTR
 #define W_PTR W32_PTR
 #endif
 

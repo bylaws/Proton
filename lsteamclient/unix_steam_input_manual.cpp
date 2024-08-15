@@ -225,6 +225,11 @@ NTSTATUS ISteamController_SteamController005_GetGlyphForActionOrigin( void *args
     return 0;
 }
 
+NTSTATUS wow64_ISteamController_SteamController005_GetGlyphForActionOrigin( void *args )
+{
+    return ISteamController_SteamController005_GetGlyphForActionOrigin( args );
+}
+
 /* ISteamController_SteamController006 */
 
 NTSTATUS ISteamController_SteamController006_GetGlyphForActionOrigin( void *args )
@@ -234,6 +239,11 @@ NTSTATUS ISteamController_SteamController006_GetGlyphForActionOrigin( void *args
     if (!(params->_ret = iface->GetGlyphForActionOrigin( params->eOrigin ))) return 0;
     params->_ret = glyph_cache_lookup( controller_cache, params->_ret, params->eOrigin, 0, 0 );
     return 0;
+}
+
+NTSTATUS wow64_ISteamController_SteamController006_GetGlyphForActionOrigin( void *args )
+{
+    return ISteamController_SteamController006_GetGlyphForActionOrigin( args );
 }
 
 /* ISteamController_SteamController007 */
@@ -247,6 +257,11 @@ NTSTATUS ISteamController_SteamController007_GetGlyphForActionOrigin( void *args
     return 0;
 }
 
+NTSTATUS wow64_ISteamController_SteamController007_GetGlyphForActionOrigin( void *args )
+{
+    return ISteamController_SteamController007_GetGlyphForActionOrigin( args );
+}
+
 NTSTATUS ISteamController_SteamController007_GetGlyphForXboxOrigin( void *args )
 {
     struct ISteamController_SteamController007_GetGlyphForXboxOrigin_params *params = (struct ISteamController_SteamController007_GetGlyphForXboxOrigin_params *)args;
@@ -254,6 +269,11 @@ NTSTATUS ISteamController_SteamController007_GetGlyphForXboxOrigin( void *args )
     if (!(params->_ret = iface->GetGlyphForXboxOrigin( params->eOrigin ))) return 0;
     params->_ret = glyph_cache_lookup( xbox_cache, params->_ret, params->eOrigin, 0, 0 );
     return 0;
+}
+
+NTSTATUS wow64_ISteamController_SteamController007_GetGlyphForXboxOrigin( void *args )
+{
+    return ISteamController_SteamController007_GetGlyphForXboxOrigin( args );
 }
 
 /* ISteamController_SteamController008 */
@@ -267,6 +287,11 @@ NTSTATUS ISteamController_SteamController008_GetGlyphForActionOrigin( void *args
     return 0;
 }
 
+NTSTATUS wow64_ISteamController_SteamController008_GetGlyphForActionOrigin( void *args )
+{
+    return ISteamController_SteamController008_GetGlyphForActionOrigin( args );
+}
+
 NTSTATUS ISteamController_SteamController008_GetGlyphForXboxOrigin( void *args )
 {
     struct ISteamController_SteamController008_GetGlyphForXboxOrigin_params *params = (struct ISteamController_SteamController008_GetGlyphForXboxOrigin_params *)args;
@@ -274,6 +299,11 @@ NTSTATUS ISteamController_SteamController008_GetGlyphForXboxOrigin( void *args )
     if (!(params->_ret = iface->GetGlyphForXboxOrigin( params->eOrigin ))) return 0;
     params->_ret = glyph_cache_lookup( xbox_cache, params->_ret, params->eOrigin, 0, 0 );
     return 0;
+}
+
+NTSTATUS wow64_ISteamController_SteamController008_GetGlyphForXboxOrigin( void *args )
+{
+    return ISteamController_SteamController008_GetGlyphForXboxOrigin( args );
 }
 
 /* ISteamInput_SteamInput001 */
@@ -287,6 +317,11 @@ NTSTATUS ISteamInput_SteamInput001_GetGlyphForActionOrigin( void *args )
     return 0;
 }
 
+NTSTATUS wow64_ISteamInput_SteamInput001_GetGlyphForActionOrigin( void *args )
+{
+    return ISteamInput_SteamInput001_GetGlyphForActionOrigin( args );
+}
+
 NTSTATUS ISteamInput_SteamInput001_GetGlyphForXboxOrigin( void *args )
 {
     struct ISteamInput_SteamInput001_GetGlyphForXboxOrigin_params *params = (struct ISteamInput_SteamInput001_GetGlyphForXboxOrigin_params *)args;
@@ -294,6 +329,11 @@ NTSTATUS ISteamInput_SteamInput001_GetGlyphForXboxOrigin( void *args )
     if (!(params->_ret = iface->GetGlyphForXboxOrigin( params->eOrigin ))) return 0;
     params->_ret = glyph_cache_lookup( xbox_cache, params->_ret, params->eOrigin, 0, 0 );
     return 0;
+}
+
+NTSTATUS wow64_ISteamInput_SteamInput001_GetGlyphForXboxOrigin( void *args )
+{
+    return ISteamInput_SteamInput001_GetGlyphForXboxOrigin( args );
 }
 
 /* ISteamInput_SteamInput002 */
@@ -307,6 +347,11 @@ NTSTATUS ISteamInput_SteamInput002_GetGlyphForActionOrigin( void *args )
     return 0;
 }
 
+NTSTATUS wow64_ISteamInput_SteamInput002_GetGlyphForActionOrigin( void *args )
+{
+    return ISteamInput_SteamInput002_GetGlyphForActionOrigin( args );
+}
+
 NTSTATUS ISteamInput_SteamInput002_GetGlyphForXboxOrigin( void *args )
 {
     struct ISteamInput_SteamInput002_GetGlyphForXboxOrigin_params *params = (struct ISteamInput_SteamInput002_GetGlyphForXboxOrigin_params *)args;
@@ -314,6 +359,11 @@ NTSTATUS ISteamInput_SteamInput002_GetGlyphForXboxOrigin( void *args )
     if (!(params->_ret = iface->GetGlyphForXboxOrigin( params->eOrigin ))) return 0;
     params->_ret = glyph_cache_lookup( xbox_cache, params->_ret, params->eOrigin, 0, 0 );
     return 0;
+}
+
+NTSTATUS wow64_ISteamInput_SteamInput002_GetGlyphForXboxOrigin( void *args )
+{
+    return ISteamInput_SteamInput002_GetGlyphForXboxOrigin( args );
 }
 
 /* ISteamInput_SteamInput005 */
@@ -333,6 +383,15 @@ NTSTATUS ISteamInput_SteamInput005_EnableActionEventCallbacks( void *args )
     return 0;
 }
 
+NTSTATUS wow64_ISteamInput_SteamInput005_EnableActionEventCallbacks( void *args )
+{
+    struct wow64_ISteamInput_SteamInput005_EnableActionEventCallbacks_params *params = (struct wow64_ISteamInput_SteamInput005_EnableActionEventCallbacks_params *)args;
+    struct u_ISteamInput_SteamInput005 *iface = (struct u_ISteamInput_SteamInput005 *)params->linux_side;
+    w_EnableActionEventCallbacks_152 = (void (*)(SteamInputActionEvent_t *))params->pCallback;
+    iface->EnableActionEventCallbacks( params->pCallback ? &u_SteamInputActionEventCallbackPointer_152 : NULL );
+    return 0;
+}
+
 NTSTATUS ISteamInput_SteamInput005_GetGlyphPNGForActionOrigin( void *args )
 {
     struct ISteamInput_SteamInput005_GetGlyphPNGForActionOrigin_params *params = (struct ISteamInput_SteamInput005_GetGlyphPNGForActionOrigin_params *)args;
@@ -340,6 +399,11 @@ NTSTATUS ISteamInput_SteamInput005_GetGlyphPNGForActionOrigin( void *args )
     if (!(params->_ret = iface->GetGlyphPNGForActionOrigin( params->eOrigin, params->eSize, params->unFlags ))) return 0;
     params->_ret = glyph_cache_lookup( input_cache_png, params->_ret, params->eOrigin, params->unFlags, params->eSize );
     return 0;
+}
+
+NTSTATUS wow64_ISteamInput_SteamInput005_GetGlyphPNGForActionOrigin( void *args )
+{
+    return ISteamInput_SteamInput005_GetGlyphPNGForActionOrigin( args );
 }
 
 NTSTATUS ISteamInput_SteamInput005_GetGlyphSVGForActionOrigin( void *args )
@@ -351,6 +415,11 @@ NTSTATUS ISteamInput_SteamInput005_GetGlyphSVGForActionOrigin( void *args )
     return 0;
 }
 
+NTSTATUS wow64_ISteamInput_SteamInput005_GetGlyphSVGForActionOrigin( void *args )
+{
+    return ISteamInput_SteamInput005_GetGlyphSVGForActionOrigin( args );
+}
+
 NTSTATUS ISteamInput_SteamInput005_GetGlyphForActionOrigin_Legacy( void *args )
 {
     struct ISteamInput_SteamInput005_GetGlyphForActionOrigin_Legacy_params *params = (struct ISteamInput_SteamInput005_GetGlyphForActionOrigin_Legacy_params *)args;
@@ -360,6 +429,11 @@ NTSTATUS ISteamInput_SteamInput005_GetGlyphForActionOrigin_Legacy( void *args )
     return 0;
 }
 
+NTSTATUS wow64_ISteamInput_SteamInput005_GetGlyphForActionOrigin_Legacy( void *args )
+{
+    return ISteamInput_SteamInput005_GetGlyphForActionOrigin_Legacy( args );
+}
+
 NTSTATUS ISteamInput_SteamInput005_GetGlyphForXboxOrigin( void *args )
 {
     struct ISteamInput_SteamInput005_GetGlyphForXboxOrigin_params *params = (struct ISteamInput_SteamInput005_GetGlyphForXboxOrigin_params *)args;
@@ -367,6 +441,11 @@ NTSTATUS ISteamInput_SteamInput005_GetGlyphForXboxOrigin( void *args )
     if (!(params->_ret = iface->GetGlyphForXboxOrigin( params->eOrigin ))) return 0;
     params->_ret = glyph_cache_lookup( xbox_cache, params->_ret, params->eOrigin, 0, 0 );
     return 0;
+}
+
+NTSTATUS wow64_ISteamInput_SteamInput005_GetGlyphForXboxOrigin( void *args )
+{
+    return ISteamInput_SteamInput005_GetGlyphForXboxOrigin( args );
 }
 
 /* ISteamInput_SteamInput006 */
@@ -380,6 +459,15 @@ NTSTATUS ISteamInput_SteamInput006_EnableActionEventCallbacks( void *args )
     return 0;
 }
 
+NTSTATUS wow64_ISteamInput_SteamInput006_EnableActionEventCallbacks( void *args )
+{
+    struct wow64_ISteamInput_SteamInput006_EnableActionEventCallbacks_params *params = (struct wow64_ISteamInput_SteamInput006_EnableActionEventCallbacks_params *)args;
+    struct u_ISteamInput_SteamInput006 *iface = (struct u_ISteamInput_SteamInput006 *)params->linux_side;
+    w_EnableActionEventCallbacks_152 = (void (*)(SteamInputActionEvent_t *))params->pCallback;
+    iface->EnableActionEventCallbacks( params->pCallback ? &u_SteamInputActionEventCallbackPointer_152 : NULL );
+    return 0;
+}
+
 NTSTATUS ISteamInput_SteamInput006_GetGlyphPNGForActionOrigin( void *args )
 {
     struct ISteamInput_SteamInput006_GetGlyphPNGForActionOrigin_params *params = (struct ISteamInput_SteamInput006_GetGlyphPNGForActionOrigin_params *)args;
@@ -387,6 +475,11 @@ NTSTATUS ISteamInput_SteamInput006_GetGlyphPNGForActionOrigin( void *args )
     if (!(params->_ret = iface->GetGlyphPNGForActionOrigin( params->eOrigin, params->eSize, params->unFlags ))) return 0;
     params->_ret = glyph_cache_lookup( input_cache_png, params->_ret, params->eOrigin, params->unFlags, params->eSize );
     return 0;
+}
+
+NTSTATUS wow64_ISteamInput_SteamInput006_GetGlyphPNGForActionOrigin( void *args )
+{
+    return ISteamInput_SteamInput006_GetGlyphPNGForActionOrigin( args );
 }
 
 NTSTATUS ISteamInput_SteamInput006_GetGlyphSVGForActionOrigin( void *args )
@@ -398,6 +491,11 @@ NTSTATUS ISteamInput_SteamInput006_GetGlyphSVGForActionOrigin( void *args )
     return 0;
 }
 
+NTSTATUS wow64_ISteamInput_SteamInput006_GetGlyphSVGForActionOrigin( void *args )
+{
+    return ISteamInput_SteamInput006_GetGlyphSVGForActionOrigin( args );
+}
+
 NTSTATUS ISteamInput_SteamInput006_GetGlyphForActionOrigin_Legacy( void *args )
 {
     struct ISteamInput_SteamInput006_GetGlyphForActionOrigin_Legacy_params *params = (struct ISteamInput_SteamInput006_GetGlyphForActionOrigin_Legacy_params *)args;
@@ -407,6 +505,11 @@ NTSTATUS ISteamInput_SteamInput006_GetGlyphForActionOrigin_Legacy( void *args )
     return 0;
 }
 
+NTSTATUS wow64_ISteamInput_SteamInput006_GetGlyphForActionOrigin_Legacy( void *args )
+{
+    return ISteamInput_SteamInput006_GetGlyphForActionOrigin_Legacy( args );
+}
+
 NTSTATUS ISteamInput_SteamInput006_GetGlyphForXboxOrigin( void *args )
 {
     struct ISteamInput_SteamInput006_GetGlyphForXboxOrigin_params *params = (struct ISteamInput_SteamInput006_GetGlyphForXboxOrigin_params *)args;
@@ -414,4 +517,9 @@ NTSTATUS ISteamInput_SteamInput006_GetGlyphForXboxOrigin( void *args )
     if (!(params->_ret = iface->GetGlyphForXboxOrigin( params->eOrigin ))) return 0;
     params->_ret = glyph_cache_lookup( xbox_cache, params->_ret, params->eOrigin, 0, 0 );
     return 0;
+}
+
+NTSTATUS wow64_ISteamInput_SteamInput006_GetGlyphForXboxOrigin( void *args )
+{
+    return ISteamInput_SteamInput006_GetGlyphForXboxOrigin( args );
 }

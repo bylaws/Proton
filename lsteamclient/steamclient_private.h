@@ -38,20 +38,22 @@ extern "C" {
 struct w_steam_iface
 {
     vtable_ptr *vtable;
-    void *u_iface;
+    U_PTR(void *u_iface, u_iface);
 };
 
-typedef struct w_steam_iface *(*iface_constructor)( void * );
+typedef struct w_steam_iface *(*iface_constructor)( U_PTR(void *,) );
 extern iface_constructor find_iface_constructor( const char *iface_version );
-extern struct w_steam_iface *create_winISteamNetworkingFakeUDPPort_SteamNetworkingFakeUDPPort001( void * );
+extern struct w_steam_iface *create_winISteamNetworkingFakeUDPPort_SteamNetworkingFakeUDPPort001( U_PTR(void *,) );
 
 extern void execute_pending_callbacks(void);
 
 extern void execute_pending_callbacks(void);
 
-struct w_steam_iface *create_win_interface(const char *name, void *linux_side);
+struct w_steam_iface *create_win_interface(const char *name, U_PTR(void *linux_side, linux_side));
 void *alloc_mem_for_iface(size_t size, const char *iface_version);
 void *alloc_vtable(void *vtable, unsigned int method_count, const char *iface_version);
+
+void *bufcache_obtain( U_PTR(const void *buf, buf), uint32_t size );
 
 void init_rtti( char *base );
 

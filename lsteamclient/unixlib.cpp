@@ -6,6 +6,7 @@
 #include <pthread.h>
 #include <stdlib.h>
 #include <dlfcn.h>
+#include <wine/rbtree.h>
 
 #if 0
 #pragma makedep unix
@@ -24,7 +25,7 @@ struct callback_entry
 static struct list callbacks = LIST_INIT( callbacks );
 static pthread_mutex_t callbacks_lock = PTHREAD_MUTEX_INITIALIZER;
 
-void queue_vtable_callback( struct w_steam_iface *w_iface, enum callback_type type, uint64_t arg0, uint64_t arg1, uint64_t arg2 )
+void queue_vtable_callback( struct w_steam_iface *w_iface, enum callback_type type, uint64_t arg0, uint64_t arg1 )
 {
     struct callback_entry *entry;
     uint32_t size = 0;
@@ -39,7 +40,6 @@ void queue_vtable_callback( struct w_steam_iface *w_iface, enum callback_type ty
     entry->callback.call_iface_vtable.iface = w_iface;
     entry->callback.call_iface_vtable.arg0 = arg0;
     entry->callback.call_iface_vtable.arg1 = arg1;
-    entry->callback.call_iface_vtable.arg2 = arg2;
 
     pthread_mutex_lock( &callbacks_lock );
     list_add_tail( &callbacks, &entry->entry );
@@ -248,11 +248,29 @@ NTSTATUS ISteamClient_SteamClient020_Set_SteamAPI_CCheckCallbackRegisteredInProc
     return 0;
 }
 
+NTSTATUS wow64_ISteamClient_SteamClient020_Set_SteamAPI_CCheckCallbackRegisteredInProcess( void *args )
+{
+    struct wow64_ISteamClient_SteamClient020_Set_SteamAPI_CCheckCallbackRegisteredInProcess_params *params = (struct wow64_ISteamClient_SteamClient020_Set_SteamAPI_CCheckCallbackRegisteredInProcess_params *)args;
+    struct u_ISteamClient_SteamClient020 *iface = (struct u_ISteamClient_SteamClient020 *)params->linux_side;
+    uint32_t (*U_CDECL lin_func)(int32_t) = manual_convert_Set_SteamAPI_CCheckCallbackRegisteredInProcess_func_156( (w_SteamAPI_CheckCallbackRegistered_t_156)params->func );
+    iface->Set_SteamAPI_CCheckCallbackRegisteredInProcess( lin_func );
+    return 0;
+}
+
 NTSTATUS ISteamClient_SteamClient021_Set_SteamAPI_CCheckCallbackRegisteredInProcess( void *args )
 {
     struct ISteamClient_SteamClient021_Set_SteamAPI_CCheckCallbackRegisteredInProcess_params *params = (struct ISteamClient_SteamClient021_Set_SteamAPI_CCheckCallbackRegisteredInProcess_params *)args;
     struct u_ISteamClient_SteamClient021 *iface = (struct u_ISteamClient_SteamClient021 *)params->linux_side;
     uint32_t (*U_CDECL lin_func)(int32_t) = manual_convert_Set_SteamAPI_CCheckCallbackRegisteredInProcess_func_156( params->func );
+    iface->Set_SteamAPI_CCheckCallbackRegisteredInProcess( lin_func );
+    return 0;
+}
+
+NTSTATUS wow64_ISteamClient_SteamClient021_Set_SteamAPI_CCheckCallbackRegisteredInProcess( void *args )
+{
+    struct wow64_ISteamClient_SteamClient021_Set_SteamAPI_CCheckCallbackRegisteredInProcess_params *params = (struct wow64_ISteamClient_SteamClient021_Set_SteamAPI_CCheckCallbackRegisteredInProcess_params *)args;
+    struct u_ISteamClient_SteamClient021 *iface = (struct u_ISteamClient_SteamClient021 *)params->linux_side;
+    uint32_t (*U_CDECL lin_func)(int32_t) = manual_convert_Set_SteamAPI_CCheckCallbackRegisteredInProcess_func_156( (w_SteamAPI_CheckCallbackRegistered_t_156)params->func );
     iface->Set_SteamAPI_CCheckCallbackRegisteredInProcess( lin_func );
     return 0;
 }
@@ -305,12 +323,37 @@ NTSTATUS steamclient_Steam_BGetCallback( void *args )
     return 0;
 }
 
+NTSTATUS wow64_steamclient_Steam_BGetCallback( void *args )
+{
+    struct wow64_steamclient_Steam_BGetCallback_params *params = (struct wow64_steamclient_Steam_BGetCallback_params *)args;
+
+    if (!p_Steam_BGetCallback( params->pipe, params->u_msg, (int32_t *)params->ignored ))
+        params->_ret = false;
+    else
+    {
+        wow64_callback_message_utow( params->u_msg, (w32_CallbackMsg_t *)params->w_msg );
+        params->_ret = true;
+    }
+
+    return 0;
+}
+
 NTSTATUS steamclient_callback_message_receive( void *args )
 {
     struct steamclient_callback_message_receive_params *params = (struct steamclient_callback_message_receive_params *)args;
     convert_callback_utow( params->u_msg->m_iCallback, (void *)params->u_msg->m_pubParam,
                            params->u_msg->m_cubParam, (void *)params->w_msg->m_pubParam,
-                           params->w_msg->m_cubParam );
+                           params->w_msg->m_cubParam, false );
+    return 0;
+}
+
+NTSTATUS wow64_steamclient_callback_message_receive( void *args )
+{
+    struct wow64_steamclient_callback_message_receive_params *params = (struct wow64_steamclient_callback_message_receive_params *)args;
+    w32_CallbackMsg_t *w_msg = (w32_CallbackMsg_t *)params->w_msg;
+    convert_callback_utow( params->u_msg->m_iCallback, (void *)params->u_msg->m_pubParam,
+                           params->u_msg->m_cubParam, (void *)w_msg->m_pubParam,
+                           w_msg->m_cubParam, true );
     return 0;
 }
 
@@ -321,38 +364,58 @@ NTSTATUS steamclient_Steam_FreeLastCallback( void *args )
     return 0;
 }
 
-NTSTATUS steamclient_Steam_GetAPICallResult( void *args )
+static int8_t steamclient_Steam_GetAPICallResult( int32_t pipe, uint64_t call, void *w_callback,
+                                                  int w_callback_len, int id, int8_t *failed,
+                                                  bool w64 )
 {
-    struct steamclient_Steam_GetAPICallResult_params *params = (struct steamclient_Steam_GetAPICallResult_params *)args;
-    int u_callback_len = params->w_callback_len;
+    int u_callback_len = w_callback_len;
+    int8_t ret = FALSE;
     void *u_callback;
 
-    if (!(u_callback = alloc_callback_wtou( params->id, params->w_callback, &u_callback_len ))) return false;
+    if (!(u_callback = alloc_callback_wtou( id, w_callback, &u_callback_len, w64 ))) return ret;
 
-    params->_ret = p_Steam_GetAPICallResult( params->pipe, params->call, u_callback, u_callback_len,
-                                             params->id, params->failed );
+    ret = p_Steam_GetAPICallResult( pipe, call, u_callback, u_callback_len, id, failed );
 
-    if (params->_ret && u_callback != params->w_callback)
+    if (ret && u_callback != w_callback)
     {
-        convert_callback_utow( params->id, u_callback, u_callback_len, params->w_callback, params->w_callback_len );
+        convert_callback_utow( id, u_callback, u_callback_len, w_callback, w_callback_len, w64 );
         free( u_callback );
     }
 
+    return ret;
+}
+
+NTSTATUS steamclient_Steam_GetAPICallResult( void *args )
+{
+    struct steamclient_Steam_GetAPICallResult_params *params = (struct steamclient_Steam_GetAPICallResult_params *)args;
+    params->_ret = steamclient_Steam_GetAPICallResult( params->pipe, params->call, params->w_callback,
+                                                       params->w_callback_len, params->id,
+                                                       params->failed, false );
     return 0;
 }
 
-NTSTATUS steamclient_init( void *args )
+NTSTATUS wow64_steamclient_Steam_GetAPICallResult( void *args )
 {
-    struct steamclient_init_params *params = (struct steamclient_init_params *)args;
+    struct wow64_steamclient_Steam_GetAPICallResult_params *params = (struct wow64_steamclient_Steam_GetAPICallResult_params *)args;
+    params->_ret = steamclient_Steam_GetAPICallResult( params->pipe, params->call,
+                                                       (void *)params->w_callback,
+                                                       params->w_callback_len, params->id,
+                                                       (int8_t *)params->failed, true );
+    return 0;
+}
+
+static NTSTATUS steamclient_init( char *tmppath, const char *steam_app_id, int8_t steam_app_id_unset,
+                                  const char *ignore_child_processes, int8_t ignore_child_processes_unset )
+{
     char path[PATH_MAX], resolved_path[PATH_MAX];
     static void *steamclient;
 
-    g_tmppath = params->g_tmppath;
+    g_tmppath = tmppath;
 
-    if (params->steam_app_id_unset) unsetenv( "SteamAppId" );
-    else if (params->steam_app_id) setenv( "SteamAppId", params->steam_app_id, TRUE );
-    if (params->ignore_child_processes_unset) unsetenv( "IgnoreChildProcesses" );
-    else if (params->ignore_child_processes) setenv( "IgnoreChildProcesses", params->ignore_child_processes, TRUE );
+    if (steam_app_id_unset) unsetenv( "SteamAppId" );
+    else if (steam_app_id) setenv( "SteamAppId", steam_app_id, TRUE );
+    if (ignore_child_processes_unset) unsetenv( "IgnoreChildProcesses" );
+    else if (ignore_child_processes) setenv( "IgnoreChildProcesses", ignore_child_processes, TRUE );
 
     if (steamclient) return 0;
 
@@ -407,10 +470,92 @@ NTSTATUS steamclient_init( void *args )
     return 0;
 }
 
+NTSTATUS steamclient_init( void *args )
+{
+    struct steamclient_init_params *params = (struct steamclient_init_params *)args;
+    return steamclient_init( params->g_tmppath, params->steam_app_id, params->steam_app_id_unset,
+                             params->ignore_child_processes, params->ignore_child_processes_unset );
+}
+
+NTSTATUS wow64_steamclient_init( void *args )
+{
+    struct wow64_steamclient_init_params *params = (struct wow64_steamclient_init_params *)args;
+    return steamclient_init( (char *)params->g_tmppath, (const char *)params->steam_app_id,
+                             params->steam_app_id_unset, (const char *)params->ignore_child_processes,
+                             params->ignore_child_processes_unset );
+}
+
+struct bufcache_entry {
+    struct rb_entry entry;
+    void *buf;
+    uint32_t size;
+};
+
+static int buf_compare( const void *key, const struct rb_entry *entry )
+{
+    const struct bufcache_entry *buf = RB_ENTRY_VALUE(entry, struct bufcache_entry, entry);
+    const struct bufcache_key *key_buf = (const struct bufcache_key *)key;
+    if (key_buf->size != buf->size) return key_buf->size < buf->size ? -1 : 1;
+    return memcmp( key_buf->buf, buf->buf, key_buf->size );
+}
+
+static pthread_mutex_t bufcache_lock = PTHREAD_MUTEX_INITIALIZER;
+static struct rb_tree bufcache_tree = { buf_compare };
+
+static void *bufcache_get( struct bufcache_key *key )
+{
+    struct bufcache_entry *entry;
+
+    pthread_mutex_lock( &bufcache_lock );
+    entry = (struct bufcache_entry *)rb_get( &bufcache_tree, key );
+    pthread_mutex_unlock( &bufcache_lock );
+
+    return entry ? entry->buf : nullptr;
+}
+
+static void *bufcache_put( void *mem, struct bufcache_key *key )
+{
+    struct bufcache_entry *entry = (struct bufcache_entry *)malloc(sizeof(struct bufcache_entry));
+
+    pthread_mutex_lock( &bufcache_lock );
+    if (rb_put( &bufcache_tree, key, (struct rb_entry *)entry )) {
+        free( entry );
+        entry = (struct bufcache_entry *)rb_get( &bufcache_tree, key );
+    } else {
+        entry->size = key->size;
+        entry->buf = mem;
+        memcpy( entry->buf, key->buf, key->size );
+    }
+    pthread_mutex_unlock( &bufcache_lock );
+
+    return entry->buf;
+}
+
+NTSTATUS steamclient_bufcache_get( void *args )
+{
+    struct steamclient_bufcache_get_params *params = (struct steamclient_bufcache_get_params *)args;
+    params->ret = bufcache_get( &params->key );
+    return 0;
+}
+
+NTSTATUS steamclient_bufcache_put( void *args )
+{
+    struct steamclient_bufcache_put_params *params = (struct steamclient_bufcache_put_params *)args;
+    params->ret = bufcache_put( params->mem, &params->key );
+    return 0;
+}
+
 NTSTATUS steamclient_CreateInterface( void *args )
 {
     struct steamclient_CreateInterface_params *params = (struct steamclient_CreateInterface_params *)args;
     params->_ret = p_CreateInterface( params->name, params->return_code );
+    return 0;
+}
+
+NTSTATUS wow64_steamclient_CreateInterface( void *args )
+{
+    struct wow64_steamclient_CreateInterface_params *params = (struct wow64_steamclient_CreateInterface_params *)args;
+    params->_ret = p_CreateInterface( (const char *)params->name, (int *)params->return_code );
     return 0;
 }
 
@@ -428,10 +573,24 @@ NTSTATUS steamclient_Steam_IsKnownInterface( void *args )
     return 0;
 }
 
+NTSTATUS wow64_steamclient_Steam_IsKnownInterface( void *args )
+{
+    struct wow64_steamclient_Steam_IsKnownInterface_params *params = (struct wow64_steamclient_Steam_IsKnownInterface_params *)args;
+    params->_ret = p_Steam_IsKnownInterface( (const char *)params->version );
+    return 0;
+}
+
 NTSTATUS steamclient_Steam_NotifyMissingInterface( void *args )
 {
     struct steamclient_Steam_NotifyMissingInterface_params *params = (struct steamclient_Steam_NotifyMissingInterface_params *)args;
     p_Steam_NotifyMissingInterface( params->pipe, params->version );
+    return 0;
+}
+
+NTSTATUS wow64_steamclient_Steam_NotifyMissingInterface( void *args )
+{
+    struct wow64_steamclient_Steam_NotifyMissingInterface_params *params = (struct wow64_steamclient_Steam_NotifyMissingInterface_params *)args;
+    p_Steam_NotifyMissingInterface( params->pipe, (const char *)params->version );
     return 0;
 }
 
@@ -611,12 +770,38 @@ void steamclient_free_path( char *path )
     free( path );
 }
 
+static char *dos_to_unix_path_array_el( const char *s )
+{
+    WCHAR scratch[PATH_MAX] = {'\\', '?', '?', '\\', 0};
+    char *o;
+
+    if (IS_ABSOLUTE( s ))
+    {
+        ntdll_umbstowcs( s, strlen( s ) + 1, scratch + 4, PATH_MAX - 4 );
+        collapse_path( scratch, 4 );
+        o = get_unix_file_name( scratch );
+    }
+    else
+    {
+        const char *r;
+        char *l;
+        o = (char *)malloc( strlen( s ) + 1 );
+        for (r = s, l = o; *r; ++l, ++r)
+        {
+            if (*r == '\\') *l = '/';
+            else *l = *r;
+        }
+        *l = 0;
+    }
+
+    return o;
+}
+
 const char **steamclient_dos_to_unix_path_array( const char **src )
 {
     size_t len;
     const char **s;
     char **out, **o;
-    WCHAR scratch[PATH_MAX] = {'\\', '?', '?', '\\', 0};
 
     TRACE( "src %p\n", src );
 
@@ -630,24 +815,36 @@ const char **steamclient_dos_to_unix_path_array( const char **src )
     for (s = src, o = out; *s; ++s, ++o)
     {
         TRACE( "  src[%zu] %s\n", s - src, debugstr_a(*s) );
-        if (IS_ABSOLUTE( *s ))
-        {
-            ntdll_umbstowcs( *s, strlen( *s ) + 1, scratch + 4, PATH_MAX - 4 );
-            collapse_path( scratch, 4 );
-            *o = get_unix_file_name( scratch );
-        }
-        else
-        {
-            const char *r;
-            char *l;
-            *o = (char *)malloc( strlen( *s ) + 1 );
-            for (r = *s, l = *o; *r; ++l, ++r)
-            {
-                if (*r == '\\') *l = '/';
-                else *l = *r;
-            }
-            *l = 0;
-        }
+        *o = dos_to_unix_path_array_el( *s );
+        TRACE( "  -> %s\n", debugstr_a(*o) );
+    }
+
+    *o = NULL;
+
+    TRACE( "  -> %p\n", out );
+    return (const char **)out;
+}
+
+const char **wow64_steamclient_dos_to_unix_path_array( uint32_t src )
+{
+    size_t len;
+    uint32_t *s;
+    char **out, **o;
+
+    TRACE( "src %p\n", src );
+
+    if (!src) return NULL;
+
+    len = sizeof(char *); /* NUL */
+    for (s = (uint32_t *)src; *s; ++s) len += sizeof(char *);
+
+    out = (char **)malloc( len );
+
+    for (s = (uint32_t *)src, o = out; *s; ++s, ++o)
+    {
+        const char *str = (const char *)(*s);
+        TRACE( "  src[%u] %s\n", s - src, debugstr_a(str) );
+        *o = dos_to_unix_path_array_el( str );
         TRACE( "  -> %s\n", debugstr_a(*o) );
     }
 
@@ -730,33 +927,34 @@ unsigned int steamclient_unix_path_to_dos_path( bool api_result, const char *src
     return r;
 }
 
-static const struct callback_def *find_first_callback_def_by_id( int id )
+static const struct callback_def *find_first_callback_def_by_id( int id, bool wow64 )
 {
     unsigned int l, r, m;
+    const struct callback_def *abi_callback_data = callback_data( wow64 );
 
     l = 0;
-    r = callback_data_size;
+    r = callback_data_size( wow64 );
     while (l < r)
     {
         m = (l + r) /2;
-        if (callback_data[m].id == id)
+        if (abi_callback_data[m].id == id)
         {
-            while (m && callback_data[m - 1].id == id) --m;
-            return &callback_data[m];
+            while (m && abi_callback_data[m - 1].id == id) --m;
+            return &abi_callback_data[m];
         }
-        if (id < callback_data[m].id) r = m;
-        else                          l = m + 1;
+        if (id < abi_callback_data[m].id) r = m;
+        else                              l = m + 1;
     }
     return NULL;
 }
 
-void *alloc_callback_wtou( int id, void *callback, int *callback_len )
+void *alloc_callback_wtou( int id, void *callback, int *callback_len, bool wow64 )
 {
     const struct callback_def *c, *end, *best;
 
-    if (!(c = find_first_callback_def_by_id( id ))) return callback;
+    if (!(c = find_first_callback_def_by_id( id, wow64 ))) return callback;
 
-    end = callback_data + callback_data_size;
+    end = callback_data( wow64 ) + callback_data_size( wow64 );
     best = NULL;
     while (c != end && c->id == id)
     {
@@ -772,7 +970,7 @@ void *alloc_callback_wtou( int id, void *callback, int *callback_len )
     if (!best)
     {
         ERR( "len %d is too small for callback %d, using default.\n", *callback_len, id );
-        best = find_first_callback_def_by_id( id );
+        best = find_first_callback_def_by_id( id, wow64 );
     }
     if (best->w_callback_len != *callback_len)
         WARN( "Found len %d for id %d, len %d.\n", best->w_callback_len, id, *callback_len );
@@ -780,17 +978,18 @@ void *alloc_callback_wtou( int id, void *callback, int *callback_len )
     return malloc( *callback_len );
 }
 
-void convert_callback_utow(int id, void *u_callback, int u_callback_len, void *w_callback, int w_callback_len)
+void convert_callback_utow(int id, void *u_callback, int u_callback_len, void *w_callback, int w_callback_len, bool wow64)
 {
     const struct callback_def *c, *end, *best;
-
-    if (!(c = find_first_callback_def_by_id( id )))
+        WARN( "len %d, %d for id %d\n", w_callback_len, u_callback_len,
+              id);
+    if (!(c = find_first_callback_def_by_id( id, wow64 )))
     {
         memcpy( w_callback, u_callback, u_callback_len );
         return;
     }
 
-    end = callback_data + callback_data_size;
+    end = callback_data( wow64 ) + callback_data_size( wow64 );
     best = NULL;
     while (c != end && c->id == id)
     {
@@ -809,7 +1008,7 @@ void convert_callback_utow(int id, void *u_callback, int u_callback_len, void *w
     if (!best)
     {
         ERR( "Could not find id %d, u_callback_len %d, w_callback_len %d.\n", id, u_callback_len, w_callback_len );
-        best = find_first_callback_def_by_id( id );
+        best = find_first_callback_def_by_id( id, wow64 );
     }
 
     if (best->w_callback_len != w_callback_len || best->u_callback_len != u_callback_len)
@@ -820,31 +1019,50 @@ void convert_callback_utow(int id, void *u_callback, int u_callback_len, void *w
     else                     memcpy( w_callback, u_callback, u_callback_len );
 }
 
-void callback_message_utow( const u_CallbackMsg_t *u_msg, w_CallbackMsg_t *w_msg )
+static int32_t get_callback_len( const u_CallbackMsg_t *u_msg, bool wow64 )
 {
     const struct callback_def *c, *end;
-    int len = u_msg->m_cubParam;
 
-    if ((c = find_first_callback_def_by_id( u_msg->m_iCallback )))
+    if ((c = find_first_callback_def_by_id( u_msg->m_iCallback, wow64 )))
     {
-        end = callback_data + callback_data_size;
+        end = callback_data( wow64 ) + callback_data_size( wow64 );
         while (c != end && c->id == u_msg->m_iCallback)
         {
             if (c->u_callback_len == u_msg->m_cubParam)
-            {
-                len = c->w_callback_len;
-                break;
-            }
+                return c->w_callback_len;
             ++c;
         }
         if (c == end || c->id != u_msg->m_iCallback)
         {
             ERR( "Unix len %d not found for callback %d.\n", u_msg->m_cubParam, u_msg->m_iCallback );
-            len = find_first_callback_def_by_id( u_msg->m_iCallback )->w_callback_len;
+            return find_first_callback_def_by_id( u_msg->m_iCallback, wow64 )->w_callback_len;
         }
     }
 
+    return u_msg->m_cubParam;
+}
+
+void callback_message_utow( const u_CallbackMsg_t *u_msg, w_CallbackMsg_t *w_msg )
+{
     w_msg->m_hSteamUser = u_msg->m_hSteamUser;
     w_msg->m_iCallback = u_msg->m_iCallback;
-    w_msg->m_cubParam = len;
+    w_msg->m_cubParam = get_callback_len( u_msg, false );
+}
+
+void wow64_callback_message_utow( const u_CallbackMsg_t *u_msg, w32_CallbackMsg_t *w_msg )
+{
+    w_msg->m_hSteamUser = u_msg->m_hSteamUser;
+    w_msg->m_iCallback = u_msg->m_iCallback;
+    w_msg->m_cubParam = get_callback_len( u_msg, true );
+}
+
+void **wow64_convert_ptr_array( uint32_t ptr, uint32_t len )
+{
+    int i;
+    void **arr = (void **)malloc(len * sizeof(void *));
+
+    for (i = 0; i < len; i++)
+        arr[i] = (void *)((uint32_t *)ptr)[i];
+
+    return arr;
 }

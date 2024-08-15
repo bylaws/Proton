@@ -269,13 +269,13 @@ struct steamclient_interface
 {
     struct list entry;
     const char *name;
-    void *u_iface;
+    U_PTR(void *u_iface, u_iface);
     struct w_steam_iface *w_iface;
 };
 
 static struct list steamclient_interfaces = LIST_INIT(steamclient_interfaces);
 
-struct w_steam_iface *create_win_interface(const char *name, void *u_iface)
+struct w_steam_iface *create_win_interface(const char *name, U_PTR(void *u_iface, u_iface))
 {
     struct steamclient_interface *e;
     struct w_steam_iface *ret = NULL;
@@ -323,6 +323,24 @@ done:
     if (!ret) ERR("Don't recognize interface name: %s\n", name);
     SetLastError(0);
     return ret;
+}
+
+void *bufcache_obtain( U_PTR(const void *buf, buf), uint32_t size )
+{
+    struct steamclient_bufcache_get_params get_params;
+    struct steamclient_bufcache_put_params put_params;
+    get_params.key.buf = buf;
+    get_params.key.size = size;
+
+    if (STEAMCLIENT_CALL( steamclient_bufcache_get, &get_params )) return NULL;
+    if (get_params.ret) return (void *)get_params.ret;
+
+    put_params.mem = (U_PTR(void *,))HeapAlloc( GetProcessHeap(), 0, size );
+    put_params.key.buf = buf;
+    put_params.key.size = size;
+    if (STEAMCLIENT_CALL( steamclient_bufcache_put, &put_params )) return NULL;
+    if (put_params.mem != put_params.ret) HeapFree( GetProcessHeap(), 0, (void *)put_params.mem );
+    return (void *)put_params.ret;
 }
 
 static BOOL get_env_win(const WCHAR *name, char *value, unsigned int size)
@@ -380,74 +398,87 @@ void *CDECL CreateInterface(const char *name, int *return_code)
 void execute_pending_callbacks(void)
 {
     struct steamclient_next_callback_params params = {0};
-
     while (!STEAMCLIENT_CALL( steamclient_next_callback, &params ) && params._ret)
     {
-        if (!params.callback || params.size > params.callback->size)
-            params.callback = realloc( params.callback, params.size );
-        else switch (params.callback->type)
-        {
-        case SOCKETS_DEBUG_OUTPUT:
-            TRACE( "SOCKETS_DEBUG_OUTPUT func %p, type %u, msg %s.\n", params.callback->sockets_debug_output.pfnFunc,
-                   params.callback->sockets_debug_output.type, debugstr_a( params.callback->sockets_debug_output.msg ) );
-            params.callback->sockets_debug_output.pfnFunc( params.callback->sockets_debug_output.type, params.callback->sockets_debug_output.msg );
+        struct callback *callback = (struct callback *)params.callback;
+        if (!callback || params.size > callback->size) {
+            params.callback = (U_PTR(struct callback *,))realloc( callback, params.size );
+        }
+        else switch (callback->type) {
+        case SOCKETS_DEBUG_OUTPUT: {
+            void (*W_CDECL pfnFunc)( uint32_t, const char * ) = (void (*W_CDECL)( uint32_t, const char * ))callback->sockets_debug_output.pfnFunc;
+            TRACE( "SOCKETS_DEBUG_OUTPUT func %p, type %u, msg %s.\n", pfnFunc, callback->sockets_debug_output.type,
+                   debugstr_a( callback->sockets_debug_output.msg ) );
+            pfnFunc( callback->sockets_debug_output.type, callback->sockets_debug_output.msg );
             break;
-        case WARNING_MESSAGE_HOOK:
-            TRACE( "WARNING_MESSAGE_HOOK func %p, severity %d, msg %s.\n", params.callback->warning_message_hook.pFunction,
-                   params.callback->warning_message_hook.severity, debugstr_a( params.callback->warning_message_hook.msg ) );
-            params.callback->warning_message_hook.pFunction( params.callback->warning_message_hook.severity, params.callback->warning_message_hook.msg );
+        }
+        case WARNING_MESSAGE_HOOK: {
+            void (*W_CDECL pFunction)( int32_t, const char * ) = (void (*W_CDECL)( int32_t, const char * ))callback->warning_message_hook.pFunction;
+            TRACE( "WARNING_MESSAGE_HOOK func %p, severity %d, msg %s.\n", pFunction, callback->warning_message_hook.severity,
+                   debugstr_a( callback->warning_message_hook.msg ) );
+            pFunction( callback->warning_message_hook.severity, callback->warning_message_hook.msg );
             break;
-        case CALL_CDECL_FUNC_DATA:
-            TRACE( "CALL_CDECL_FUNC_DATA func %p, data %p.\n", params.callback->call_cdecl_func_data.pFunc, params.callback->call_cdecl_func_data.data );
-            params.callback->call_cdecl_func_data.pFunc( params.callback->call_cdecl_func_data.data );
+        }
+        case CALL_CDECL_FUNC_DATA: {
+            void (*W_CDECL pFunc)( void * ) = (void (*W_CDECL)( void * ))callback->call_cdecl_func_data.pFunc;
+            TRACE( "CALL_CDECL_FUNC_DATA func %p, data %p.\n", pFunc, callback->call_cdecl_func_data.data );
+            pFunc( callback->call_cdecl_func_data.data );
+            ERR("%d %p\n", __LINE__, (void *)params.callback);
             break;
+        }
 #define CALL_VTABLE_CASES(method) \
-        case CALL_IFACE_VTABLE_ ## method ## _0: \
-            TRACE( "CALL_IFACE_VTABLE_" #method "_0 iface %p.\n", params.callback->call_iface_vtable.iface ); \
-            CALL_VTBL_FUNC( params.callback->call_iface_vtable.iface, method * 4, void, (void *), (params.callback->call_iface_vtable.iface) ); \
+        case CALL_IFACE_VTABLE_ ## method ## _0: { \
+            struct w_steam_iface *iface = (struct w_steam_iface *)callback->call_iface_vtable.iface; \
+            TRACE( "CALL_IFACE_VTABLE_" #method "_0 iface %p.\n", iface); \
+            CALL_VTBL_FUNC( iface, method * 4, void, (void *), (iface) ); \
             break; \
-        case CALL_IFACE_VTABLE_ ## method ## _1: \
-            TRACE( "CALL_IFACE_VTABLE_" #method "_1 iface %p, arg0 %#I64x.\n", params.callback->call_iface_vtable.iface, \
-                   params.callback->call_iface_vtable.arg0 ); \
-            CALL_VTBL_FUNC( params.callback->call_iface_vtable.iface, method * 4, void, (void *, intptr_t), (params.callback->call_iface_vtable.iface, \
-                            params.callback->call_iface_vtable.arg0) ); \
+        } \
+        case CALL_IFACE_VTABLE_ ## method ## _1: { \
+            struct w_steam_iface *iface = (struct w_steam_iface *)callback->call_iface_vtable.iface; \
+            TRACE( "CALL_IFACE_VTABLE_" #method "_1 iface %p, arg0 %#I64x.\n", iface, callback->call_iface_vtable.arg0 ); \
+            CALL_VTBL_FUNC( iface, method * 4, void, (void *, intptr_t), (iface, callback->call_iface_vtable.arg0) ); \
             break; \
-        case CALL_IFACE_VTABLE_ ## method ## _2: \
-            TRACE( "CALL_IFACE_VTABLE_" #method "_2 iface %p, arg0 %#I64x, arg1 %#I64x.\n", params.callback->call_iface_vtable.iface, \
-                   params.callback->call_iface_vtable.arg0, params.callback->call_iface_vtable.arg1 ); \
-            CALL_VTBL_FUNC( params.callback->call_iface_vtable.iface, method * 4, void, (void *, intptr_t, intptr_t), (params.callback->call_iface_vtable.iface, \
-                            params.callback->call_iface_vtable.arg0, params.callback->call_iface_vtable.arg1) ); \
-            break
+        } \
+        case CALL_IFACE_VTABLE_ ## method ## _2: { \
+            struct w_steam_iface *iface = (struct w_steam_iface *)callback->call_iface_vtable.iface; \
+            TRACE( "CALL_IFACE_VTABLE_" #method "_2 iface %p, arg0 %#I64x, arg1 %#I64x.\n", iface, \
+                   callback->call_iface_vtable.arg0, callback->call_iface_vtable.arg1 ); \
+            CALL_VTBL_FUNC( iface, method * 4, void, (void *, intptr_t, intptr_t), (iface, \
+                            callback->call_iface_vtable.arg0, callback->call_iface_vtable.arg1) ); \
+            break; \
+        }
 
-        CALL_VTABLE_CASES(0);
-        CALL_VTABLE_CASES(1);
-        CALL_VTABLE_CASES(2);
+        CALL_VTABLE_CASES(0)
+        CALL_VTABLE_CASES(1)
+        CALL_VTABLE_CASES(2)
 #undef CALL_VTABLE_CASES
-        case CALL_IFACE_VTABLE_0_SERVER_RESPONDED:
-            TRACE( "CALL_IFACE_VTABLE_0_SERVER_RESPONDED iface %p, server %p.\n", params.callback->server_responded.iface,
-                   params.callback->server_responded.server );
-            CALL_VTBL_FUNC( params.callback->server_responded.iface, 0, void, (void *, gameserveritem_t_105 *), (params.callback->server_responded.iface,
-                            params.callback->server_responded.server) );
+        case CALL_IFACE_VTABLE_0_SERVER_RESPONDED: {
+            struct w_steam_iface *iface = (struct w_steam_iface *)callback->server_responded.iface;
+            TRACE( "CALL_IFACE_VTABLE_0_SERVER_RESPONDED iface %p, server %p.\n", iface, callback->server_responded.server );
+            CALL_VTBL_FUNC( iface, 0, void, (void *, gameserveritem_t_105 *), (iface, callback->server_responded.server) );
             break;
-        case CALL_IFACE_VTABLE_0_ADD_PLAYER_TO_LIST:
-            TRACE( "CALL_IFACE_VTABLE_0_ADD_PLAYER_TO_LIST iface %p, name %s, score %u, time_played %f.\n", params.callback->add_player_to_list.iface,
-                   debugstr_a( params.callback->add_player_to_list.name ), params.callback->add_player_to_list.score, params.callback->add_player_to_list.time_played );
-            CALL_VTBL_FUNC( params.callback->add_player_to_list.iface, 0, void, (void *, const char *, int32_t, float), (params.callback->add_player_to_list.iface,
-                            params.callback->add_player_to_list.name, params.callback->add_player_to_list.score, params.callback->add_player_to_list.time_played) );
+        }
+        case CALL_IFACE_VTABLE_0_ADD_PLAYER_TO_LIST: {
+            struct w_steam_iface *iface = (struct w_steam_iface *)callback->add_player_to_list.iface;
+            TRACE( "CALL_IFACE_VTABLE_0_ADD_PLAYER_TO_LIST iface %p, name %s, score %u, time_played %f.\n", iface,
+                   debugstr_a( callback->add_player_to_list.name ), callback->add_player_to_list.score, callback->add_player_to_list.time_played );
+            CALL_VTBL_FUNC( iface, 0, void, (void *, const char *, int32_t, float), (iface,
+                            callback->add_player_to_list.name, callback->add_player_to_list.score, callback->add_player_to_list.time_played) );
             break;
-        case CALL_IFACE_VTABLE_0_RULES_RESPONDED:
-        {
-            const char *value = params.callback->rules_responded.rule_and_value + strlen( params.callback->rules_responded.rule_and_value ) + 1;
-            TRACE( "CALL_IFACE_VTABLE_0_RULES_RESPONDED iface %p, rule %s, value %s.\n", params.callback->rules_responded.iface,
-                   debugstr_a( params.callback->rules_responded.rule_and_value ), debugstr_a( value ) );
-            CALL_VTBL_FUNC( params.callback->rules_responded.iface, 0, void, (void *, const char *, const char *), (params.callback->rules_responded.iface,
-                            params.callback->rules_responded.rule_and_value, value) );
+        }
+        case CALL_IFACE_VTABLE_0_RULES_RESPONDED: {
+            struct w_steam_iface *iface = (struct w_steam_iface *)callback->rules_responded.iface;
+            const char *value = callback->rules_responded.rule_and_value + strlen( callback->rules_responded.rule_and_value ) + 1;
+            TRACE( "CALL_IFACE_VTABLE_0_RULES_RESPONDED iface %p, rule %s, value %s.\n", iface,
+                   debugstr_a( callback->rules_responded.rule_and_value ), debugstr_a( value ) );
+            CALL_VTBL_FUNC( iface, 0, void, (void *, const char *, const char *), (iface,
+                            callback->rules_responded.rule_and_value, value) );
             break;
         }
         }
     }
 
-    free( params.callback );
+    free( (void *)params.callback );
 }
 
 static void *last_callback_data;
@@ -474,11 +505,11 @@ int8_t CDECL Steam_BGetCallback( int32_t pipe, w_CallbackMsg_t *win_msg, int32_t
         .pipe = pipe,
         .w_msg = win_msg,
         .ignored = ignored,
-        .u_msg = &u_msg,
+        .u_msg = (U_PTR(u_CallbackMsg_t *,))&u_msg,
     };
     struct steamclient_callback_message_receive_params receive_params =
     {
-        .u_msg = &u_msg,
+        .u_msg = (U_PTR(u_CallbackMsg_t *,))&u_msg,
         .w_msg = win_msg,
     };
 
