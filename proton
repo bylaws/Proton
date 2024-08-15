@@ -85,6 +85,7 @@ def file_is_wine_builtin_dll(path):
                     '/lib64/wine/fakedlls',
                     '/lib/wine/i386-unix',
                     '/lib/wine/i386-windows',
+                    '/lib64/wine/i386-windows',
                     '/lib64/wine/x86_64-unix',
                     '/lib64/wine/x86_64-windows'
                 )):
@@ -655,7 +656,12 @@ class CompatData:
     def pfx_copy(self, src, dst, dll_copy=False):
         if os.path.islink(src):
             contents = os.readlink(src)
-            if os.path.dirname(contents).endswith(('/lib/wine/i386-unix', '/lib/wine/i386-windows', '/lib64/wine/x86_64-unix', '/lib64/wine/x86_64-windows')):
+            if os.path.dirname(contents).endswith(
+                    ('/lib/wine/i386-unix',
+                     '/lib/wine/i386-windows',
+                     '/lib64/wine/i386-windows',
+                     '/lib64/wine/x86_64-unix',
+                     '/lib64/wine/x86_64-windows')):
                 # wine builtin dll
                 # make the destination an absolute symlink
                 contents = os.path.normpath(os.path.join(os.path.dirname(src), contents))
