@@ -34,10 +34,13 @@ SOURCE_DATE_EPOCH ?= $(shell date +%s)
 MFLAGS += BASE_SOURCE_DATE_EPOCH=$(SOURCE_DATE_EPOCH)
 unexport SOURCE_DATE_EPOCH
 
+LIBDIR32 := lib
+LIBDIR64 := lib64
+
 DST_BASE := $(OBJ)/dist
 DST_DIR := $(DST_BASE)/files
-DST_LIBDIR32 := $(DST_DIR)/lib
-DST_LIBDIR64 := $(DST_DIR)/lib64
+DST_LIBDIR32 := $(DST_DIR)/$(LIBDIR32)
+DST_LIBDIR64 := $(DST_DIR)/$(LIBDIR64)
 DIST_PREFIX := $(DST_DIR)/share/default_pfx/
 DIST_VERSION := $(DST_BASE)/version
 DEPLOY_DIR := ./deploy
@@ -286,13 +289,13 @@ $(eval $(call rules-cargo,gst_plugins_rs,32))
 $(eval $(call rules-cargo,gst_plugins_rs,64))
 
 $(OBJ)/.gst_plugins_rs-post-build64:
-	mkdir -p $(GST_PLUGINS_RS_DST64)/lib64/gstreamer-1.0/
-	cp -a $(GST_PLUGINS_RS_OBJ64)/x86_64-unknown-linux-gnu/release/libgstdav1d.so $(GST_PLUGINS_RS_DST64)/lib64/gstreamer-1.0/
+	mkdir -p $(GST_PLUGINS_RS_DST64)/$(LIBDIR64)/gstreamer-1.0/
+	cp -a $(GST_PLUGINS_RS_OBJ64)/x86_64-unknown-linux-gnu/release/libgstdav1d.so $(GST_PLUGINS_RS_DST64)/$(LIBDIR64)/gstreamer-1.0/
 	touch $@
 
 $(OBJ)/.gst_plugins_rs-post-build32:
-	mkdir -p $(GST_PLUGINS_RS_DST32)/lib/gstreamer-1.0/
-	cp -a $(GST_PLUGINS_RS_OBJ32)/i686-unknown-linux-gnu/release/libgstdav1d.so $(GST_PLUGINS_RS_DST32)/lib/gstreamer-1.0/
+	mkdir -p $(GST_PLUGINS_RS_DST32)/$(LIBDIR32)/gstreamer-1.0/
+	cp -a $(GST_PLUGINS_RS_OBJ32)/i686-unknown-linux-gnu/release/libgstdav1d.so $(GST_PLUGINS_RS_DST32)/$(LIBDIR32)/gstreamer-1.0/
 	touch $@
 
 
@@ -571,8 +574,8 @@ DXVK_SOURCE_DATE_EPOCH64 := $(shell expr $(BASE_SOURCE_DATE_EPOCH64) - 1)
 DXVK_SOURCE_ARGS = \
   --exclude version.h.in \
 
-DXVK_MESON_ARGS32 = --bindir=$(DXVK_DST32)/lib/wine/dxvk/i386-windows
-DXVK_MESON_ARGS64 = --bindir=$(DXVK_DST64)/lib64/wine/dxvk/x86_64-windows
+DXVK_MESON_ARGS32 = --bindir=$(DXVK_DST32)/$(LIBDIR32)/wine/dxvk/i386-windows
+DXVK_MESON_ARGS64 = --bindir=$(DXVK_DST64)/$(LIBDIR64)/wine/dxvk/x86_64-windows
 DXVK_DEPENDS = glslang
 
 $(eval $(call rules-source,dxvk,$(SRCDIR)/dxvk))
@@ -585,13 +588,13 @@ $(OBJ)/.dxvk-post-source:
 	touch $@
 
 $(OBJ)/.dxvk-post-build64:
-	mkdir -p "$(DST_DIR)"/lib64/wine/dxvk/x86_64-windows
-	rm -f "$(DST_DIR)"/lib64/wine/dxvk/x86_64-windows/version && if test -e $(SRCDIR)/.git; then ( cd $(SRCDIR) && git submodule status -- dxvk ) > "$(DST_DIR)"/lib64/wine/dxvk/x86_64-windows/version; fi
+	mkdir -p "$(DST_DIR)"/$(LIBDIR64)/wine/dxvk/x86_64-windows
+	rm -f "$(DST_DIR)"/$(LIBDIR64)/wine/dxvk/x86_64-windows/version && if test -e $(SRCDIR)/.git; then ( cd $(SRCDIR) && git submodule status -- dxvk ) > "$(DST_DIR)"/$(LIBDIR64)/wine/dxvk/x86_64-windows/version; fi
 	touch $@
 
 $(OBJ)/.dxvk-post-build32:
-	mkdir -p "$(DST_DIR)"/lib/wine/dxvk/i386-windows
-	rm -f "$(DST_DIR)"/lib/wine/dxvk/i386-windows/version && if test -e $(SRCDIR)/.git; then ( cd $(SRCDIR) && git submodule status -- dxvk ) > "$(DST_DIR)"/lib/wine/dxvk/i386-windows/version; fi
+	mkdir -p "$(DST_DIR)"/$(LIBDIR32)/wine/dxvk/i386-windows
+	rm -f "$(DST_DIR)"/$(LIBDIR32)/wine/dxvk/i386-windows/version && if test -e $(SRCDIR)/.git; then ( cd $(SRCDIR) && git submodule status -- dxvk ) > "$(DST_DIR)"/$(LIBDIR32)/wine/dxvk/i386-windows/version; fi
 	touch $@
 
 
@@ -599,21 +602,21 @@ $(OBJ)/.dxvk-post-build32:
 ## dxvk-nvapi
 ##
 
-DXVK_NVAPI_MESON_ARGS32 = --bindir=$(DXVK_NVAPI_DST32)/lib/wine/nvapi/i386-windows
-DXVK_NVAPI_MESON_ARGS64 = --bindir=$(DXVK_NVAPI_DST64)/lib64/wine/nvapi/x86_64-windows
+DXVK_NVAPI_MESON_ARGS32 = --bindir=$(DXVK_NVAPI_DST32)/$(LIBDIR32)/wine/nvapi/i386-windows
+DXVK_NVAPI_MESON_ARGS64 = --bindir=$(DXVK_NVAPI_DST64)/$(LIBDIR64)/wine/nvapi/x86_64-windows
 
 $(eval $(call rules-source,dxvk-nvapi,$(SRCDIR)/dxvk-nvapi))
 $(eval $(call rules-meson,dxvk-nvapi,32,CROSS))
 $(eval $(call rules-meson,dxvk-nvapi,64,CROSS))
 
 $(OBJ)/.dxvk-nvapi-post-build64:
-	mkdir -p "$(DST_DIR)"/lib64/wine/nvapi/x86_64-windows
-	rm -f "$(DST_DIR)"/lib64/wine/nvapi/x86_64-windows/version && if test -e $(SRCDIR)/.git; then ( cd $(SRCDIR) && git submodule status -- dxvk-nvapi ) > "$(DST_DIR)"/lib64/wine/nvapi/x86_64-windows/version; fi
+	mkdir -p "$(DST_DIR)"/$(LIBDIR64)/wine/nvapi/x86_64-windows
+	rm -f "$(DST_DIR)"/$(LIBDIR64)/wine/nvapi/x86_64-windows/version && if test -e $(SRCDIR)/.git; then ( cd $(SRCDIR) && git submodule status -- dxvk-nvapi ) > "$(DST_DIR)"/$(LIBDIR64)/wine/nvapi/x86_64-windows/version; fi
 	touch $@
 
 $(OBJ)/.dxvk-nvapi-post-build32:
-	mkdir -p "$(DST_DIR)"/lib/wine/nvapi/i386-windows
-	rm -f "$(DST_DIR)"/lib/wine/nvapi/i386-windows/version && if test -e $(SRCDIR)/.git; then ( cd $(SRCDIR) && git submodule status -- dxvk-nvapi ) > "$(DST_DIR)"/lib/wine/nvapi/i386-windows/version; fi
+	mkdir -p "$(DST_DIR)"/$(LIBDIR32)/wine/nvapi/i386-windows
+	rm -f "$(DST_DIR)"/$(LIBDIR32)/wine/nvapi/i386-windows/version && if test -e $(SRCDIR)/.git; then ( cd $(SRCDIR) && git submodule status -- dxvk-nvapi ) > "$(DST_DIR)"/$(LIBDIR32)/wine/nvapi/i386-windows/version; fi
 	touch $@
 
 
@@ -629,8 +632,8 @@ VKD3D_PROTON_SOURCE_ARGS = \
   --exclude vkd3d_build.h.in \
   --exclude vkd3d_version.h.in \
 
-VKD3D_PROTON_MESON_ARGS32 = --bindir=$(VKD3D_PROTON_DST32)/lib/wine/vkd3d-proton/i386-windows
-VKD3D_PROTON_MESON_ARGS64 = --bindir=$(VKD3D_PROTON_DST64)/lib64/wine/vkd3d-proton/x86_64-windows
+VKD3D_PROTON_MESON_ARGS32 = --bindir=$(VKD3D_PROTON_DST32)/$(LIBDIR32)/wine/vkd3d-proton/i386-windows
+VKD3D_PROTON_MESON_ARGS64 = --bindir=$(VKD3D_PROTON_DST64)/$(LIBDIR64)/wine/vkd3d-proton/x86_64-windows
 VKD3D_PROTON_DEPENDS = glslang
 
 ifneq ($(UNSTRIPPED_BUILD),)
@@ -649,13 +652,13 @@ $(OBJ)/.vkd3d-proton-post-source:
 	touch $@
 
 $(OBJ)/.vkd3d-proton-post-build32:
-	mkdir -p "$(DST_DIR)"/lib/wine/vkd3d-proton/i386-windows
-	rm -f "$(DST_DIR)"/lib/wine/vkd3d-proton/i386-windows/version && if test -e $(SRCDIR)/.git; then ( cd $(SRCDIR) && git submodule status -- vkd3d-proton ) > "$(DST_DIR)"/lib/wine/vkd3d-proton/i386-windows/version; fi
+	mkdir -p "$(DST_DIR)"/$(LIBDIR32)/wine/vkd3d-proton/i386-windows
+	rm -f "$(DST_DIR)"/$(LIBDIR32)/wine/vkd3d-proton/i386-windows/version && if test -e $(SRCDIR)/.git; then ( cd $(SRCDIR) && git submodule status -- vkd3d-proton ) > "$(DST_DIR)"/$(LIBDIR32)/wine/vkd3d-proton/i386-windows/version; fi
 	touch $@
 
 $(OBJ)/.vkd3d-proton-post-build64:
-	mkdir -p "$(DST_DIR)"/lib64/wine/vkd3d-proton/x86_64-windows
-	rm -f "$(DST_DIR)"/lib64/wine/vkd3d-proton/x86_64-windows/version && if test -e $(SRCDIR)/.git; then ( cd $(SRCDIR) && git submodule status -- vkd3d-proton ) > "$(DST_DIR)"/lib64/wine/vkd3d-proton/x86_64-windows/version; fi
+	mkdir -p "$(DST_DIR)"/$(LIBDIR64)/wine/vkd3d-proton/x86_64-windows
+	rm -f "$(DST_DIR)"/$(LIBDIR64)/wine/vkd3d-proton/x86_64-windows/version && if test -e $(SRCDIR)/.git; then ( cd $(SRCDIR) && git submodule status -- vkd3d-proton ) > "$(DST_DIR)"/$(LIBDIR64)/wine/vkd3d-proton/x86_64-windows/version; fi
 	touch $@
 
 

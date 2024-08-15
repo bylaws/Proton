@@ -9,7 +9,7 @@ $(2)_DST$(3) := $$(OBJ)/dst-$(1)$(3)
 $(2)_DEPS$(3) := $$(call toupper,$$($(2)_DEPENDS)) $$(call toupper,$$($(2)_DEPENDS$(3)))
 
 $(2)_BINDIR$(3) ?= $$($(2)_DST$(3))/bin
-$(2)_LIBDIR$(3) ?= $$($(2)_DST$(3))/lib$(subst 32,,$(3))
+$(2)_LIBDIR$(3) ?= $$($(2)_DST$(3))/$(LIBDIR$(3))
 $(2)_INCDIR$(3) ?= $$($(2)_DST$(3))/include
 
 $$(OBJ)/.$(1)-configure$(3): $$(shell mkdir -p $$($(2)_OBJ$(3)))
