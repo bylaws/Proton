@@ -21,6 +21,10 @@ $$(OBJ)/.$(1)-configure64: $$($(2)_SRC)/include/wine/server_protocol.h
 $$(OBJ)/.$(1)-configure64: $$($(2)_SRC)/server/request.h
 $$(OBJ)/.$(1)-configure64: $$($(2)_SRC)/server/trace.c
 
+$$(OBJ)/.$(1)-configureA64: $$($(2)_SRC)/include/wine/server_protocol.h
+$$(OBJ)/.$(1)-configureA64: $$($(2)_SRC)/server/request.h
+$$(OBJ)/.$(1)-configureA64: $$($(2)_SRC)/server/trace.c
+
 $$(OBJ)/.$(1)-wine-requests: $$($(2)_SRC)/include/wine/server_protocol.h
 $$(OBJ)/.$(1)-wine-requests: $$($(2)_SRC)/server/request.h
 $$(OBJ)/.$(1)-wine-requests: $$($(2)_SRC)/server/trace.c
@@ -33,6 +37,7 @@ $$(OBJ)/.$(1)-wine-requests: | $$(OBJ)/.$(1)-post-source
 
 $$(OBJ)/.$(1)-build32: $$(OBJ)/.$(1)-wine-requests
 $$(OBJ)/.$(1)-build64: $$(OBJ)/.$(1)-wine-requests
+$$(OBJ)/.$(1)-buildA64: $$(OBJ)/.$(1)-wine-requests
 endef
 
 rules-wine-requests = $(call create-rules-wine-requests,$(1),$(call toupper,$(1)))

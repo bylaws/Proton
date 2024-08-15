@@ -102,6 +102,7 @@ $(DST_DIR):
 ifeq ($(CONTAINER),1) # inside the container
 BASE_SOURCE_DATE_EPOCH32 := $(BASE_SOURCE_DATE_EPOCH)
 BASE_SOURCE_DATE_EPOCH64 := $(shell expr $(BASE_SOURCE_DATE_EPOCH) - 10)
+BASE_SOURCE_DATE_EPOCHA64 := $(shell expr $(BASE_SOURCE_DATE_EPOCH) - 20)
 
 # all, all-dist and dist are basically synonyms
 .PHONY: all all-dist dist
@@ -135,6 +136,7 @@ DAV1D_MESON_ARGS = \
 $(eval $(call rules-source,dav1d,$(SRCDIR)/dav1d))
 $(eval $(call rules-meson,dav1d,32))
 $(eval $(call rules-meson,dav1d,64))
+$(eval $(call rules-meson,dav1d,A64))
 
 
 ##
@@ -147,6 +149,7 @@ GST_ORC_MESON_ARGS := \
 $(eval $(call rules-source,gst_orc,$(SRCDIR)/gst-orc))
 $(eval $(call rules-meson,gst_orc,32))
 $(eval $(call rules-meson,gst_orc,64))
+$(eval $(call rules-meson,gst_orc,A64))
 
 
 ##
@@ -164,6 +167,7 @@ GSTREAMER_DEPENDS = gst_orc
 $(eval $(call rules-source,gstreamer,$(SRCDIR)/gstreamer/subprojects/gstreamer))
 $(eval $(call rules-meson,gstreamer,32))
 $(eval $(call rules-meson,gstreamer,64))
+$(eval $(call rules-meson,gstreamer,A64))
 
 
 ##
@@ -173,6 +177,7 @@ $(eval $(call rules-meson,gstreamer,64))
 $(eval $(call rules-source,graphene,$(SRCDIR)/graphene))
 $(eval $(call rules-meson,graphene,32))
 $(eval $(call rules-meson,graphene,64))
+$(eval $(call rules-meson,graphene,A64))
 
 
 ##
@@ -205,6 +210,7 @@ GST_BASE_DEPENDS = gst_orc graphene gstreamer
 $(eval $(call rules-source,gst_base,$(SRCDIR)/gstreamer/subprojects/gst-plugins-base))
 $(eval $(call rules-meson,gst_base,32))
 $(eval $(call rules-meson,gst_base,64))
+$(eval $(call rules-meson,gst_base,A64))
 
 
 ##
@@ -236,6 +242,7 @@ GST_GOOD_DEPENDS = gst_orc gstreamer gst_base
 $(eval $(call rules-source,gst_good,$(SRCDIR)/gstreamer/subprojects/gst-plugins-good/))
 $(eval $(call rules-meson,gst_good,32))
 $(eval $(call rules-meson,gst_good,64))
+$(eval $(call rules-meson,gst_good,A64))
 
 ##
 ## gst-plugins-bad
@@ -252,6 +259,7 @@ GST_BAD_DEPENDS = gst_orc gstreamer gst_base
 $(eval $(call rules-source,gst_bad,$(SRCDIR)/gstreamer/subprojects/gst-plugins-bad/))
 $(eval $(call rules-meson,gst_bad,32))
 $(eval $(call rules-meson,gst_bad,64))
+$(eval $(call rules-meson,gst_bad,A64))
 
 ##
 ## FFmpeg
@@ -268,11 +276,14 @@ FFMPEG_CONFIGURE_ARGS := \
 $(eval $(call rules-source,ffmpeg,$(SRCDIR)/ffmpeg))
 $(eval $(call rules-configure,ffmpeg,32))
 $(eval $(call rules-configure,ffmpeg,64))
+$(eval $(call rules-configure,ffmpeg,A64))
 
 ## Only use ffmpeg to build gst-libav; we don't ship it.
 $(OBJ)/.ffmpeg-dist32:
 	touch $@
 $(OBJ)/.ffmpeg-dist64:
+	touch $@
+$(OBJ)/.ffmpeg-distA64:
 	touch $@
 
 ##
@@ -284,6 +295,7 @@ GST_LIBAV_DEPENDS = gst_orc gstreamer gst_base ffmpeg
 $(eval $(call rules-source,gst_libav,$(SRCDIR)/gstreamer/subprojects/gst-libav))
 $(eval $(call rules-meson,gst_libav,32))
 $(eval $(call rules-meson,gst_libav,64))
+$(eval $(call rules-meson,gst_libav,A64))
 
 
 ##
@@ -298,6 +310,7 @@ GST_PLUGINS_RS_DEPENDS = gst_orc gstreamer gst_base dav1d
 $(eval $(call rules-source,gst_plugins_rs,$(SRCDIR)/gst-plugins-rs))
 $(eval $(call rules-cargo,gst_plugins_rs,32))
 $(eval $(call rules-cargo,gst_plugins_rs,64))
+$(eval $(call rules-cargo,gst_plugins_rs,A64))
 
 $(OBJ)/.gst_plugins_rs-post-build64:
 	mkdir -p $(GST_PLUGINS_RS_DST64)/$(LIBDIR64)/gstreamer-1.0/
@@ -309,6 +322,10 @@ $(OBJ)/.gst_plugins_rs-post-build32:
 	cp -a $(GST_PLUGINS_RS_OBJ32)/i686-unknown-linux-gnu/release/libgstdav1d.so $(GST_PLUGINS_RS_DST32)/$(LIBDIR32)/gstreamer-1.0/
 	touch $@
 
+$(OBJ)/.gst_plugins_rs-post-buildA64:
+	mkdir -p $(GST_PLUGINS_RS_DSTA64)/$(LIBDIRA64)/gstreamer-1.0/
+	cp -a $(GST_PLUGINS_RS_OBJA64)/aarch64-unknown-linux-gnu/release/libgstdav1d.so $(GST_PLUGINS_RS_DSTA64)/$(LIBDIRA64)/gstreamer-1.0/
+	touch $@
 
 ##
 ## Vulkan-Headers
@@ -317,6 +334,7 @@ $(OBJ)/.gst_plugins_rs-post-build32:
 $(eval $(call rules-source,vulkan-headers,$(SRCDIR)/Vulkan-Headers))
 $(eval $(call rules-cmake,vulkan-headers,32,CROSS))
 $(eval $(call rules-cmake,vulkan-headers,64,CROSS))
+$(eval $(call rules-cmake,vulkan-headers,A64,CROSS))
 
 
 ##
@@ -326,6 +344,7 @@ $(eval $(call rules-cmake,vulkan-headers,64,CROSS))
 $(eval $(call rules-source,spirv-headers,$(SRCDIR)/SPIRV-Headers))
 $(eval $(call rules-cmake,spirv-headers,32,CROSS))
 $(eval $(call rules-cmake,spirv-headers,64,CROSS))
+$(eval $(call rules-cmake,spirv-headers,A64,CROSS))
 
 
 ##
@@ -335,6 +354,7 @@ $(eval $(call rules-cmake,spirv-headers,64,CROSS))
 $(eval $(call rules-source,glslang,$(SRCDIR)/glslang))
 $(eval $(call rules-cmake,glslang,32))
 $(eval $(call rules-cmake,glslang,64))
+$(eval $(call rules-cmake,glslang,A64))
 
 
 ##
@@ -347,6 +367,7 @@ LSTEAMCLIENT_LDFLAGS = -static-libgcc -static-libstdc++
 $(eval $(call rules-source,lsteamclient,$(SRCDIR)/lsteamclient))
 $(eval $(call rules-makedep,lsteamclient,32))
 $(eval $(call rules-makedep,lsteamclient,64))
+$(eval $(call rules-makedep,lsteamclient,A64))
 
 
 ##
@@ -359,6 +380,7 @@ OPENXR_CMAKE_ARGS = -DHAVE_FILESYSTEM_WITHOUT_LIB=0
 $(eval $(call rules-source,openxr,$(SRCDIR)/OpenXR-SDK))
 # $(eval $(call rules-cmake,openxr,32))
 $(eval $(call rules-cmake,openxr,64))
+$(eval $(call rules-cmake,openxr,A64))
 
 
 ##
@@ -371,6 +393,7 @@ WINEOPENXR_DEPENDS = wine openxr
 
 $(eval $(call rules-source,wineopenxr,$(SRCDIR)/wineopenxr))
 $(eval $(call rules-makedep,wineopenxr,64))
+$(eval $(call rules-makedep,wineopenxr,A64))
 
 DIST_WINEOPENXR_JSON64 := $(DIST_PREFIX)/drive_c/openxr/wineopenxr64.json
 $(WINEOPENXR_SRC)/wineopenxr64.json: wineopenxr
@@ -399,11 +422,17 @@ STEAMEXE_LDFLAGS64 = \
        -lsteam_api64_steam \
        -lopenvr_api_steam
 
+STEAMEXE_LDFLAGSA64 = \
+       -L$(SRC)/steam_helper/64/ \
+       -lsteam_api64_steam \
+       -lopenvr_api_steam
+
 STEAMEXE_DEPENDS = wine
 
 $(eval $(call rules-source,steamexe,$(SRCDIR)/steam_helper))
-$(eval $(call rules-makedep,steamexe,64))
 $(eval $(call rules-makedep,steamexe,32))
+$(eval $(call rules-makedep,steamexe,64))
+$(eval $(call rules-makedep,steamexe,A64))
 
 DIST_STEAMAPI32 := $(DST_LIBDIR32)/wine/steam/i386-windows/steam_api_steam.dll
 $(DIST_STEAMAPI32): $(STEAMEXE_SRC)/32/steam_api_steam.dll | $(DST_DIR)
@@ -477,6 +506,7 @@ OPENFST_CONFIGURE_ARGS = \
 $(eval $(call rules-source,openfst,$(SRCDIR)/openfst))
 $(eval $(call rules-autoconf,openfst,32))
 $(eval $(call rules-autoconf,openfst,64))
+$(eval $(call rules-autoconf,openfst,A64))
 
 
 ##
@@ -500,6 +530,7 @@ KALDI_DEPENDS = openfst
 $(eval $(call rules-source,kaldi,$(SRCDIR)/kaldi))
 $(eval $(call rules-cmake,kaldi,32))
 $(eval $(call rules-cmake,kaldi,64))
+$(eval $(call rules-cmake,kaldi,A64))
 
 
 ##
@@ -514,6 +545,7 @@ VOSK_DEPENDS = openfst kaldi
 $(eval $(call rules-source,vosk,$(SRCDIR)/vosk-api))
 $(eval $(call rules-cmake,vosk,32))
 $(eval $(call rules-cmake,vosk,64))
+$(eval $(call rules-cmake,vosk,A64))
 
 
 ##
@@ -555,12 +587,13 @@ WINE_CROSSLDFLAGS = $(CROSSLDFLAGS)
 endif
 
 ifeq ($(NEW_WOW64),1)
-WINE_CROSSARCHS = $(patsubst 64,x86_64,$(patsubst 32,i386,$(CROSSARCHS)))
+WINE_CROSSARCHS = $(patsubst 64,x86_64,$(patsubst A64,arm64ec aarch64,$(patsubst 32,i386,$(CROSSARCHS))))
 WINE_BINARY64 = wine
 WINE_CONFIGURE_ARGS += --enable-archs=$(call list-join,$(comma),$(WINE_CROSSARCHS))
 else
 WINE_BINARY64 = wine64
 WINE_CONFIGURE_ARGS64 = --enable-win64
+WINE_CONFIGURE_ARGSA64 = --enable-win64
 endif
 
 WINE_DEPENDS = gst_orc gstreamer gst_base openfst kaldi vosk
@@ -568,15 +601,19 @@ WINE_DEPENDS = gst_orc gstreamer gst_base openfst kaldi vosk
 $(eval $(call rules-source,wine,$(SRCDIR)/wine))
 $(eval $(call rules-autoconf,wine,32))
 $(eval $(call rules-autoconf,wine,64))
+$(eval $(call rules-autoconf,wine,A64))
 $(eval $(call rules-wine-requests,wine))
 
 WINE_ENV_EXTRA = \
   CROSSLDFLAGS="$(WINE_CROSSLDFLAGS)" \
   i386_CFLAGS="$(COMMON_FLAGS) $(COMMON_FLAGS32)" \
-  x86_64_CFLAGS="$(COMMON_FLAGS) $(COMMON_FLAGS64)"
+  x86_64_CFLAGS="$(COMMON_FLAGS) $(COMMON_FLAGS64)" \
+  aarch64_CFLAGS="$(COMMON_FLAGS) $(COMMON_FLAGSA64)" \
+  arm64ec_CFLAGS="$(COMMON_FLAGS) $(COMMON_FLAGSA64)"
 
 WINE_ENV32 += $(WINE_ENV_EXTRA)
 WINE_ENV64 += $(WINE_ENV_EXTRA)
+WINE_ENVA64 += $(WINE_ENV_EXTRA)
 
 $(OBJ)/.wine-post-source:
 	cd $(WINE_SRC) && dlls/winevulkan/make_vulkan -x vk.xml
@@ -598,6 +635,15 @@ $(OBJ)/.wine-post-build32:
 	$(call install-strip,$(WINE_DST32)/bin/wine-preloader,$(DST_DIR)/bin)
 	touch $@
 
+$(OBJ)/.wine-post-buildA64:
+	mkdir -p $(DST_DIR)/{bin,share}
+	$(call install-strip,$(WINE_DSTA64)/bin/$(WINE_BINARY64),$(DST_DIR)/bin)
+	$(call install-strip,$(WINE_DSTA64)/bin/$(WINE_BINARY64)-preloader,$(DST_DIR)/bin)
+	$(call install-strip,$(WINE_DSTA64)/bin/wineserver,$(DST_DIR)/bin)
+	cp -a $(WINE_DSTA64)/share/wine $(DST_DIR)/share
+	cp -a $(WINE_DSTA64)/bin/msidb $(DST_DIR)/bin
+	touch $@
+
 ##
 ## vrclient
 ##
@@ -608,6 +654,7 @@ VRCLIENT_DEPENDS = vulkan-headers wine
 $(eval $(call rules-source,vrclient,$(SRCDIR)/vrclient_x64))
 $(eval $(call rules-makedep,vrclient,32))
 $(eval $(call rules-makedep,vrclient,64))
+$(eval $(call rules-makedep,vrclient,A64))
 
 
 ##
@@ -617,17 +664,20 @@ $(eval $(call rules-makedep,vrclient,64))
 # wine builds DLLs with the same names, we need to differentiate the timestamps
 DXVK_SOURCE_DATE_EPOCH32 := $(shell expr $(BASE_SOURCE_DATE_EPOCH32) - 1)
 DXVK_SOURCE_DATE_EPOCH64 := $(shell expr $(BASE_SOURCE_DATE_EPOCH64) - 1)
+DXVK_SOURCE_DATE_EPOCHA64 := $(shell expr $(BASE_SOURCE_DATE_EPOCHA64) - 1)
 
 DXVK_SOURCE_ARGS = \
   --exclude version.h.in \
 
 DXVK_MESON_ARGS32 = --bindir=$(DXVK_DST32)/$(LIBDIR32)/wine/dxvk/i386-windows
 DXVK_MESON_ARGS64 = --bindir=$(DXVK_DST64)/$(LIBDIR64)/wine/dxvk/x86_64-windows
+DXVK_MESON_ARGSA64 = --bindir=$(DXVK_DSTA64)/$(LIBDIRA64)/wine/dxvk/aarch64-windows
 DXVK_DEPENDS = glslang
 
 $(eval $(call rules-source,dxvk,$(SRCDIR)/dxvk))
 $(eval $(call rules-meson,dxvk,32,CROSS))
 $(eval $(call rules-meson,dxvk,64,CROSS))
+$(eval $(call rules-meson,dxvk,A64,CROSS))
 
 $(OBJ)/.dxvk-post-source:
 	sed -re 's#@VCS_TAG@#$(shell git -C $(SRCDIR)/dxvk describe --always --abbrev=15 --dirty=0)#' \
@@ -644,6 +694,11 @@ $(OBJ)/.dxvk-post-build32:
 	rm -f "$(DST_DIR)"/$(LIBDIR32)/wine/dxvk/i386-windows/version && if test -e $(SRCDIR)/.git; then ( cd $(SRCDIR) && git submodule status -- dxvk ) > "$(DST_DIR)"/$(LIBDIR32)/wine/dxvk/i386-windows/version; fi
 	touch $@
 
+$(OBJ)/.dxvk-post-buildA64:
+	mkdir -p "$(DST_DIR)"/$(LIBDIRA64)/wine/dxvk/aarch64-windows
+	rm -f "$(DST_DIR)"/$(LIBDIRA64)/wine/dxvk/aarch64-windows/version && if test -e $(SRCDIR)/.git; then ( cd $(SRCDIR) && git submodule status -- dxvk ) > "$(DST_DIR)"/$(LIBDIRA64)/wine/dxvk/aarch64-windows/version; fi
+	touch $@
+
 
 ##
 ## dxvk-nvapi
@@ -651,10 +706,12 @@ $(OBJ)/.dxvk-post-build32:
 
 DXVK_NVAPI_MESON_ARGS32 = --bindir=$(DXVK_NVAPI_DST32)/$(LIBDIR32)/wine/nvapi/i386-windows
 DXVK_NVAPI_MESON_ARGS64 = --bindir=$(DXVK_NVAPI_DST64)/$(LIBDIR64)/wine/nvapi/x86_64-windows
+DXVK_NVAPI_MESON_ARGSA64 = --bindir=$(DXVK_NVAPI_DSTA64)/$(LIBDIRA64)/wine/nvapi/aarch64-windows
 
 $(eval $(call rules-source,dxvk-nvapi,$(SRCDIR)/dxvk-nvapi))
 $(eval $(call rules-meson,dxvk-nvapi,32,CROSS))
 $(eval $(call rules-meson,dxvk-nvapi,64,CROSS))
+$(eval $(call rules-meson,dxvk-nvapi,A64,CROSS))
 
 $(OBJ)/.dxvk-nvapi-post-build64:
 	mkdir -p "$(DST_DIR)"/$(LIBDIR64)/wine/nvapi/x86_64-windows
@@ -666,6 +723,11 @@ $(OBJ)/.dxvk-nvapi-post-build32:
 	rm -f "$(DST_DIR)"/$(LIBDIR32)/wine/nvapi/i386-windows/version && if test -e $(SRCDIR)/.git; then ( cd $(SRCDIR) && git submodule status -- dxvk-nvapi ) > "$(DST_DIR)"/$(LIBDIR32)/wine/nvapi/i386-windows/version; fi
 	touch $@
 
+$(OBJ)/.dxvk-nvapi-post-buildA64:
+	mkdir -p "$(DST_DIR)"/$(LIBDIRA64)/wine/nvapi/aarch64-windows
+	rm -f "$(DST_DIR)"/$(LIBDIRA64)/wine/nvapi/aarch64-windows/version && if test -e $(SRCDIR)/.git; then ( cd $(SRCDIR) && git submodule status -- dxvk-nvapi ) > "$(DST_DIR)"/$(LIBDIRA64)/wine/nvapi/aarch64-windows/version; fi
+	touch $@
+
 
 ##
 ## vkd3d-proton
@@ -674,6 +736,7 @@ $(OBJ)/.dxvk-nvapi-post-build32:
 # wine builds DLLs with the same names, we need to differentiate the timestamps
 VKD3D_PROTON_SOURCE_DATE_EPOCH32 := $(shell expr $(BASE_SOURCE_DATE_EPOCH32) - 2)
 VKD3D_PROTON_SOURCE_DATE_EPOCH64 := $(shell expr $(BASE_SOURCE_DATE_EPOCH64) - 2)
+VKD3D_PROTON_SOURCE_DATE_EPOCHA64 := $(shell expr $(BASE_SOURCE_DATE_EPOCHA64) - 2)
 
 VKD3D_PROTON_SOURCE_ARGS = \
   --exclude vkd3d_build.h.in \
@@ -681,6 +744,7 @@ VKD3D_PROTON_SOURCE_ARGS = \
 
 VKD3D_PROTON_MESON_ARGS32 = --bindir=$(VKD3D_PROTON_DST32)/$(LIBDIR32)/wine/vkd3d-proton/i386-windows
 VKD3D_PROTON_MESON_ARGS64 = --bindir=$(VKD3D_PROTON_DST64)/$(LIBDIR64)/wine/vkd3d-proton/x86_64-windows
+VKD3D_PROTON_MESON_ARGSA64 = --bindir=$(VKD3D_PROTON_DSTA64)/$(LIBDIRA64)/wine/vkd3d-proton/aarch64-windows
 VKD3D_PROTON_DEPENDS = glslang
 
 ifneq ($(UNSTRIPPED_BUILD),)
@@ -690,6 +754,7 @@ endif
 $(eval $(call rules-source,vkd3d-proton,$(SRCDIR)/vkd3d-proton))
 $(eval $(call rules-meson,vkd3d-proton,32,CROSS))
 $(eval $(call rules-meson,vkd3d-proton,64,CROSS))
+$(eval $(call rules-meson,vkd3d-proton,A64,CROSS))
 
 $(OBJ)/.vkd3d-proton-post-source:
 	sed -re 's#@VCS_TAG@#$(shell git -C $(SRCDIR)/vkd3d-proton describe --always --exclude=* --abbrev=15 --dirty=0)#' \
@@ -708,6 +773,10 @@ $(OBJ)/.vkd3d-proton-post-build64:
 	rm -f "$(DST_DIR)"/$(LIBDIR64)/wine/vkd3d-proton/x86_64-windows/version && if test -e $(SRCDIR)/.git; then ( cd $(SRCDIR) && git submodule status -- vkd3d-proton ) > "$(DST_DIR)"/$(LIBDIR64)/wine/vkd3d-proton/x86_64-windows/version; fi
 	touch $@
 
+$(OBJ)/.vkd3d-proton-post-buildA64:
+	mkdir -p "$(DST_DIR)"/$(LIBDIRA64)/wine/vkd3d-proton/aarch64-windows
+	rm -f "$(DST_DIR)"/$(LIBDIRA64)/wine/vkd3d-proton/aarch64-windows/version && if test -e $(SRCDIR)/.git; then ( cd $(SRCDIR) && git submodule status -- vkd3d-proton ) > "$(DST_DIR)"/$(LIBDIRA64)/wine/vkd3d-proton/aarch64-windows/version; fi
+	touch $@
 
 
 ##
@@ -790,11 +859,18 @@ SYMSTORE_DEPENDS = wine
 
 $(eval $(call rules-source,symstore,$(SRCDIR)/symstore))
 $(eval $(call create-rules-common,symstore,SYMSTORE,64))
+$(eval $(call create-rules-common,symstore,SYMSTORE,A64))
 
 $(OBJ)/.symstore-build64:
 	@echo ":: building symstore helper..." >&2
 	rsync -arx "$(SYMSTORE_SRC)/" "$(SYMSTORE_OBJ64)/"
 	$(MAKE) -C "$(SYMSTORE_OBJ64)" SYMSTORE_CFLAGS="-I$(WINE_SRC)/include -I$(WINE_OBJ64)/include"
+	touch $@
+
+$(OBJ)/.symstore-buildA64:
+	@echo ":: building symstore helper..." >&2
+	rsync -arx "$(SYMSTORE_SRC)/" "$(SYMSTORE_OBJA64)/"
+	$(MAKE) -C "$(SYMSTORE_OBJA64)" SYMSTORE_CFLAGS="-I$(WINE_SRC)/include -I$(WINE_OBJA64)/include"
 	touch $@
 
 .PHONY: symstore-tarball
@@ -1120,7 +1196,12 @@ $(DIST_OVR64): $(SRCDIR)/openvr/bin/win64/openvr_api.dll | $(DST_DIR)
 	mkdir -p $(DST_LIBDIR64)/wine/dxvk/x86_64-windows
 	cp -af $< $@
 
-all-dist: $(DIST_OVR32) $(DIST_OVR64)
+DIST_OVRA64 := $(DST_LIBDIRA64)/wine/dxvk/aarch64-windows/openvr_api_dxvk.dll
+$(DIST_OVRA64): $(SRCDIR)/openvr/bin/win64/openvr_api.dll | $(DST_DIR)
+	mkdir -p $(DST_LIBDIRA64)/wine/dxvk/aarch64-windows
+	cp -af $< $@
+
+all-dist: $(DIST_OVR32) $(DIST_OVR64) $(DIST_OVRA64)
 
 
 ##
@@ -1130,6 +1211,7 @@ all-dist: $(DIST_OVR32) $(DIST_OVR64)
 default_pfx: wine gst_good gst_bad gst_libav gst_plugins_rs lsteamclient steamexe vrclient wineopenxr dxvk dxvk-nvapi vkd3d-proton
 	find $(DST_LIBDIR32)/wine -type f -execdir chmod a-w '{}' '+'
 	find $(DST_LIBDIR64)/wine -type f -execdir chmod a-w '{}' '+'
+	find $(DST_LIBDIRA64)/wine -type f -execdir chmod a-w '{}' '+'
 	rm -rf $(abspath $(DIST_PREFIX))
 	python3 $(SRCDIR)/default_pfx.py $(abspath $(DIST_PREFIX)) $(abspath $(DST_DIR))
 
@@ -1235,10 +1317,10 @@ redist: all
 
 
 ##
-## make module=$dllname module[32,64]
+## make module=$dllname module[32,64,A64]
 ##
 
-.PHONY: module32 module64 module
+.PHONY: module32 module64 moduleA64 module
 
 module32: | all-source wine-configure32
 	+$(BEAR) $(MAKE) -j$(J) $(filter -j%,$(MAKEFLAGS)) $(MFLAGS) $(MAKEOVERRIDES) -C $(WINE_OBJ32)/dlls/$(module)
@@ -1246,8 +1328,11 @@ module32: | all-source wine-configure32
 module64: | all-source wine-configure64
 	+$(BEAR) $(MAKE) -j$(J) $(filter -j%,$(MAKEFLAGS)) $(MFLAGS) $(MAKEOVERRIDES) -C $(WINE_OBJ64)/dlls/$(module)
 
+moduleA64: | all-source wine-configureA64
+	+$(BEAR) $(MAKE) -j$(J) $(filter -j%,$(MAKEFLAGS)) $(MFLAGS) $(MAKEOVERRIDES) -C $(WINE_OBJA64)/dlls/$(module)
+
 module: | all-source wine-configure
-module: module32 module64
+module: module32 module64 moduleA64
 
 ###############################
 else # outside of the container

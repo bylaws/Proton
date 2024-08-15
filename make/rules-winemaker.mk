@@ -1,7 +1,7 @@
 # parameters:
 #   $(1): lowercase package name
 #   $(2): uppercase package name
-#   $(3): 32/64, build type
+#   $(3): 32/64/A64, build type
 #   $(4): module name (with extension)
 #
 define create-rules-winemaker

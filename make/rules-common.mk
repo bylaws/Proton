@@ -1,7 +1,7 @@
 # parameters:
 #   $(1): lowercase package name
 #   $(2): uppercase package name
-#   $(3): 32/64, build type
+#   $(3): 32/64/A64, build type
 #   $(4): CROSS/<empty>, cross compile
 define create-rules-common
 $(2)_OBJ$(3) := $$(OBJ)/obj-$(1)$(3)
@@ -191,6 +191,8 @@ LIBDIR_WINE_CROSSA64 := wine/aarch64-windows
 $(OBJ)/.%-post-build32:
 	touch $@
 $(OBJ)/.%-post-build64:
+	touch $@
+$(OBJ)/.%-post-buildA64:
 	touch $@
 
 rules-common = $(call create-rules-common,$(1),$(call toupper,$(1)),$(2),$(3))

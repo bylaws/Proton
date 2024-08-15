@@ -1,7 +1,7 @@
 # parameters:
 #   $(1): lowercase package name
 #   $(2): uppercase package name
-#   $(3): 32/64, build type
+#   $(3): 32/64/A64, build type
 #
 define create-rules-makedep
 $(call create-rules-common,$(1),$(2),$(3))
