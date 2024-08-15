@@ -37,6 +37,13 @@ unexport SOURCE_DATE_EPOCH
 LIBDIR32 := lib
 LIBDIR64 := lib64
 
+ifeq ($(words $(ARCHS)),1)
+NEW_WOW64 = 1
+LIBDIR32 := $(LIBDIR$(ARCHS))
+LIBDIR64 := $(LIBDIR$(ARCHS))
+LIBDIRA64 := $(LIBDIR$(ARCHS))
+endif
+
 DST_BASE := $(OBJ)/dist
 DST_DIR := $(DST_BASE)/files
 DST_LIBDIR32 := $(DST_DIR)/$(LIBDIR32)
@@ -513,7 +520,14 @@ WINE_CONFIGURE_ARGS += --with-mingw
 WINE_CROSSLDFLAGS = $(CROSSLDFLAGS)
 endif
 
+ifeq ($(NEW_WOW64),1)
+WINE_CROSSARCHS = $(patsubst 64,x86_64,$(patsubst 32,i386,$(CROSSARCHS)))
+WINE_BINARY64 = wine
+WINE_CONFIGURE_ARGS += --enable-archs=$(call list-join,$(comma),$(WINE_CROSSARCHS))
+else
+WINE_BINARY64 = wine64
 WINE_CONFIGURE_ARGS64 = --enable-win64
+endif
 
 WINE_DEPENDS = gst_orc gstreamer gst_base openfst kaldi vosk
 
@@ -537,8 +551,8 @@ $(OBJ)/.wine-post-source:
 
 $(OBJ)/.wine-post-build64:
 	mkdir -p $(DST_DIR)/{bin,share}
-	$(call install-strip,$(WINE_DST64)/bin/wine64,$(DST_DIR)/bin)
-	$(call install-strip,$(WINE_DST64)/bin/wine64-preloader,$(DST_DIR)/bin)
+	$(call install-strip,$(WINE_DST64)/bin/$(WINE_BINARY64),$(DST_DIR)/bin)
+	$(call install-strip,$(WINE_DST64)/bin/$(WINE_BINARY64)-preloader,$(DST_DIR)/bin)
 	$(call install-strip,$(WINE_DST64)/bin/wineserver,$(DST_DIR)/bin)
 	cp -a $(WINE_DST64)/share/wine $(DST_DIR)/share
 	cp -a $(WINE_DST64)/bin/msidb $(DST_DIR)/bin
@@ -549,7 +563,6 @@ $(OBJ)/.wine-post-build32:
 	$(call install-strip,$(WINE_DST32)/bin/wine,$(DST_DIR)/bin)
 	$(call install-strip,$(WINE_DST32)/bin/wine-preloader,$(DST_DIR)/bin)
 	touch $@
-
 
 ##
 ## vrclient
