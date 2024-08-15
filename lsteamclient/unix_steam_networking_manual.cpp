@@ -610,17 +610,17 @@ struct SteamMatchmakingServerListResponse_099u : u_ISteamMatchmakingServerListRe
 
 void SteamMatchmakingServerListResponse_099u::ServerResponded( int32_t iServer )
 {
-    queue_vtable_callback( this->w_iface, CALL_IFACE_VTABLE_0, (intptr_t)iServer, 0, 0 );
+    queue_vtable_callback( this->w_iface, CALL_IFACE_VTABLE_0_1, (intptr_t)iServer, 0, 0 );
 }
 
 void SteamMatchmakingServerListResponse_099u::ServerFailedToRespond( int32_t iServer )
 {
-    queue_vtable_callback( this->w_iface, CALL_IFACE_VTABLE_1, (intptr_t)iServer, 0, 0 );
+    queue_vtable_callback( this->w_iface, CALL_IFACE_VTABLE_1_1, (intptr_t)iServer, 0, 0 );
 }
 
 void SteamMatchmakingServerListResponse_099u::RefreshComplete( uint32_t response )
 {
-    queue_vtable_callback( this->w_iface, CALL_IFACE_VTABLE_2, (intptr_t)response, 0, 0 );
+    queue_vtable_callback( this->w_iface, CALL_IFACE_VTABLE_2_1, (intptr_t)response, 0, 0 );
     TRACE("Deleting this %p, w_iface %p.\n", this, this->w_iface);
     free_callback_obj(this);
 }
@@ -648,17 +648,17 @@ struct SteamMatchmakingServerListResponse_106 : u_ISteamMatchmakingServerListRes
 
 void SteamMatchmakingServerListResponse_106::ServerResponded( void *hRequest, int32_t iServer )
 {
-    queue_vtable_callback( this->w_iface, CALL_IFACE_VTABLE_0, (intptr_t)hRequest, (intptr_t)iServer, 0 );
+    queue_vtable_callback( this->w_iface, CALL_IFACE_VTABLE_0_2, (intptr_t)hRequest, (intptr_t)iServer, 0 );
 }
 
 void SteamMatchmakingServerListResponse_106::ServerFailedToRespond( void *hRequest, int32_t iServer )
 {
-    queue_vtable_callback( this->w_iface, CALL_IFACE_VTABLE_1, (intptr_t)hRequest, (intptr_t)iServer, 0 );
+    queue_vtable_callback( this->w_iface, CALL_IFACE_VTABLE_1_2, (intptr_t)hRequest, (intptr_t)iServer, 0 );
 }
 
 void SteamMatchmakingServerListResponse_106::RefreshComplete( void *hRequest, uint32_t response )
 {
-    queue_vtable_callback( this->w_iface, CALL_IFACE_VTABLE_2, (intptr_t)hRequest, (intptr_t)response, 0 );
+    queue_vtable_callback( this->w_iface, CALL_IFACE_VTABLE_2_2, (intptr_t)hRequest, (intptr_t)response, 0 );
     TRACE("Deleting this %p, w_iface %p.\n", this, this->w_iface);
     free_callback_obj(this);
 }
@@ -692,7 +692,7 @@ void SteamMatchmakingPingResponse::ServerResponded( gameserveritem_t_105 *server
 
 void SteamMatchmakingPingResponse::ServerFailedToRespond(void)
 {
-    queue_vtable_callback( this->w_iface, CALL_IFACE_VTABLE_1, 0, 0, 0 );
+    queue_vtable_callback( this->w_iface, CALL_IFACE_VTABLE_1_0, 0, 0, 0 );
     TRACE("Deleting this %p, w_iface %p.\n", this, this->w_iface);
     free_callback_obj(this);
 }
@@ -724,14 +724,14 @@ void SteamMatchmakingPlayersResponse::AddPlayerToList(const char *pchName, int n
 
 void SteamMatchmakingPlayersResponse::PlayersFailedToRespond(void)
 {
-    queue_vtable_callback( this->w_iface, CALL_IFACE_VTABLE_1, 0, 0, 0 );
+    queue_vtable_callback( this->w_iface, CALL_IFACE_VTABLE_1_0, 0, 0, 0 );
     TRACE("Deleting this %p, w_iface %p.\n", this, this->w_iface);
     free_callback_obj(this);
 }
 
 void SteamMatchmakingPlayersResponse::PlayersRefreshComplete(void)
 {
-    queue_vtable_callback( this->w_iface, CALL_IFACE_VTABLE_2, 0, 0, 0 );
+    queue_vtable_callback( this->w_iface, CALL_IFACE_VTABLE_2_0, 0, 0, 0 );
     TRACE("Deleting this %p, w_iface %p.\n", this, this->w_iface);
     free_callback_obj(this);
 }
@@ -763,14 +763,14 @@ void SteamMatchmakingRulesResponse::RulesResponded(const char *pchRule, const ch
 
 void SteamMatchmakingRulesResponse::RulesFailedToRespond(void)
 {
-    queue_vtable_callback( this->w_iface, CALL_IFACE_VTABLE_1, 0, 0, 0 );
+    queue_vtable_callback( this->w_iface, CALL_IFACE_VTABLE_1_0, 0, 0, 0 );
     TRACE("Deleting this %p, w_iface %p.\n", this, this->w_iface);
     free_callback_obj(this);
 }
 
 void SteamMatchmakingRulesResponse::RulesRefreshComplete(void)
 {
-    queue_vtable_callback( this->w_iface, CALL_IFACE_VTABLE_2, 0, 0, 0 );
+    queue_vtable_callback( this->w_iface, CALL_IFACE_VTABLE_2_0, 0, 0, 0 );
     TRACE("Deleting this %p, w_iface %p.\n", this, this->w_iface);
     free_callback_obj(this);
 }
