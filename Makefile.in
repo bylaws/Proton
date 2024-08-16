@@ -778,6 +778,27 @@ $(OBJ)/.vkd3d-proton-post-buildA64:
 	touch $@
 
 
+
+##
+## FEX
+##
+ifeq ($(ARCHS),A64)
+FEX_CMAKE_ARGS = -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=$(FEX_SRC)/toolchain_mingw.cmake -DCMAKE_INSTALL_LIBDIR=$(LIBDIRA64)/wine/aarch64-windows -DENABLE_LTO=False -DBUILD_TESTS=False
+FEX_CMAKE_ARGS32 = -DMINGW_TRIPLE=aarch64-w64-mingw32
+FEX_CMAKE_ARGSA64 = -DMINGW_TRIPLE=arm64ec-w64-mingw32
+$(eval $(call rules-source,fex,$(SRCDIR)/FEX))
+$(eval $(call rules-cmake,fex,32,CROSS))
+$(eval $(call rules-cmake,fex,A64,CROSS))
+
+FEX_ENV32 +=  \
+    CFLAGS="$(COMMON_FLAGS) $(COMMON_FLAGSA64)" \
+    CPPFLAGS="$(COMMON_FLAGS) $(COMMON_FLAGSA64)" \
+    CXXFLAGS="$(COMMON_FLAGS) $(COMMON_FLAGSA64)" \
+    LDFLAGS=""
+
+all-dist: fex
+endif
+
 ##
 ## BattlEye Bridge
 ##
