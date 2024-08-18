@@ -41,6 +41,7 @@ $$(OBJ)/.$(1)-configure$(3):
 	    -e '/^arm64ec_CXXFLAGS/c arm64ec_CXXFLAGS = $$($(2)_INCFLAGSA64) $$($(2)_CXXFLAGS) $$(COMMON_FLAGS) $$(COMMON_FLAGSA64) -std=c++17' \
 	    -e '/^arm64ec_LDFLAGS/c arm64ec_LDFLAGS = $$($(2)_LIBFLAGSA64) $$($(2)_LDFLAGSA64) $$(CROSSLDFLAGS)' \
 	    \
+	    -e '/^PE_ARCHS/s/aarch64//' \
 	    $$(WINE_OBJ$(3))/Makefile > $$($(2)_OBJ$(3))/Makefile
 
 	cd "$$($(2)_OBJ$(3))" && env $$($(2)_ENV$(3)) \
