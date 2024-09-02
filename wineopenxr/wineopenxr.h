@@ -1,6 +1,6 @@
-/* Automatically generated from OpenXR xr.xml; DO NOT EDIT!
+/* Automatically generated from Vulkan xr.xml; DO NOT EDIT!
  *
- * This file is generated from OpenXR xr.xml file covered
+ * This file is generated from Vulkan xr.xml file covered
  * by the following copyright and permission notice:
  *
  * Copyright (c) 2017-2024, The Khronos Group Inc.
@@ -43,7 +43,7 @@
 #define WINE_XR_ALIGN DECLSPEC_ALIGN
 #endif
 
-#ifdef __x86_64__
+#if defined(__x86_64__) || defined(__aarch64__)
 #define XR_PTR_SIZE 8
 #endif
 
@@ -187,6 +187,8 @@
 #define XR_FB_HAND_TRACKING_MESH_EXTENSION_NAME "XR_FB_hand_tracking_mesh"
 #define XR_FB_hand_tracking_aim_SPEC_VERSION 2
 #define XR_FB_HAND_TRACKING_AIM_EXTENSION_NAME "XR_FB_hand_tracking_aim"
+#define XR_FB_HAND_TRACKING_CAPSULE_POINT_COUNT XR_HAND_TRACKING_CAPSULE_POINT_COUNT_FB
+#define XR_FB_HAND_TRACKING_CAPSULE_COUNT XR_HAND_TRACKING_CAPSULE_COUNT_FB
 #define XR_FB_hand_tracking_capsules_SPEC_VERSION 3
 #define XR_FB_HAND_TRACKING_CAPSULES_EXTENSION_NAME "XR_FB_hand_tracking_capsules"
 #define XR_HAND_TRACKING_CAPSULE_POINT_COUNT_FB 2
@@ -333,8 +335,6 @@
 #define XR_QCOM_TRACKING_OPTIMIZATION_SETTINGS_EXTENSION_NAME "XR_QCOM_tracking_optimization_settings"
 #define XR_HTC_passthrough_SPEC_VERSION 1
 #define XR_HTC_PASSTHROUGH_EXTENSION_NAME "XR_HTC_passthrough"
-#define XR_HTC_foveation_SPEC_VERSION 1
-#define XR_HTC_FOVEATION_EXTENSION_NAME "XR_HTC_foveation"
 #define XR_HTC_anchor_SPEC_VERSION 1
 #define XR_HTC_ANCHOR_EXTENSION_NAME "XR_HTC_anchor"
 #define XR_MAX_SPATIAL_ANCHOR_NAME_SIZE_HTC 256
@@ -539,17 +539,17 @@ XR_DEFINE_HANDLE(XrSwapchain)
 XR_DEFINE_HANDLE(XrTriangleMeshFB)
 XR_DEFINE_HANDLE(XrVirtualKeyboardMETA)
 
-XR_DEFINE_ATOM(XrAsyncRequestIdFB)
+typedef uint64_t XrAsyncRequestIdFB;
 typedef uint32_t XrBool32;
-XR_DEFINE_ATOM(XrControllerModelKeyMSFT)
+typedef uint64_t XrControllerModelKeyMSFT;
 typedef int64_t XrDuration;
 typedef uint64_t XrFlags64;
-XR_DEFINE_OPAQUE_64(XrFutureEXT)
-XR_DEFINE_ATOM(XrMarkerML)
-XR_DEFINE_ATOM(XrPath)
-XR_DEFINE_ATOM(XrRenderModelKeyFB)
+typedef struct XrFutureEXT_T* XrFutureEXT;
+typedef uint64_t XrMarkerML;
+typedef uint64_t XrPath;
+typedef uint64_t XrRenderModelKeyFB;
 typedef uint64_t XrSpaceUserIdFB;
-XR_DEFINE_ATOM(XrSystemId)
+typedef uint64_t XrSystemId;
 typedef int64_t XrTime;
 typedef uint64_t XrVersion;
 
@@ -730,6 +730,20 @@ typedef enum XrCompareOpFB
     XR_COMPARE_OP_FB_MAX_ENUM = 0x7fffffff,
 } XrCompareOpFB;
 
+typedef enum XrCompositionLayerFlagBits
+{
+    XR_COMPOSITION_LAYER_CORRECT_CHROMATIC_ABERRATION_BIT = 0x00000001,
+    XR_COMPOSITION_LAYER_BLEND_TEXTURE_SOURCE_ALPHA_BIT = 0x00000002,
+    XR_COMPOSITION_LAYER_UNPREMULTIPLIED_ALPHA_BIT = 0x00000004,
+    XR_COMPOSITION_LAYER_FLAG_BITS_MAX_ENUM = 0x7fffffff,
+} XrCompositionLayerFlagBits;
+
+typedef enum XrDigitalLensControlFlagBitsALMALENCE
+{
+    XR_DIGITAL_LENS_CONTROL_PROCESSING_DISABLE_BIT_ALMALENCE = 0x00000001,
+    XR_DIGITAL_LENS_CONTROL_FLAG_BITS_ALMALENCE_MAX_ENUM = 0x7fffffff,
+} XrDigitalLensControlFlagBitsALMALENCE;
+
 typedef enum XrEnvironmentBlendMode
 {
     XR_ENVIRONMENT_BLEND_MODE_OPAQUE = 1,
@@ -756,6 +770,16 @@ typedef enum XrExternalCameraAttachedToDeviceOCULUS
     XR_EXTERNAL_CAMERA_ATTACHED_TO_DEVICE_RTOUCH_OCULUS = 3,
     XR_EXTERNAL_CAMERA_ATTACHED_TO_DEVICE_OCULUS_MAX_ENUM = 0x7fffffff,
 } XrExternalCameraAttachedToDeviceOCULUS;
+
+typedef enum XrExternalCameraStatusFlagBitsOCULUS
+{
+    XR_EXTERNAL_CAMERA_STATUS_CONNECTED_BIT_OCULUS = 0x00000001,
+    XR_EXTERNAL_CAMERA_STATUS_CALIBRATING_BIT_OCULUS = 0x00000002,
+    XR_EXTERNAL_CAMERA_STATUS_CALIBRATION_FAILED_BIT_OCULUS = 0x00000004,
+    XR_EXTERNAL_CAMERA_STATUS_CALIBRATED_BIT_OCULUS = 0x00000008,
+    XR_EXTERNAL_CAMERA_STATUS_CAPTURING_BIT_OCULUS = 0x00000010,
+    XR_EXTERNAL_CAMERA_STATUS_FLAG_BITS_OCULUS_MAX_ENUM = 0x7fffffff,
+} XrExternalCameraStatusFlagBitsOCULUS;
 
 typedef enum XrEyeCalibrationStatusML
 {
@@ -1032,24 +1056,6 @@ typedef enum XrFoveationLevelFB
     XR_FOVEATION_LEVEL_FB_MAX_ENUM = 0x7fffffff,
 } XrFoveationLevelFB;
 
-typedef enum XrFoveationLevelHTC
-{
-    XR_FOVEATION_LEVEL_NONE_HTC = 0,
-    XR_FOVEATION_LEVEL_LOW_HTC = 1,
-    XR_FOVEATION_LEVEL_MEDIUM_HTC = 2,
-    XR_FOVEATION_LEVEL_HIGH_HTC = 3,
-    XR_FOVEATION_LEVEL_HTC_MAX_ENUM = 0x7fffffff,
-} XrFoveationLevelHTC;
-
-typedef enum XrFoveationModeHTC
-{
-    XR_FOVEATION_MODE_DISABLE_HTC = 0,
-    XR_FOVEATION_MODE_FIXED_HTC = 1,
-    XR_FOVEATION_MODE_DYNAMIC_HTC = 2,
-    XR_FOVEATION_MODE_CUSTOM_HTC = 3,
-    XR_FOVEATION_MODE_HTC_MAX_ENUM = 0x7fffffff,
-} XrFoveationModeHTC;
-
 typedef enum XrFutureStateEXT
 {
     XR_FUTURE_STATE_PENDING_EXT = 1,
@@ -1163,6 +1169,35 @@ typedef enum XrHeadsetFitStatusML
     XR_HEADSET_FIT_STATUS_BAD_FIT_ML = 3,
     XR_HEADSET_FIT_STATUS_ML_MAX_ENUM = 0x7fffffff,
 } XrHeadsetFitStatusML;
+
+typedef enum XrInputSourceLocalizedNameFlagBits
+{
+    XR_INPUT_SOURCE_LOCALIZED_NAME_USER_PATH_BIT = 0x00000001,
+    XR_INPUT_SOURCE_LOCALIZED_NAME_INTERACTION_PROFILE_BIT = 0x00000002,
+    XR_INPUT_SOURCE_LOCALIZED_NAME_COMPONENT_BIT = 0x00000004,
+    XR_INPUT_SOURCE_LOCALIZED_NAME_FLAG_BITS_MAX_ENUM = 0x7fffffff,
+} XrInputSourceLocalizedNameFlagBits;
+
+typedef enum XrInstanceCreateFlagBits
+{
+    XR_INSTANCE_CREATE_FLAG_BITS_MAX_ENUM = 0x7fffffff,
+} XrInstanceCreateFlagBits;
+
+typedef enum XrKeyboardTrackingFlagBitsFB
+{
+    XR_KEYBOARD_TRACKING_EXISTS_BIT_FB = 0x00000001,
+    XR_KEYBOARD_TRACKING_LOCAL_BIT_FB = 0x00000002,
+    XR_KEYBOARD_TRACKING_REMOTE_BIT_FB = 0x00000004,
+    XR_KEYBOARD_TRACKING_CONNECTED_BIT_FB = 0x00000008,
+    XR_KEYBOARD_TRACKING_FLAG_BITS_FB_MAX_ENUM = 0x7fffffff,
+} XrKeyboardTrackingFlagBitsFB;
+
+typedef enum XrKeyboardTrackingQueryFlagBitsFB
+{
+    XR_KEYBOARD_TRACKING_QUERY_LOCAL_BIT_FB = 0x00000002,
+    XR_KEYBOARD_TRACKING_QUERY_REMOTE_BIT_FB = 0x00000004,
+    XR_KEYBOARD_TRACKING_QUERY_FLAG_BITS_FB_MAX_ENUM = 0x7fffffff,
+} XrKeyboardTrackingQueryFlagBitsFB;
 
 typedef enum XrLipExpressionHTC
 {
@@ -1415,6 +1450,13 @@ typedef enum XrPassthroughColorLutChannelsMETA
     XR_PASSTHROUGH_COLOR_LUT_CHANNELS_META_MAX_ENUM = 0x7fffffff,
 } XrPassthroughColorLutChannelsMETA;
 
+typedef enum XrPassthroughFlagBitsFB
+{
+    XR_PASSTHROUGH_IS_RUNNING_AT_CREATION_BIT_FB = 0x00000001,
+    XR_PASSTHROUGH_LAYER_DEPTH_BIT_FB = 0x00000002,
+    XR_PASSTHROUGH_FLAG_BITS_FB_MAX_ENUM = 0x7fffffff,
+} XrPassthroughFlagBitsFB;
+
 typedef enum XrPassthroughFormHTC
 {
     XR_PASSTHROUGH_FORM_PLANAR_HTC = 0,
@@ -1469,6 +1511,14 @@ typedef enum XrPerfSettingsSubDomainEXT
     XR_PERF_SETTINGS_SUB_DOMAIN_EXT_MAX_ENUM = 0x7fffffff,
 } XrPerfSettingsSubDomainEXT;
 
+typedef enum XrPerformanceMetricsCounterFlagBitsMETA
+{
+    XR_PERFORMANCE_METRICS_COUNTER_ANY_VALUE_VALID_BIT_META = 0x00000001,
+    XR_PERFORMANCE_METRICS_COUNTER_UINT_VALUE_VALID_BIT_META = 0x00000002,
+    XR_PERFORMANCE_METRICS_COUNTER_FLOAT_VALUE_VALID_BIT_META = 0x00000004,
+    XR_PERFORMANCE_METRICS_COUNTER_FLAG_BITS_META_MAX_ENUM = 0x7fffffff,
+} XrPerformanceMetricsCounterFlagBitsMETA;
+
 typedef enum XrPerformanceMetricsCounterUnitMETA
 {
     XR_PERFORMANCE_METRICS_COUNTER_UNIT_GENERIC_META = 0,
@@ -1488,6 +1538,12 @@ typedef enum XrPlaneDetectionStateEXT
     XR_PLANE_DETECTION_STATE_FATAL_EXT = 4,
     XR_PLANE_DETECTION_STATE_EXT_MAX_ENUM = 0x7fffffff,
 } XrPlaneDetectionStateEXT;
+
+typedef enum XrPlaneDetectorFlagBitsEXT
+{
+    XR_PLANE_DETECTOR_ENABLE_CONTOUR_BIT_EXT = 0x00000001,
+    XR_PLANE_DETECTOR_FLAG_BITS_EXT_MAX_ENUM = 0x7fffffff,
+} XrPlaneDetectorFlagBitsEXT;
 
 typedef enum XrPlaneDetectorOrientationEXT
 {
@@ -1520,6 +1576,13 @@ typedef enum XrReferenceSpaceType
     XR_REFERENCE_SPACE_TYPE_LOCAL_FLOOR_EXT = XR_REFERENCE_SPACE_TYPE_LOCAL_FLOOR,
     XR_REFERENCE_SPACE_TYPE_MAX_ENUM = 0x7fffffff,
 } XrReferenceSpaceType;
+
+typedef enum XrRenderModelFlagBitsFB
+{
+    XR_RENDER_MODEL_SUPPORTS_GLTF_2_0_SUBSET_1_BIT_FB = 0x00000001,
+    XR_RENDER_MODEL_SUPPORTS_GLTF_2_0_SUBSET_2_BIT_FB = 0x00000002,
+    XR_RENDER_MODEL_FLAG_BITS_FB_MAX_ENUM = 0x7fffffff,
+} XrRenderModelFlagBitsFB;
 
 typedef enum XrReprojectionModeMSFT
 {
@@ -1729,6 +1792,11 @@ typedef enum XrSemanticLabelsSupportFlagBitsFB
     XR_SEMANTIC_LABELS_SUPPORT_FLAG_BITS_FB_MAX_ENUM = 0x7fffffff,
 } XrSemanticLabelsSupportFlagBitsFB;
 
+typedef enum XrSessionCreateFlagBits
+{
+    XR_SESSION_CREATE_FLAG_BITS_MAX_ENUM = 0x7fffffff,
+} XrSessionCreateFlagBits;
+
 typedef enum XrSessionState
 {
     XR_SESSION_STATE_UNKNOWN = 0,
@@ -1757,6 +1825,15 @@ typedef enum XrSpaceComponentTypeFB
     XR_SPACE_COMPONENT_TYPE_FB_MAX_ENUM = 0x7fffffff,
 } XrSpaceComponentTypeFB;
 
+typedef enum XrSpaceLocationFlagBits
+{
+    XR_SPACE_LOCATION_ORIENTATION_VALID_BIT = 0x00000001,
+    XR_SPACE_LOCATION_POSITION_VALID_BIT = 0x00000002,
+    XR_SPACE_LOCATION_ORIENTATION_TRACKED_BIT = 0x00000004,
+    XR_SPACE_LOCATION_POSITION_TRACKED_BIT = 0x00000008,
+    XR_SPACE_LOCATION_FLAG_BITS_MAX_ENUM = 0x7fffffff,
+} XrSpaceLocationFlagBits;
+
 typedef enum XrSpacePersistenceModeFB
 {
     XR_SPACE_PERSISTENCE_MODE_INVALID_FB = 0,
@@ -1777,6 +1854,13 @@ typedef enum XrSpaceStorageLocationFB
     XR_SPACE_STORAGE_LOCATION_CLOUD_FB = 2,
     XR_SPACE_STORAGE_LOCATION_FB_MAX_ENUM = 0x7fffffff,
 } XrSpaceStorageLocationFB;
+
+typedef enum XrSpaceVelocityFlagBits
+{
+    XR_SPACE_VELOCITY_LINEAR_VALID_BIT = 0x00000001,
+    XR_SPACE_VELOCITY_ANGULAR_VALID_BIT = 0x00000002,
+    XR_SPACE_VELOCITY_FLAG_BITS_MAX_ENUM = 0x7fffffff,
+} XrSpaceVelocityFlagBits;
 
 typedef enum XrSpatialGraphNodeTypeMSFT
 {
@@ -2097,9 +2181,6 @@ typedef enum XrStructureType
     XR_TYPE_PASSTHROUGH_COLOR_HTC = 1000317002,
     XR_TYPE_PASSTHROUGH_MESH_TRANSFORM_INFO_HTC = 1000317003,
     XR_TYPE_COMPOSITION_LAYER_PASSTHROUGH_HTC = 1000317004,
-    XR_TYPE_FOVEATION_APPLY_INFO_HTC = 1000318000,
-    XR_TYPE_FOVEATION_DYNAMIC_MODE_INFO_HTC = 1000318001,
-    XR_TYPE_FOVEATION_CUSTOM_MODE_INFO_HTC = 1000318002,
     XR_TYPE_SYSTEM_ANCHOR_PROPERTIES_HTC = 1000319000,
     XR_TYPE_SPATIAL_ANCHOR_CREATE_INFO_HTC = 1000319001,
     XR_TYPE_ACTIVE_ACTION_SET_PRIORITIES_EXT = 1000373000,
@@ -2136,6 +2217,27 @@ typedef enum XrStructureType
     XR_STRUCTURE_TYPE_MAX_ENUM = 0x7fffffff,
 } XrStructureType;
 
+typedef enum XrSwapchainCreateFlagBits
+{
+    XR_SWAPCHAIN_CREATE_PROTECTED_CONTENT_BIT = 0x00000001,
+    XR_SWAPCHAIN_CREATE_STATIC_IMAGE_BIT = 0x00000002,
+    XR_SWAPCHAIN_CREATE_FLAG_BITS_MAX_ENUM = 0x7fffffff,
+} XrSwapchainCreateFlagBits;
+
+typedef enum XrSwapchainUsageFlagBits
+{
+    XR_SWAPCHAIN_USAGE_COLOR_ATTACHMENT_BIT = 0x00000001,
+    XR_SWAPCHAIN_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT = 0x00000002,
+    XR_SWAPCHAIN_USAGE_UNORDERED_ACCESS_BIT = 0x00000004,
+    XR_SWAPCHAIN_USAGE_TRANSFER_SRC_BIT = 0x00000008,
+    XR_SWAPCHAIN_USAGE_TRANSFER_DST_BIT = 0x00000010,
+    XR_SWAPCHAIN_USAGE_SAMPLED_BIT = 0x00000020,
+    XR_SWAPCHAIN_USAGE_MUTABLE_FORMAT_BIT = 0x00000040,
+    XR_SWAPCHAIN_USAGE_INPUT_ATTACHMENT_BIT_MND = 0x00000080,
+    XR_SWAPCHAIN_USAGE_INPUT_ATTACHMENT_BIT_KHR = XR_SWAPCHAIN_USAGE_INPUT_ATTACHMENT_BIT_MND,
+    XR_SWAPCHAIN_USAGE_FLAG_BITS_MAX_ENUM = 0x7fffffff,
+} XrSwapchainUsageFlagBits;
+
 typedef enum XrTrackingOptimizationSettingsDomainQCOM
 {
     XR_TRACKING_OPTIMIZATION_SETTINGS_DOMAIN_ALL_QCOM = 1,
@@ -2152,6 +2254,12 @@ typedef enum XrTrackingOptimizationSettingsHintQCOM
     XR_TRACKING_OPTIMIZATION_SETTINGS_HINT_QCOM_MAX_ENUM = 0x7fffffff,
 } XrTrackingOptimizationSettingsHintQCOM;
 
+typedef enum XrTriangleMeshFlagBitsFB
+{
+    XR_TRIANGLE_MESH_MUTABLE_BIT_FB = 0x00000001,
+    XR_TRIANGLE_MESH_FLAG_BITS_FB_MAX_ENUM = 0x7fffffff,
+} XrTriangleMeshFlagBitsFB;
+
 typedef enum XrViewConfigurationType
 {
     XR_VIEW_CONFIGURATION_TYPE_PRIMARY_MONO = 1,
@@ -2161,6 +2269,15 @@ typedef enum XrViewConfigurationType
     XR_VIEW_CONFIGURATION_TYPE_PRIMARY_QUAD_VARJO = XR_VIEW_CONFIGURATION_TYPE_PRIMARY_STEREO_WITH_FOVEATED_INSET,
     XR_VIEW_CONFIGURATION_TYPE_MAX_ENUM = 0x7fffffff,
 } XrViewConfigurationType;
+
+typedef enum XrViewStateFlagBits
+{
+    XR_VIEW_STATE_ORIENTATION_VALID_BIT = 0x00000001,
+    XR_VIEW_STATE_POSITION_VALID_BIT = 0x00000002,
+    XR_VIEW_STATE_ORIENTATION_TRACKED_BIT = 0x00000004,
+    XR_VIEW_STATE_POSITION_TRACKED_BIT = 0x00000008,
+    XR_VIEW_STATE_FLAG_BITS_MAX_ENUM = 0x7fffffff,
+} XrViewStateFlagBits;
 
 typedef enum XrVirtualKeyboardInputSourceMETA
 {
@@ -2174,6 +2291,12 @@ typedef enum XrVirtualKeyboardInputSourceMETA
     XR_VIRTUAL_KEYBOARD_INPUT_SOURCE_HAND_DIRECT_INDEX_TIP_RIGHT_META = 8,
     XR_VIRTUAL_KEYBOARD_INPUT_SOURCE_META_MAX_ENUM = 0x7fffffff,
 } XrVirtualKeyboardInputSourceMETA;
+
+typedef enum XrVirtualKeyboardInputStateFlagBitsMETA
+{
+    XR_VIRTUAL_KEYBOARD_INPUT_STATE_PRESSED_BIT_META = 0x00000001,
+    XR_VIRTUAL_KEYBOARD_INPUT_STATE_FLAG_BITS_META_MAX_ENUM = 0x7fffffff,
+} XrVirtualKeyboardInputStateFlagBitsMETA;
 
 typedef enum XrVirtualKeyboardLocationTypeMETA
 {
@@ -2191,6 +2314,16 @@ typedef enum XrVisibilityMaskTypeKHR
     XR_VISIBILITY_MASK_TYPE_KHR_MAX_ENUM = 0x7fffffff,
 } XrVisibilityMaskTypeKHR;
 
+typedef enum XrVulkanDeviceCreateFlagBitsKHR
+{
+    XR_VULKAN_DEVICE_CREATE_FLAG_BITS_KHR_MAX_ENUM = 0x7fffffff,
+} XrVulkanDeviceCreateFlagBitsKHR;
+
+typedef enum XrVulkanInstanceCreateFlagBitsKHR
+{
+    XR_VULKAN_INSTANCE_CREATE_FLAG_BITS_KHR_MAX_ENUM = 0x7fffffff,
+} XrVulkanInstanceCreateFlagBitsKHR;
+
 typedef enum XrWindingOrderFB
 {
     XR_WINDING_ORDER_UNKNOWN_FB = 0,
@@ -2199,445 +2332,11 @@ typedef enum XrWindingOrderFB
     XR_WINDING_ORDER_FB_MAX_ENUM = 0x7fffffff,
 } XrWindingOrderFB;
 
-typedef struct XrExtent3Df XrExtent3Df;
-typedef XrExtent3Df XrExtent3DfEXT;
-typedef XrExtent3Df XrExtent3DfFB;
-typedef XrExtent3Df XrExtent3DfKHR;
-typedef struct XrActionCreateInfo XrActionCreateInfo;
-typedef struct XrActionStateBoolean XrActionStateBoolean;
-typedef struct XrActionStateGetInfo XrActionStateGetInfo;
-typedef struct XrActionSuggestedBinding XrActionSuggestedBinding;
-typedef struct XrActiveActionSet XrActiveActionSet;
-typedef struct XrActiveActionSetPriorityEXT XrActiveActionSetPriorityEXT;
-typedef struct XrApiLayerNextInfo XrApiLayerNextInfo;
-typedef struct XrApplicationInfo XrApplicationInfo;
-typedef struct XrBaseOutStructure XrBaseOutStructure;
-typedef struct XrBodyJointsLocateInfoFB XrBodyJointsLocateInfoFB;
-typedef struct XrBodyTrackerCreateInfoFB XrBodyTrackerCreateInfoFB;
-typedef struct XrCompositionLayerAlphaBlendFB XrCompositionLayerAlphaBlendFB;
-typedef struct XrCompositionLayerDepthTestFB XrCompositionLayerDepthTestFB;
-typedef struct XrCompositionLayerImageLayoutFB XrCompositionLayerImageLayoutFB;
-typedef struct XrCompositionLayerReprojectionInfoMSFT XrCompositionLayerReprojectionInfoMSFT;
-typedef struct XrCompositionLayerSecureContentFB XrCompositionLayerSecureContentFB;
-typedef struct XrControllerModelKeyStateMSFT XrControllerModelKeyStateMSFT;
-typedef struct XrDeserializeSceneFragmentMSFT XrDeserializeSceneFragmentMSFT;
-typedef struct XrDevicePcmSampleRateStateFB XrDevicePcmSampleRateStateFB;
-typedef XrDevicePcmSampleRateStateFB XrDevicePcmSampleRateGetInfoFB;
-typedef struct XrEnvironmentDepthHandRemovalSetInfoMETA XrEnvironmentDepthHandRemovalSetInfoMETA;
-typedef struct XrEnvironmentDepthProviderCreateInfoMETA XrEnvironmentDepthProviderCreateInfoMETA;
-typedef struct XrEnvironmentDepthSwapchainStateMETA XrEnvironmentDepthSwapchainStateMETA;
-typedef struct XrEventDataBuffer XrEventDataBuffer;
-typedef struct XrEventDataEventsLost XrEventDataEventsLost;
-typedef struct XrEventDataHeadsetFitChangedML XrEventDataHeadsetFitChangedML;
-typedef struct XrEventDataInteractionProfileChanged XrEventDataInteractionProfileChanged;
-typedef struct XrEventDataMainSessionVisibilityChangedEXTX XrEventDataMainSessionVisibilityChangedEXTX;
-typedef struct XrEventDataPassthroughStateChangedFB XrEventDataPassthroughStateChangedFB;
-typedef struct XrEventDataSceneCaptureCompleteFB XrEventDataSceneCaptureCompleteFB;
-typedef struct XrEventDataSpaceListSaveCompleteFB XrEventDataSpaceListSaveCompleteFB;
-typedef struct XrEventDataSpaceQueryResultsAvailableFB XrEventDataSpaceQueryResultsAvailableFB;
-typedef struct XrEventDataSpaceShareCompleteFB XrEventDataSpaceShareCompleteFB;
-typedef struct XrEventDataUserPresenceChangedEXT XrEventDataUserPresenceChangedEXT;
-typedef struct XrEventDataVirtualKeyboardCommitTextMETA XrEventDataVirtualKeyboardCommitTextMETA;
-typedef struct XrEventDataVirtualKeyboardHiddenMETA XrEventDataVirtualKeyboardHiddenMETA;
-typedef struct XrEventDataVisibilityMaskChangedKHR XrEventDataVisibilityMaskChangedKHR;
-typedef struct XrExtensionProperties XrExtensionProperties;
-typedef struct XrExtent2Di XrExtent2Di;
-typedef struct XrEyeGazeSampleTimeEXT XrEyeGazeSampleTimeEXT;
-typedef struct XrEyeGazesInfoFB XrEyeGazesInfoFB;
-typedef struct XrFaceExpressionInfo2FB XrFaceExpressionInfo2FB;
-typedef struct XrFaceExpressionStatusFB XrFaceExpressionStatusFB;
-typedef struct XrFaceExpressionWeightsFB XrFaceExpressionWeightsFB;
-typedef struct XrFaceTrackerCreateInfoFB XrFaceTrackerCreateInfoFB;
-typedef struct XrFacialTrackerCreateInfoHTC XrFacialTrackerCreateInfoHTC;
-typedef struct XrFoveatedViewConfigurationViewVARJO XrFoveatedViewConfigurationViewVARJO;
-typedef struct XrFoveationDynamicModeInfoHTC XrFoveationDynamicModeInfoHTC;
-typedef struct XrFoveationLevelProfileCreateInfoFB XrFoveationLevelProfileCreateInfoFB;
-typedef struct XrFovf XrFovf;
-typedef struct XrFrameEndInfoML XrFrameEndInfoML;
-typedef struct XrFrameWaitInfo XrFrameWaitInfo;
-typedef struct XrFutureCompletionBaseHeaderEXT XrFutureCompletionBaseHeaderEXT;
-typedef struct XrFuturePollInfoEXT XrFuturePollInfoEXT;
-typedef struct XrGlobalDimmerFrameEndInfoML XrGlobalDimmerFrameEndInfoML;
-typedef struct XrGraphicsBindingD3D12KHR XrGraphicsBindingD3D12KHR;
-typedef struct XrGraphicsBindingOpenGLWin32KHR XrGraphicsBindingOpenGLWin32KHR;
-typedef struct XrGraphicsBindingVulkanKHR XrGraphicsBindingVulkanKHR;
-typedef XrGraphicsBindingVulkanKHR XrGraphicsBindingVulkan2KHR;
-typedef struct XrGraphicsRequirementsD3D12KHR XrGraphicsRequirementsD3D12KHR;
-typedef struct XrGraphicsRequirementsOpenGLKHR XrGraphicsRequirementsOpenGLKHR;
-typedef struct XrGraphicsRequirementsVulkanKHR XrGraphicsRequirementsVulkanKHR;
-typedef XrGraphicsRequirementsVulkanKHR XrGraphicsRequirementsVulkan2KHR;
-typedef struct XrHandJointsLocateInfoEXT XrHandJointsLocateInfoEXT;
-typedef struct XrHandMeshIndexBufferMSFT XrHandMeshIndexBufferMSFT;
-typedef struct XrHandMeshUpdateInfoMSFT XrHandMeshUpdateInfoMSFT;
-typedef struct XrHandPoseTypeInfoMSFT XrHandPoseTypeInfoMSFT;
-typedef struct XrHandTrackingDataSourceInfoEXT XrHandTrackingDataSourceInfoEXT;
-typedef struct XrHandTrackingScaleFB XrHandTrackingScaleFB;
-typedef struct XrHapticAmplitudeEnvelopeVibrationFB XrHapticAmplitudeEnvelopeVibrationFB;
-typedef struct XrHapticPcmVibrationFB XrHapticPcmVibrationFB;
-typedef struct XrHolographicWindowAttachmentMSFT XrHolographicWindowAttachmentMSFT;
-typedef struct XrInstanceCreateInfo XrInstanceCreateInfo;
-typedef struct XrInstanceProperties XrInstanceProperties;
-typedef struct XrInteractionProfileState XrInteractionProfileState;
-typedef struct XrKeyboardSpaceCreateInfoFB XrKeyboardSpaceCreateInfoFB;
-typedef struct XrKeyboardTrackingQueryFB XrKeyboardTrackingQueryFB;
-typedef struct XrLocalizationEnableEventsInfoML XrLocalizationEnableEventsInfoML;
-typedef struct XrLocalizationMapQueryInfoBaseHeaderML XrLocalizationMapQueryInfoBaseHeaderML;
-typedef struct XrMarkerDetectorAprilTagInfoML XrMarkerDetectorAprilTagInfoML;
-typedef struct XrMarkerDetectorCreateInfoML XrMarkerDetectorCreateInfoML;
-typedef struct XrMarkerDetectorSizeInfoML XrMarkerDetectorSizeInfoML;
-typedef struct XrMarkerDetectorStateML XrMarkerDetectorStateML;
-typedef struct XrNegotiateApiLayerRequest XrNegotiateApiLayerRequest;
-typedef struct XrNegotiateRuntimeRequest XrNegotiateRuntimeRequest;
-typedef struct XrOffset2Df XrOffset2Df;
-typedef struct XrOffset3DfFB XrOffset3DfFB;
-typedef struct XrPassthroughColorHTC XrPassthroughColorHTC;
-typedef struct XrPassthroughColorLutDataMETA XrPassthroughColorLutDataMETA;
-typedef struct XrPassthroughColorMapInterpolatedLutMETA XrPassthroughColorMapInterpolatedLutMETA;
-typedef struct XrPassthroughColorMapMonoToMonoFB XrPassthroughColorMapMonoToMonoFB;
-typedef struct XrPassthroughCreateInfoFB XrPassthroughCreateInfoFB;
-typedef struct XrPassthroughKeyboardHandsIntensityFB XrPassthroughKeyboardHandsIntensityFB;
-typedef struct XrPassthroughPreferencesMETA XrPassthroughPreferencesMETA;
-typedef struct XrPerformanceMetricsCounterMETA XrPerformanceMetricsCounterMETA;
-typedef struct XrPlaneDetectorCreateInfoEXT XrPlaneDetectorCreateInfoEXT;
-typedef struct XrQuaternionf XrQuaternionf;
-typedef struct XrRecommendedLayerResolutionMETA XrRecommendedLayerResolutionMETA;
-typedef struct XrRect3DfFB XrRect3DfFB;
-typedef struct XrRenderModelBufferFB XrRenderModelBufferFB;
-typedef struct XrRenderModelLoadInfoFB XrRenderModelLoadInfoFB;
-typedef struct XrRenderModelPropertiesFB XrRenderModelPropertiesFB;
-typedef struct XrSceneCaptureRequestInfoFB XrSceneCaptureRequestInfoFB;
-typedef struct XrSceneComponentsGetInfoMSFT XrSceneComponentsGetInfoMSFT;
-typedef struct XrSceneCreateInfoMSFT XrSceneCreateInfoMSFT;
-typedef struct XrSceneMarkerQRCodeMSFT XrSceneMarkerQRCodeMSFT;
-typedef struct XrSceneMarkerTypeFilterMSFT XrSceneMarkerTypeFilterMSFT;
-typedef struct XrSceneMeshBuffersGetInfoMSFT XrSceneMeshBuffersGetInfoMSFT;
-typedef struct XrSceneMeshIndicesUint16MSFT XrSceneMeshIndicesUint16MSFT;
-typedef struct XrSceneMeshMSFT XrSceneMeshMSFT;
-typedef struct XrSceneMeshesMSFT XrSceneMeshesMSFT;
-typedef struct XrSceneObjectTypesFilterInfoMSFT XrSceneObjectTypesFilterInfoMSFT;
-typedef struct XrSceneObserverCreateInfoMSFT XrSceneObserverCreateInfoMSFT;
-typedef struct XrScenePlaneAlignmentFilterInfoMSFT XrScenePlaneAlignmentFilterInfoMSFT;
-typedef struct XrSecondaryViewConfigurationSessionBeginInfoMSFT XrSecondaryViewConfigurationSessionBeginInfoMSFT;
-typedef struct XrSecondaryViewConfigurationSwapchainCreateInfoMSFT XrSecondaryViewConfigurationSwapchainCreateInfoMSFT;
-typedef struct XrSemanticLabelsSupportInfoFB XrSemanticLabelsSupportInfoFB;
-typedef struct XrSessionActionSetsAttachInfo XrSessionActionSetsAttachInfo;
-typedef struct XrSessionCreateInfo XrSessionCreateInfo;
-typedef struct XrSpaceComponentFilterInfoFB XrSpaceComponentFilterInfoFB;
-typedef struct XrSpaceComponentStatusSetInfoFB XrSpaceComponentStatusSetInfoFB;
-typedef struct XrSpaceEraseInfoFB XrSpaceEraseInfoFB;
-typedef struct XrSpaceListSaveInfoFB XrSpaceListSaveInfoFB;
-typedef struct XrSpaceSaveInfoFB XrSpaceSaveInfoFB;
-typedef struct XrSpaceStorageLocationFilterInfoFB XrSpaceStorageLocationFilterInfoFB;
-typedef struct XrSpaceUserCreateInfoFB XrSpaceUserCreateInfoFB;
-typedef struct XrSpatialAnchorNameHTC XrSpatialAnchorNameHTC;
-typedef struct XrSpatialAnchorPersistenceNameMSFT XrSpatialAnchorPersistenceNameMSFT;
-typedef struct XrSpatialGraphNodeBindingPropertiesGetInfoMSFT XrSpatialGraphNodeBindingPropertiesGetInfoMSFT;
-typedef struct XrSwapchainCreateInfoFoveationFB XrSwapchainCreateInfoFoveationFB;
-typedef struct XrSwapchainImageBaseHeader XrSwapchainImageBaseHeader;
-typedef struct XrSwapchainImageD3D12KHR XrSwapchainImageD3D12KHR;
-typedef struct XrSwapchainImageReleaseInfo XrSwapchainImageReleaseInfo;
-typedef struct XrSwapchainImageVulkanKHR XrSwapchainImageVulkanKHR;
-typedef XrSwapchainImageVulkanKHR XrSwapchainImageVulkan2KHR;
-typedef struct XrSwapchainStateBaseHeaderFB XrSwapchainStateBaseHeaderFB;
-typedef struct XrSystemAnchorPropertiesHTC XrSystemAnchorPropertiesHTC;
-typedef struct XrSystemColorSpacePropertiesFB XrSystemColorSpacePropertiesFB;
-typedef struct XrSystemEyeGazeInteractionPropertiesEXT XrSystemEyeGazeInteractionPropertiesEXT;
-typedef struct XrSystemFaceTrackingProperties2FB XrSystemFaceTrackingProperties2FB;
-typedef struct XrSystemFacialTrackingPropertiesHTC XrSystemFacialTrackingPropertiesHTC;
-typedef struct XrSystemFoveatedRenderingPropertiesVARJO XrSystemFoveatedRenderingPropertiesVARJO;
-typedef struct XrSystemGetInfo XrSystemGetInfo;
-typedef struct XrSystemHandTrackingMeshPropertiesMSFT XrSystemHandTrackingMeshPropertiesMSFT;
-typedef struct XrSystemKeyboardTrackingPropertiesFB XrSystemKeyboardTrackingPropertiesFB;
-typedef struct XrSystemMarkerUnderstandingPropertiesML XrSystemMarkerUnderstandingPropertiesML;
-typedef struct XrSystemPassthroughProperties2FB XrSystemPassthroughProperties2FB;
-typedef struct XrSystemPlaneDetectionPropertiesEXT XrSystemPlaneDetectionPropertiesEXT;
-typedef struct XrSystemRenderModelPropertiesFB XrSystemRenderModelPropertiesFB;
-typedef struct XrSystemSpatialEntityPropertiesFB XrSystemSpatialEntityPropertiesFB;
-typedef struct XrSystemUserPresencePropertiesEXT XrSystemUserPresencePropertiesEXT;
-typedef struct XrUserCalibrationEnableEventsInfoML XrUserCalibrationEnableEventsInfoML;
-typedef struct XrUuidMSFT XrUuidMSFT;
-typedef struct XrVector3f XrVector3f;
-typedef struct XrVector4sFB XrVector4sFB;
-typedef struct XrViewConfigurationDepthRangeEXT XrViewConfigurationDepthRangeEXT;
-typedef struct XrViewConfigurationView XrViewConfigurationView;
-typedef struct XrViewLocateFoveatedRenderingVARJO XrViewLocateFoveatedRenderingVARJO;
-typedef struct XrViewState XrViewState;
-typedef struct XrVirtualKeyboardCreateInfoMETA XrVirtualKeyboardCreateInfoMETA;
-typedef struct XrVirtualKeyboardModelVisibilitySetInfoMETA XrVirtualKeyboardModelVisibilitySetInfoMETA;
-typedef struct XrVirtualKeyboardTextContextChangeInfoMETA XrVirtualKeyboardTextContextChangeInfoMETA;
-typedef struct XrVisualMeshComputeLodInfoMSFT XrVisualMeshComputeLodInfoMSFT;
-typedef struct XrVulkanDeviceCreateInfoKHR XrVulkanDeviceCreateInfoKHR;
-typedef struct XrVulkanInstanceCreateInfoKHR XrVulkanInstanceCreateInfoKHR;
-typedef struct XrVulkanSwapchainFormatListCreateInfoKHR XrVulkanSwapchainFormatListCreateInfoKHR;
-typedef struct XrUuid XrUuid;
-typedef XrUuid XrUuidEXT;
-typedef struct XrActionStateFloat XrActionStateFloat;
-typedef struct XrActionsSyncInfo XrActionsSyncInfo;
-typedef struct XrApiLayerCreateInfo XrApiLayerCreateInfo;
-typedef struct XrBaseInStructure XrBaseInStructure;
-typedef struct XrBoundSourcesForActionEnumerateInfo XrBoundSourcesForActionEnumerateInfo;
-typedef struct XrColor3f XrColor3f;
-typedef XrColor3f XrColor3fKHR;
-typedef struct XrCompositionLayerBaseHeader XrCompositionLayerBaseHeader;
-typedef struct XrCompositionLayerCubeKHR XrCompositionLayerCubeKHR;
-typedef struct XrCompositionLayerDepthTestVARJO XrCompositionLayerDepthTestVARJO;
-typedef struct XrCompositionLayerPassthroughFB XrCompositionLayerPassthroughFB;
-typedef struct XrCompositionLayerReprojectionPlaneOverrideMSFT XrCompositionLayerReprojectionPlaneOverrideMSFT;
-typedef struct XrControllerModelNodePropertiesMSFT XrControllerModelNodePropertiesMSFT;
-typedef struct XrControllerModelPropertiesMSFT XrControllerModelPropertiesMSFT;
-typedef struct XrDebugUtilsLabelEXT XrDebugUtilsLabelEXT;
-typedef struct XrDebugUtilsObjectNameInfoEXT XrDebugUtilsObjectNameInfoEXT;
-typedef struct XrDigitalLensControlALMALENCE XrDigitalLensControlALMALENCE;
-typedef struct XrEnvironmentDepthSwapchainCreateInfoMETA XrEnvironmentDepthSwapchainCreateInfoMETA;
-typedef struct XrEventDataDisplayRefreshRateChangedFB XrEventDataDisplayRefreshRateChangedFB;
-typedef struct XrEventDataInstanceLossPending XrEventDataInstanceLossPending;
-typedef struct XrEventDataMarkerTrackingUpdateVARJO XrEventDataMarkerTrackingUpdateVARJO;
-typedef struct XrEventDataSessionStateChanged XrEventDataSessionStateChanged;
-typedef struct XrEventDataSpaceQueryCompleteFB XrEventDataSpaceQueryCompleteFB;
-typedef struct XrEventDataVirtualKeyboardBackspaceMETA XrEventDataVirtualKeyboardBackspaceMETA;
-typedef struct XrEventDataVirtualKeyboardShownMETA XrEventDataVirtualKeyboardShownMETA;
-typedef struct XrExtent2Df XrExtent2Df;
-typedef struct XrExternalCameraIntrinsicsOCULUS XrExternalCameraIntrinsicsOCULUS;
-typedef struct XrEyeTrackerCreateInfoFB XrEyeTrackerCreateInfoFB;
-typedef struct XrFaceExpressionWeights2FB XrFaceExpressionWeights2FB;
-typedef struct XrFacialExpressionsHTC XrFacialExpressionsHTC;
-typedef struct XrFoveationEyeTrackedProfileCreateInfoMETA XrFoveationEyeTrackedProfileCreateInfoMETA;
-typedef struct XrFoveationProfileCreateInfoFB XrFoveationProfileCreateInfoFB;
-typedef struct XrFrameEndInfo XrFrameEndInfo;
-typedef struct XrFutureCancelInfoEXT XrFutureCancelInfoEXT;
-typedef struct XrFuturePollResultEXT XrFuturePollResultEXT;
-typedef struct XrGraphicsBindingD3D11KHR XrGraphicsBindingD3D11KHR;
-typedef struct XrHandCapsuleFB XrHandCapsuleFB;
-typedef struct XrHandJointVelocityEXT XrHandJointVelocityEXT;
-typedef struct XrHandMeshVertexMSFT XrHandMeshVertexMSFT;
-typedef struct XrHandTrackingCapsulesStateFB XrHandTrackingCapsulesStateFB;
-typedef struct XrHapticActionInfo XrHapticActionInfo;
-typedef struct XrHapticVibration XrHapticVibration;
-typedef struct XrInteractionProfileSuggestedBinding XrInteractionProfileSuggestedBinding;
-typedef struct XrLocalizationMapImportInfoML XrLocalizationMapImportInfoML;
-typedef struct XrMarkerDetectorArucoInfoML XrMarkerDetectorArucoInfoML;
-typedef struct XrMarkerDetectorSnapshotInfoML XrMarkerDetectorSnapshotInfoML;
-typedef struct XrNegotiateLoaderInfo XrNegotiateLoaderInfo;
-typedef struct XrOffset2Di XrOffset2Di;
-typedef struct XrPassthroughColorLutCreateInfoMETA XrPassthroughColorLutCreateInfoMETA;
-typedef struct XrPassthroughColorMapLutMETA XrPassthroughColorMapLutMETA;
-typedef struct XrPassthroughCreateInfoHTC XrPassthroughCreateInfoHTC;
-typedef struct XrPerformanceMetricsStateMETA XrPerformanceMetricsStateMETA;
-typedef struct XrPlaneDetectorGetInfoEXT XrPlaneDetectorGetInfoEXT;
-typedef struct XrPosef XrPosef;
-typedef struct XrRect2Df XrRect2Df;
-typedef struct XrReferenceSpaceCreateInfo XrReferenceSpaceCreateInfo;
-typedef struct XrRenderModelPathInfoFB XrRenderModelPathInfoFB;
-typedef struct XrSceneComponentLocationMSFT XrSceneComponentLocationMSFT;
-typedef struct XrSceneComponentMSFT XrSceneComponentMSFT;
-typedef struct XrSceneComponentsLocateInfoMSFT XrSceneComponentsLocateInfoMSFT;
-typedef struct XrSceneDeserializeInfoMSFT XrSceneDeserializeInfoMSFT;
-typedef struct XrSceneMarkerMSFT XrSceneMarkerMSFT;
-typedef struct XrSceneMarkersMSFT XrSceneMarkersMSFT;
-typedef struct XrSceneMeshIndicesUint32MSFT XrSceneMeshIndicesUint32MSFT;
-typedef struct XrSceneObjectMSFT XrSceneObjectMSFT;
-typedef struct XrSceneOrientedBoxBoundMSFT XrSceneOrientedBoxBoundMSFT;
-typedef struct XrSceneSphereBoundMSFT XrSceneSphereBoundMSFT;
-typedef struct XrSecondaryViewConfigurationLayerInfoMSFT XrSecondaryViewConfigurationLayerInfoMSFT;
-typedef struct XrSemanticLabelsFB XrSemanticLabelsFB;
-typedef struct XrSessionBeginInfo XrSessionBeginInfo;
-typedef struct XrSpaceComponentStatusFB XrSpaceComponentStatusFB;
-typedef struct XrSpaceFilterInfoBaseHeaderFB XrSpaceFilterInfoBaseHeaderFB;
-typedef struct XrSpaceLocationData XrSpaceLocationData;
-typedef XrSpaceLocationData XrSpaceLocationDataKHR;
-typedef struct XrSpaceQueryInfoBaseHeaderFB XrSpaceQueryInfoBaseHeaderFB;
-typedef struct XrSpaceShareInfoFB XrSpaceShareInfoFB;
-typedef struct XrSpaceTriangleMeshMETA XrSpaceTriangleMeshMETA;
-typedef struct XrSpaceVelocity XrSpaceVelocity;
-typedef struct XrSpacesLocateInfo XrSpacesLocateInfo;
-typedef XrSpacesLocateInfo XrSpacesLocateInfoKHR;
-typedef struct XrSpatialAnchorCreateInfoHTC XrSpatialAnchorCreateInfoHTC;
-typedef struct XrSpatialAnchorFromPersistedAnchorCreateInfoMSFT XrSpatialAnchorFromPersistedAnchorCreateInfoMSFT;
-typedef struct XrSpatialAnchorSpaceCreateInfoMSFT XrSpatialAnchorSpaceCreateInfoMSFT;
-typedef struct XrSpatialGraphNodeSpaceCreateInfoMSFT XrSpatialGraphNodeSpaceCreateInfoMSFT;
-typedef struct XrSpheref XrSpheref;
-typedef XrSpheref XrSpherefKHR;
-typedef struct XrSwapchainImageAcquireInfo XrSwapchainImageAcquireInfo;
-typedef struct XrSwapchainImageFoveationVulkanFB XrSwapchainImageFoveationVulkanFB;
-typedef struct XrSwapchainStateFoveationFB XrSwapchainStateFoveationFB;
-typedef struct XrSystemBodyTrackingPropertiesFB XrSystemBodyTrackingPropertiesFB;
-typedef struct XrSystemEyeTrackingPropertiesFB XrSystemEyeTrackingPropertiesFB;
-typedef struct XrSystemForceFeedbackCurlPropertiesMNDX XrSystemForceFeedbackCurlPropertiesMNDX;
-typedef struct XrSystemGraphicsProperties XrSystemGraphicsProperties;
-typedef struct XrSystemMarkerTrackingPropertiesVARJO XrSystemMarkerTrackingPropertiesVARJO;
-typedef struct XrSystemPassthroughPropertiesFB XrSystemPassthroughPropertiesFB;
-typedef struct XrSystemSpaceWarpPropertiesFB XrSystemSpaceWarpPropertiesFB;
-typedef struct XrSystemVirtualKeyboardPropertiesMETA XrSystemVirtualKeyboardPropertiesMETA;
-typedef struct XrVector4f XrVector4f;
-typedef struct XrViewConfigurationProperties XrViewConfigurationProperties;
-typedef struct XrViewLocateInfo XrViewLocateInfo;
-typedef struct XrVirtualKeyboardInputInfoMETA XrVirtualKeyboardInputInfoMETA;
-typedef struct XrVirtualKeyboardSpaceCreateInfoMETA XrVirtualKeyboardSpaceCreateInfoMETA;
-typedef struct XrViveTrackerPathsHTCX XrViveTrackerPathsHTCX;
-typedef struct XrVulkanSwapchainCreateInfoMETA XrVulkanSwapchainCreateInfoMETA;
-typedef struct XrActionSetCreateInfo XrActionSetCreateInfo;
-typedef struct XrActionStatePose XrActionStatePose;
-typedef struct XrActiveActionSetPrioritiesEXT XrActiveActionSetPrioritiesEXT;
-typedef struct XrBindingModificationBaseHeaderKHR XrBindingModificationBaseHeaderKHR;
-typedef struct XrBodyJointLocationFB XrBodyJointLocationFB;
-typedef struct XrBodySkeletonJointFB XrBodySkeletonJointFB;
-typedef struct XrBoxf XrBoxf;
-typedef XrBoxf XrBoxfKHR;
-typedef struct XrCompositionLayerPassthroughHTC XrCompositionLayerPassthroughHTC;
-typedef struct XrCompositionLayerSettingsFB XrCompositionLayerSettingsFB;
-typedef struct XrControllerModelNodeStateMSFT XrControllerModelNodeStateMSFT;
-typedef struct XrDebugUtilsMessengerCallbackDataEXT XrDebugUtilsMessengerCallbackDataEXT;
-typedef struct XrEnvironmentDepthImageAcquireInfoMETA XrEnvironmentDepthImageAcquireInfoMETA;
-typedef struct XrEnvironmentDepthImageViewMETA XrEnvironmentDepthImageViewMETA;
-typedef struct XrEventDataEyeCalibrationChangedML XrEventDataEyeCalibrationChangedML;
-typedef struct XrEventDataPerfSettingsEXT XrEventDataPerfSettingsEXT;
-typedef struct XrEventDataSpaceEraseCompleteFB XrEventDataSpaceEraseCompleteFB;
-typedef struct XrEventDataSpaceSetStatusCompleteFB XrEventDataSpaceSetStatusCompleteFB;
-typedef struct XrEventDataVirtualKeyboardEnterMETA XrEventDataVirtualKeyboardEnterMETA;
-typedef struct XrEyeGazeFB XrEyeGazeFB;
-typedef struct XrFaceExpressionInfoFB XrFaceExpressionInfoFB;
-typedef struct XrForceFeedbackCurlApplyLocationMNDX XrForceFeedbackCurlApplyLocationMNDX;
-typedef struct XrFrameBeginInfo XrFrameBeginInfo;
-typedef struct XrFrustumf XrFrustumf;
-typedef XrFrustumf XrFrustumfKHR;
-typedef struct XrGeometryInstanceCreateInfoFB XrGeometryInstanceCreateInfoFB;
-typedef struct XrHandJointVelocitiesEXT XrHandJointVelocitiesEXT;
-typedef struct XrHandMeshSpaceCreateInfoMSFT XrHandMeshSpaceCreateInfoMSFT;
-typedef struct XrHandTrackerCreateInfoEXT XrHandTrackerCreateInfoEXT;
-typedef struct XrHandTrackingDataSourceStateEXT XrHandTrackingDataSourceStateEXT;
-typedef struct XrHapticBaseHeader XrHapticBaseHeader;
-typedef struct XrInteractionProfileAnalogThresholdVALVE XrInteractionProfileAnalogThresholdVALVE;
-typedef struct XrKeyboardTrackingDescriptionFB XrKeyboardTrackingDescriptionFB;
-typedef struct XrLocalizationMapML XrLocalizationMapML;
-typedef struct XrMarkerDetectorCustomProfileInfoML XrMarkerDetectorCustomProfileInfoML;
-typedef struct XrMarkerSpaceCreateInfoVARJO XrMarkerSpaceCreateInfoVARJO;
-typedef struct XrPassthroughBrightnessContrastSaturationFB XrPassthroughBrightnessContrastSaturationFB;
-typedef struct XrPassthroughLayerCreateInfoFB XrPassthroughLayerCreateInfoFB;
-typedef struct XrPlaneDetectorBeginInfoEXT XrPlaneDetectorBeginInfoEXT;
-typedef struct XrRecommendedLayerResolutionGetInfoMETA XrRecommendedLayerResolutionGetInfoMETA;
-typedef struct XrRenderModelCapabilitiesRequestFB XrRenderModelCapabilitiesRequestFB;
-typedef struct XrSceneComponentLocationsMSFT XrSceneComponentLocationsMSFT;
-typedef struct XrSceneComponentsMSFT XrSceneComponentsMSFT;
-typedef struct XrSceneMarkerQRCodesMSFT XrSceneMarkerQRCodesMSFT;
-typedef struct XrSceneMeshVertexBufferMSFT XrSceneMeshVertexBufferMSFT;
-typedef struct XrScenePlaneMSFT XrScenePlaneMSFT;
-typedef struct XrSecondaryViewConfigurationFrameEndInfoMSFT XrSecondaryViewConfigurationFrameEndInfoMSFT;
-typedef struct XrSecondaryViewConfigurationStateMSFT XrSecondaryViewConfigurationStateMSFT;
-typedef struct XrSessionCreateInfoOverlayEXTX XrSessionCreateInfoOverlayEXTX;
-typedef struct XrSpaceLocation XrSpaceLocation;
-typedef struct XrSpaceQueryInfoFB XrSpaceQueryInfoFB;
-typedef struct XrSpaceTriangleMeshGetInfoMETA XrSpaceTriangleMeshGetInfoMETA;
-typedef struct XrSpaceVelocityData XrSpaceVelocityData;
-typedef XrSpaceVelocityData XrSpaceVelocityDataKHR;
-typedef struct XrSpatialAnchorCreateInfoMSFT XrSpatialAnchorCreateInfoMSFT;
-typedef struct XrSpatialGraphNodeBindingPropertiesMSFT XrSpatialGraphNodeBindingPropertiesMSFT;
-typedef struct XrSwapchainCreateInfo XrSwapchainCreateInfo;
-typedef struct XrSwapchainImageOpenGLKHR XrSwapchainImageOpenGLKHR;
-typedef struct XrSystemEnvironmentDepthPropertiesMETA XrSystemEnvironmentDepthPropertiesMETA;
-typedef struct XrSystemFoveationEyeTrackedPropertiesMETA XrSystemFoveationEyeTrackedPropertiesMETA;
-typedef struct XrSystemHeadsetIdPropertiesMETA XrSystemHeadsetIdPropertiesMETA;
-typedef struct XrSystemTrackingProperties XrSystemTrackingProperties;
-typedef struct XrVector2f XrVector2f;
-typedef struct XrViewConfigurationViewFovEPIC XrViewConfigurationViewFovEPIC;
-typedef struct XrVirtualKeyboardLocationInfoMETA XrVirtualKeyboardLocationInfoMETA;
-typedef struct XrVirtualKeyboardTextureDataMETA XrVirtualKeyboardTextureDataMETA;
-typedef struct XrVulkanGraphicsDeviceGetInfoKHR XrVulkanGraphicsDeviceGetInfoKHR;
-typedef struct XrActionSpaceCreateInfo XrActionSpaceCreateInfo;
-typedef struct XrApiLayerProperties XrApiLayerProperties;
-typedef struct XrBodyJointLocationsFB XrBodyJointLocationsFB;
-typedef struct XrBoundary2DFB XrBoundary2DFB;
-typedef struct XrControllerModelStateMSFT XrControllerModelStateMSFT;
-typedef struct XrEnvironmentDepthImageMETA XrEnvironmentDepthImageMETA;
-typedef struct XrEventDataLocalizationChangedML XrEventDataLocalizationChangedML;
-typedef struct XrEventDataSpaceSaveCompleteFB XrEventDataSpaceSaveCompleteFB;
-typedef struct XrEventDataViveTrackerConnectedHTCX XrEventDataViveTrackerConnectedHTCX;
-typedef struct XrEyeGazesFB XrEyeGazesFB;
-typedef struct XrForceFeedbackCurlApplyLocationsMNDX XrForceFeedbackCurlApplyLocationsMNDX;
-typedef struct XrFoveationConfigurationHTC XrFoveationConfigurationHTC;
-typedef struct XrFoveationEyeTrackedStateMETA XrFoveationEyeTrackedStateMETA;
-typedef struct XrFutureCompletionEXT XrFutureCompletionEXT;
-typedef struct XrGraphicsRequirementsD3D11KHR XrGraphicsRequirementsD3D11KHR;
-typedef struct XrHandJointsMotionRangeInfoEXT XrHandJointsMotionRangeInfoEXT;
-typedef struct XrHandMeshVertexBufferMSFT XrHandMeshVertexBufferMSFT;
-typedef struct XrHandTrackingMeshFB XrHandTrackingMeshFB;
-typedef struct XrInteractionProfileDpadBindingEXT XrInteractionProfileDpadBindingEXT;
-typedef struct XrMapLocalizationRequestInfoML XrMapLocalizationRequestInfoML;
-typedef struct XrPassthroughColorLutUpdateInfoMETA XrPassthroughColorLutUpdateInfoMETA;
-typedef struct XrPassthroughMeshTransformInfoHTC XrPassthroughMeshTransformInfoHTC;
-typedef struct XrPlaneDetectorLocationEXT XrPlaneDetectorLocationEXT;
-typedef struct XrPlaneDetectorPolygonBufferEXT XrPlaneDetectorPolygonBufferEXT;
-typedef struct XrRoomLayoutFB XrRoomLayoutFB;
-typedef struct XrSceneComponentParentFilterInfoMSFT XrSceneComponentParentFilterInfoMSFT;
-typedef struct XrSceneMeshBuffersMSFT XrSceneMeshBuffersMSFT;
-typedef struct XrScenePlanesMSFT XrScenePlanesMSFT;
-typedef struct XrSerializedSceneFragmentDataGetInfoMSFT XrSerializedSceneFragmentDataGetInfoMSFT;
-typedef struct XrSpaceLocations XrSpaceLocations;
-typedef XrSpaceLocations XrSpaceLocationsKHR;
-typedef struct XrSpaceUuidFilterInfoFB XrSpaceUuidFilterInfoFB;
-typedef struct XrSpatialAnchorCreateInfoFB XrSpatialAnchorCreateInfoFB;
-typedef struct XrSpatialGraphStaticNodeBindingCreateInfoMSFT XrSpatialGraphStaticNodeBindingCreateInfoMSFT;
-typedef struct XrSwapchainImageWaitInfo XrSwapchainImageWaitInfo;
-typedef struct XrSystemFaceTrackingPropertiesFB XrSystemFaceTrackingPropertiesFB;
-typedef struct XrSystemPassthroughColorLutPropertiesMETA XrSystemPassthroughColorLutPropertiesMETA;
-typedef struct XrTriangleMeshCreateInfoFB XrTriangleMeshCreateInfoFB;
-typedef struct XrVirtualKeyboardAnimationStateMETA XrVirtualKeyboardAnimationStateMETA;
-typedef struct XrVisibilityMaskKHR XrVisibilityMaskKHR;
-typedef struct XrActionStateVector2f XrActionStateVector2f;
-typedef struct XrBodySkeletonFB XrBodySkeletonFB;
-typedef struct XrEventDataReferenceSpaceChangePending XrEventDataReferenceSpaceChangePending;
-typedef struct XrExternalCameraExtrinsicsOCULUS XrExternalCameraExtrinsicsOCULUS;
-typedef struct XrFaceTrackerCreateInfo2FB XrFaceTrackerCreateInfo2FB;
-typedef struct XrFoveationCustomModeInfoHTC XrFoveationCustomModeInfoHTC;
-typedef struct XrGeometryInstanceTransformFB XrGeometryInstanceTransformFB;
-typedef struct XrHandMeshMSFT XrHandMeshMSFT;
-typedef struct XrInputSourceLocalizedNameGetInfo XrInputSourceLocalizedNameGetInfo;
-typedef struct XrMarkerSpaceCreateInfoML XrMarkerSpaceCreateInfoML;
-typedef struct XrPlaneDetectorLocationsEXT XrPlaneDetectorLocationsEXT;
-typedef struct XrSceneFrustumBoundMSFT XrSceneFrustumBoundMSFT;
-typedef struct XrSecondaryViewConfigurationFrameStateMSFT XrSecondaryViewConfigurationFrameStateMSFT;
-typedef struct XrSpaceQueryResultFB XrSpaceQueryResultFB;
-typedef struct XrSpaceVelocities XrSpaceVelocities;
-typedef XrSpaceVelocities XrSpaceVelocitiesKHR;
-typedef struct XrSwapchainImageD3D11KHR XrSwapchainImageD3D11KHR;
-typedef struct XrSystemHandTrackingPropertiesEXT XrSystemHandTrackingPropertiesEXT;
-typedef struct XrView XrView;
-typedef struct XrBindingModificationsKHR XrBindingModificationsKHR;
-typedef struct XrEventDataBaseHeader XrEventDataBaseHeader;
-typedef struct XrExternalCameraOCULUS XrExternalCameraOCULUS;
-typedef struct XrFrameState XrFrameState;
-typedef struct XrHandTrackingAimStateFB XrHandTrackingAimStateFB;
-typedef struct XrRect2Di XrRect2Di;
-typedef struct XrSceneObjectsMSFT XrSceneObjectsMSFT;
-typedef struct XrSpaceQueryResultsFB XrSpaceQueryResultsFB;
-typedef struct XrSwapchainSubImage XrSwapchainSubImage;
-typedef struct XrVirtualKeyboardModelAnimationStatesMETA XrVirtualKeyboardModelAnimationStatesMETA;
-typedef struct XrColor4f XrColor4f;
-typedef struct XrCompositionLayerCylinderKHR XrCompositionLayerCylinderKHR;
-typedef struct XrCompositionLayerEquirect2KHR XrCompositionLayerEquirect2KHR;
-typedef struct XrCompositionLayerProjectionView XrCompositionLayerProjectionView;
-typedef struct XrCompositionLayerSpaceWarpInfoFB XrCompositionLayerSpaceWarpInfoFB;
-typedef struct XrFoveationApplyInfoHTC XrFoveationApplyInfoHTC;
-typedef struct XrLocalDimmingFrameEndInfoMETA XrLocalDimmingFrameEndInfoMETA;
-typedef struct XrPassthroughColorMapMonoToRgbaFB XrPassthroughColorMapMonoToRgbaFB;
-typedef struct XrSceneBoundsMSFT XrSceneBoundsMSFT;
-typedef struct XrSpatialAnchorPersistenceInfoMSFT XrSpatialAnchorPersistenceInfoMSFT;
-typedef struct XrSystemProperties XrSystemProperties;
-typedef struct XrCompositionLayerColorScaleBiasKHR XrCompositionLayerColorScaleBiasKHR;
-typedef struct XrCompositionLayerEquirectKHR XrCompositionLayerEquirectKHR;
-typedef struct XrCompositionLayerQuad XrCompositionLayerQuad;
-typedef struct XrHandJointLocationEXT XrHandJointLocationEXT;
-typedef struct XrNewSceneComputeInfoMSFT XrNewSceneComputeInfoMSFT;
-typedef struct XrSpaceContainerFB XrSpaceContainerFB;
-typedef struct XrCompositionLayerDepthInfoKHR XrCompositionLayerDepthInfoKHR;
-typedef struct XrEventDataSpatialAnchorCreateCompleteFB XrEventDataSpatialAnchorCreateCompleteFB;
-typedef struct XrPassthroughStyleFB XrPassthroughStyleFB;
-typedef struct XrCompositionLayerProjection XrCompositionLayerProjection;
-typedef struct XrSwapchainStateSamplerVulkanFB XrSwapchainStateSamplerVulkanFB;
-typedef struct XrHandJointLocationsEXT XrHandJointLocationsEXT;
 typedef void (XRAPI_PTR * PFN_xrVoidFunction)(
 void);
 typedef XrResult (XRAPI_PTR * PFN_xrGetInstanceProcAddr)(
 XrInstance instance, const char* name, PFN_xrVoidFunction* function);
+typedef struct XrInstanceCreateInfo XrInstanceCreateInfo;
 
 typedef struct XrApiLayerCreateInfo XrApiLayerCreateInfo;
 typedef XrResult (XRAPI_PTR * PFN_xrCreateApiLayerInstance)(
@@ -2645,22 +2344,8 @@ typedef XrResult (XRAPI_PTR * PFN_xrCreateApiLayerInstance)(
             const XrInstanceCreateInfo* info,
             const XrApiLayerCreateInfo* apiLayerInfo,
             XrInstance* instance);
-typedef XrBool32 (XRAPI_PTR * PFN_xrDebugUtilsMessengerCallbackEXT)(
-    XrDebugUtilsMessageSeverityFlagsEXT messageSeverity,
-    XrDebugUtilsMessageTypeFlagsEXT messageTypes,
-    const XrDebugUtilsMessengerCallbackDataEXT *callbackData,
-    void *userData);
-typedef PFN_xrVoidFunction (* PFN_xrEglGetProcAddressMNDX)(
-    char *name);
 
-struct XrExtent3Df
-{
-    float width;
-    float height;
-    float depth;
-};
-
-struct XrActionCreateInfo
+typedef struct XrActionCreateInfo
 {
     XrStructureType type;
     const void *next;
@@ -2669,9 +2354,18 @@ struct XrActionCreateInfo
     uint32_t countSubactionPaths;
     const XrPath *subactionPaths;
     char localizedActionName[XR_MAX_LOCALIZED_ACTION_NAME_SIZE];
-};
+} XrActionCreateInfo;
 
-struct XrActionStateBoolean
+typedef struct XrActionSetCreateInfo
+{
+    XrStructureType type;
+    const void *next;
+    char actionSetName[XR_MAX_ACTION_SET_NAME_SIZE];
+    char localizedActionSetName[XR_MAX_LOCALIZED_ACTION_SET_NAME_SIZE];
+    uint32_t priority;
+} XrActionSetCreateInfo;
+
+typedef struct XrActionStateBoolean
 {
     XrStructureType type;
     void *next;
@@ -2679,35 +2373,52 @@ struct XrActionStateBoolean
     XrBool32 changedSinceLastSync;
     XrTime lastChangeTime;
     XrBool32 isActive;
-};
+} XrActionStateBoolean;
 
-struct XrActionStateGetInfo
+typedef struct XrActionStateFloat
+{
+    XrStructureType type;
+    void *next;
+    float currentState;
+    XrBool32 changedSinceLastSync;
+    XrTime lastChangeTime;
+    XrBool32 isActive;
+} XrActionStateFloat;
+
+typedef struct XrActionStateGetInfo
 {
     XrStructureType type;
     const void *next;
     XrAction action;
     XrPath subactionPath;
-};
+} XrActionStateGetInfo;
 
-struct XrActionSuggestedBinding
+typedef struct XrActionStatePose
+{
+    XrStructureType type;
+    void *next;
+    XrBool32 isActive;
+} XrActionStatePose;
+
+typedef struct XrActionSuggestedBinding
 {
     XrAction action;
     XrPath binding;
-};
+} XrActionSuggestedBinding;
 
-struct XrActiveActionSet
+typedef struct XrActiveActionSet
 {
     XrActionSet actionSet;
     XrPath subactionPath;
-};
+} XrActiveActionSet;
 
-struct XrActiveActionSetPriorityEXT
+typedef struct XrActiveActionSetPriorityEXT
 {
     XrActionSet actionSet;
     uint32_t priorityOverride;
-};
+} XrActiveActionSetPriorityEXT;
 
-struct XrApiLayerNextInfo
+typedef struct XrApiLayerNextInfo
 {
     XrLoaderInterfaceStructs structType;
     uint32_t structVersion;
@@ -2716,39 +2427,92 @@ struct XrApiLayerNextInfo
     PFN_xrGetInstanceProcAddr nextGetInstanceProcAddr;
     PFN_xrCreateApiLayerInstance nextCreateApiLayerInstance;
     struct XrApiLayerNextInfo *next;
-};
+} XrApiLayerNextInfo;
 
-struct XrApplicationInfo
+typedef struct XrApiLayerProperties
+{
+    XrStructureType type;
+    void *next;
+    char layerName[XR_MAX_API_LAYER_NAME_SIZE];
+    XrVersion specVersion;
+    uint32_t layerVersion;
+    char description[XR_MAX_API_LAYER_DESCRIPTION_SIZE];
+} XrApiLayerProperties;
+
+typedef struct XrApplicationInfo
 {
     char applicationName[XR_MAX_APPLICATION_NAME_SIZE];
     uint32_t applicationVersion;
     char engineName[XR_MAX_ENGINE_NAME_SIZE];
     uint32_t engineVersion;
     XrVersion apiVersion;
-};
+} XrApplicationInfo;
 
-struct XrBaseOutStructure
+typedef struct XrBaseInStructure
+{
+    XrStructureType type;
+    const struct XrBaseInStructure *next;
+} XrBaseInStructure;
+
+typedef struct XrBaseOutStructure
 {
     XrStructureType type;
     struct XrBaseOutStructure *next;
-};
+} XrBaseOutStructure;
 
-struct XrBodyJointsLocateInfoFB
+typedef struct XrBindingModificationBaseHeaderKHR
+{
+    XrStructureType type;
+    const void *next;
+} XrBindingModificationBaseHeaderKHR;
+
+typedef struct XrBindingModificationsKHR
+{
+    XrStructureType type;
+    const void *next;
+    uint32_t bindingModificationCount;
+    const XrBindingModificationBaseHeaderKHR * const*bindingModifications;
+} XrBindingModificationsKHR;
+
+typedef struct XrBodyJointsLocateInfoFB
 {
     XrStructureType type;
     const void *next;
     XrSpace baseSpace;
     XrTime time;
-};
+} XrBodyJointsLocateInfoFB;
 
-struct XrBodyTrackerCreateInfoFB
+typedef struct XrBodyTrackerCreateInfoFB
 {
     XrStructureType type;
     const void *next;
     XrBodyJointSetFB bodyJointSet;
-};
+} XrBodyTrackerCreateInfoFB;
 
-struct XrCompositionLayerAlphaBlendFB
+typedef struct XrBoundSourcesForActionEnumerateInfo
+{
+    XrStructureType type;
+    const void *next;
+    XrAction action;
+} XrBoundSourcesForActionEnumerateInfo;
+
+typedef struct XrColor3f
+{
+    float r;
+    float g;
+    float b;
+} XrColor3f;
+typedef XrColor3f XrColor3fKHR;
+
+typedef struct XrColor4f
+{
+    float r;
+    float g;
+    float b;
+    float a;
+} XrColor4f;
+
+typedef struct XrCompositionLayerAlphaBlendFB
 {
     XrStructureType type;
     void *next;
@@ -2756,1312 +2520,226 @@ struct XrCompositionLayerAlphaBlendFB
     XrBlendFactorFB dstFactorColor;
     XrBlendFactorFB srcFactorAlpha;
     XrBlendFactorFB dstFactorAlpha;
-};
+} XrCompositionLayerAlphaBlendFB;
 
-struct XrCompositionLayerDepthTestFB
+typedef struct XrCompositionLayerBaseHeader
+{
+    XrStructureType type;
+    const void *next;
+    XrCompositionLayerFlags WINE_XR_ALIGN(8) layerFlags;
+    XrSpace space;
+} XrCompositionLayerBaseHeader;
+
+typedef struct XrCompositionLayerColorScaleBiasKHR
+{
+    XrStructureType type;
+    const void *next;
+    XrColor4f colorScale;
+    XrColor4f colorBias;
+} XrCompositionLayerColorScaleBiasKHR;
+
+typedef struct XrCompositionLayerDepthTestFB
 {
     XrStructureType type;
     const void *next;
     XrBool32 depthMask;
     XrCompareOpFB compareOp;
-};
+} XrCompositionLayerDepthTestFB;
 
-struct XrCompositionLayerImageLayoutFB
-{
-    XrStructureType type;
-    void *next;
-    XrCompositionLayerImageLayoutFlagsFB flags;
-};
-
-struct XrCompositionLayerReprojectionInfoMSFT
-{
-    XrStructureType type;
-    const void *next;
-    XrReprojectionModeMSFT reprojectionMode;
-};
-
-struct XrCompositionLayerSecureContentFB
-{
-    XrStructureType type;
-    const void *next;
-    XrCompositionLayerSecureContentFlagsFB flags;
-};
-
-struct XrControllerModelKeyStateMSFT
-{
-    XrStructureType type;
-    void *next;
-    XrControllerModelKeyMSFT modelKey;
-};
-
-struct XrDeserializeSceneFragmentMSFT
-{
-    uint32_t bufferSize;
-    const uint8_t *buffer;
-};
-
-struct XrDevicePcmSampleRateStateFB
-{
-    XrStructureType type;
-    void *next;
-    float sampleRate;
-};
-
-struct XrEnvironmentDepthHandRemovalSetInfoMETA
-{
-    XrStructureType type;
-    const void *next;
-    XrBool32 enabled;
-};
-
-struct XrEnvironmentDepthProviderCreateInfoMETA
-{
-    XrStructureType type;
-    const void *next;
-    XrEnvironmentDepthProviderCreateFlagsMETA createFlags;
-};
-
-struct XrEnvironmentDepthSwapchainStateMETA
-{
-    XrStructureType type;
-    void *next;
-    uint32_t width;
-    uint32_t height;
-};
-
-struct XrEventDataBuffer
-{
-    XrStructureType type;
-    const void *next;
-    uint8_t varying[4000];
-};
-
-struct XrEventDataEventsLost
-{
-    XrStructureType type;
-    const void *next;
-    uint32_t lostEventCount;
-};
-
-struct XrEventDataHeadsetFitChangedML
-{
-    XrStructureType type;
-    const void *next;
-    XrHeadsetFitStatusML status;
-    XrTime time;
-};
-
-struct XrEventDataInteractionProfileChanged
-{
-    XrStructureType type;
-    const void *next;
-    XrSession session;
-};
-
-struct XrEventDataMainSessionVisibilityChangedEXTX
-{
-    XrStructureType type;
-    const void *next;
-    XrBool32 visible;
-    XrOverlayMainSessionFlagsEXTX flags;
-};
-
-struct XrEventDataPassthroughStateChangedFB
-{
-    XrStructureType type;
-    const void *next;
-    XrPassthroughStateChangedFlagsFB flags;
-};
-
-struct XrEventDataSceneCaptureCompleteFB
-{
-    XrStructureType type;
-    const void *next;
-    XrAsyncRequestIdFB requestId;
-    XrResult result;
-};
-
-struct XrEventDataSpaceListSaveCompleteFB
-{
-    XrStructureType type;
-    const void *next;
-    XrAsyncRequestIdFB requestId;
-    XrResult result;
-};
-
-struct XrEventDataSpaceQueryResultsAvailableFB
-{
-    XrStructureType type;
-    const void *next;
-    XrAsyncRequestIdFB requestId;
-};
-
-struct XrEventDataSpaceShareCompleteFB
-{
-    XrStructureType type;
-    const void *next;
-    XrAsyncRequestIdFB requestId;
-    XrResult result;
-};
-
-struct XrEventDataUserPresenceChangedEXT
-{
-    XrStructureType type;
-    const void *next;
-    XrSession session;
-    XrBool32 isUserPresent;
-};
-
-struct XrEventDataVirtualKeyboardCommitTextMETA
-{
-    XrStructureType type;
-    const void *next;
-    XrVirtualKeyboardMETA keyboard;
-    char text[XR_MAX_VIRTUAL_KEYBOARD_COMMIT_TEXT_SIZE_META];
-};
-
-struct XrEventDataVirtualKeyboardHiddenMETA
-{
-    XrStructureType type;
-    const void *next;
-    XrVirtualKeyboardMETA keyboard;
-};
-
-struct XrEventDataVisibilityMaskChangedKHR
-{
-    XrStructureType type;
-    const void *next;
-    XrSession session;
-    XrViewConfigurationType viewConfigurationType;
-    uint32_t viewIndex;
-};
-
-struct XrExtensionProperties
-{
-    XrStructureType type;
-    void *next;
-    char extensionName[XR_MAX_EXTENSION_NAME_SIZE];
-    uint32_t extensionVersion;
-};
-
-struct XrExtent2Di
-{
-    int32_t width;
-    int32_t height;
-};
-
-struct XrEyeGazeSampleTimeEXT
-{
-    XrStructureType type;
-    void *next;
-    XrTime time;
-};
-
-struct XrEyeGazesInfoFB
-{
-    XrStructureType type;
-    const void *next;
-    XrSpace baseSpace;
-    XrTime time;
-};
-
-struct XrFaceExpressionInfo2FB
-{
-    XrStructureType type;
-    const void *next;
-    XrTime time;
-};
-
-struct XrFaceExpressionStatusFB
-{
-    XrBool32 isValid;
-    XrBool32 isEyeFollowingBlendshapesValid;
-};
-
-struct XrFaceExpressionWeightsFB
-{
-    XrStructureType type;
-    void *next;
-    uint32_t weightCount;
-    float *weights;
-    uint32_t confidenceCount;
-    float *confidences;
-    XrFaceExpressionStatusFB status;
-    XrTime time;
-};
-
-struct XrFaceTrackerCreateInfoFB
-{
-    XrStructureType type;
-    const void *next;
-    XrFaceExpressionSetFB faceExpressionSet;
-};
-
-struct XrFacialTrackerCreateInfoHTC
-{
-    XrStructureType type;
-    const void *next;
-    XrFacialTrackingTypeHTC facialTrackingType;
-};
-
-struct XrFoveatedViewConfigurationViewVARJO
-{
-    XrStructureType type;
-    void *next;
-    XrBool32 foveatedRenderingActive;
-};
-
-struct XrFoveationDynamicModeInfoHTC
-{
-    XrStructureType type;
-    const void *next;
-    XrFoveationDynamicFlagsHTC dynamicFlags;
-};
-
-struct XrFoveationLevelProfileCreateInfoFB
-{
-    XrStructureType type;
-    void *next;
-    XrFoveationLevelFB level;
-    float verticalOffset;
-    XrFoveationDynamicFB dynamic;
-};
-
-struct XrFovf
-{
-    float angleLeft;
-    float angleRight;
-    float angleUp;
-    float angleDown;
-};
-
-struct XrFrameEndInfoML
-{
-    XrStructureType type;
-    const void *next;
-    float focusDistance;
-    XrFrameEndInfoFlagsML flags;
-};
-
-struct XrFrameWaitInfo
-{
-    XrStructureType type;
-    const void *next;
-};
-
-struct XrFutureCompletionBaseHeaderEXT
-{
-    XrStructureType type;
-    void *next;
-    XrResult futureResult;
-};
-
-struct XrFuturePollInfoEXT
-{
-    XrStructureType type;
-    const void *next;
-    XrFutureEXT future;
-};
-
-struct XrGlobalDimmerFrameEndInfoML
-{
-    XrStructureType type;
-    const void *next;
-    float dimmerValue;
-    XrGlobalDimmerFrameEndInfoFlagsML flags;
-};
-
-struct XrGraphicsBindingD3D12KHR
-{
-    XrStructureType type;
-    const void *next;
-    ID3D12Device *device;
-    ID3D12CommandQueue *queue;
-};
-
-struct XrGraphicsBindingOpenGLWin32KHR
-{
-    XrStructureType type;
-    const void *next;
-    HDC hDC;
-    HGLRC hGLRC;
-};
-
-struct XrGraphicsBindingVulkanKHR
-{
-    XrStructureType type;
-    const void *next;
-    VkInstance instance;
-    VkPhysicalDevice physicalDevice;
-    VkDevice device;
-    uint32_t queueFamilyIndex;
-    uint32_t queueIndex;
-};
-
-struct XrGraphicsRequirementsD3D12KHR
-{
-    XrStructureType type;
-    void *next;
-    LUID adapterLuid;
-    D3D_FEATURE_LEVEL minFeatureLevel;
-};
-
-struct XrGraphicsRequirementsOpenGLKHR
-{
-    XrStructureType type;
-    void *next;
-    XrVersion minApiVersionSupported;
-    XrVersion maxApiVersionSupported;
-};
-
-struct XrGraphicsRequirementsVulkanKHR
-{
-    XrStructureType type;
-    void *next;
-    XrVersion minApiVersionSupported;
-    XrVersion maxApiVersionSupported;
-};
-
-struct XrHandJointsLocateInfoEXT
-{
-    XrStructureType type;
-    const void *next;
-    XrSpace baseSpace;
-    XrTime time;
-};
-
-struct XrHandMeshIndexBufferMSFT
-{
-    uint32_t indexBufferKey;
-    uint32_t indexCapacityInput;
-    uint32_t indexCountOutput;
-    uint32_t *indices;
-};
-
-struct XrHandMeshUpdateInfoMSFT
-{
-    XrStructureType type;
-    const void *next;
-    XrTime time;
-    XrHandPoseTypeMSFT handPoseType;
-};
-
-struct XrHandPoseTypeInfoMSFT
-{
-    XrStructureType type;
-    const void *next;
-    XrHandPoseTypeMSFT handPoseType;
-};
-
-struct XrHandTrackingDataSourceInfoEXT
-{
-    XrStructureType type;
-    const void *next;
-    uint32_t requestedDataSourceCount;
-    XrHandTrackingDataSourceEXT *requestedDataSources;
-};
-
-struct XrHandTrackingScaleFB
-{
-    XrStructureType type;
-    void *next;
-    float sensorOutput;
-    float currentOutput;
-    XrBool32 overrideHandScale;
-    float overrideValueInput;
-};
-
-struct XrHapticAmplitudeEnvelopeVibrationFB
-{
-    XrStructureType type;
-    const void *next;
-    XrDuration duration;
-    uint32_t amplitudeCount;
-    const float *amplitudes;
-};
-
-struct XrHapticPcmVibrationFB
-{
-    XrStructureType type;
-    const void *next;
-    uint32_t bufferSize;
-    const float *buffer;
-    float sampleRate;
-    XrBool32 append;
-    uint32_t *samplesConsumed;
-};
-
-struct XrHolographicWindowAttachmentMSFT
-{
-    XrStructureType type;
-    const void *next;
-    IUnknown *holographicSpace;
-    IUnknown *coreWindow;
-};
-
-struct XrInstanceCreateInfo
-{
-    XrStructureType type;
-    const void *next;
-    XrInstanceCreateFlags createFlags;
-    XrApplicationInfo applicationInfo;
-    uint32_t enabledApiLayerCount;
-    const char * const*enabledApiLayerNames;
-    uint32_t enabledExtensionCount;
-    const char * const*enabledExtensionNames;
-};
-
-struct XrInstanceProperties
-{
-    XrStructureType type;
-    void *next;
-    XrVersion runtimeVersion;
-    char runtimeName[XR_MAX_RUNTIME_NAME_SIZE];
-};
-
-struct XrInteractionProfileState
-{
-    XrStructureType type;
-    void *next;
-    XrPath interactionProfile;
-};
-
-struct XrKeyboardSpaceCreateInfoFB
-{
-    XrStructureType type;
-    void *next;
-    uint64_t WINE_XR_ALIGN(8) trackedKeyboardId;
-};
-
-struct XrKeyboardTrackingQueryFB
-{
-    XrStructureType type;
-    void *next;
-    XrKeyboardTrackingQueryFlagsFB flags;
-};
-
-struct XrLocalizationEnableEventsInfoML
-{
-    XrStructureType type;
-    const void *next;
-    XrBool32 enabled;
-};
-
-struct XrLocalizationMapQueryInfoBaseHeaderML
-{
-    XrStructureType type;
-    const void *next;
-};
-
-struct XrMarkerDetectorAprilTagInfoML
-{
-    XrStructureType type;
-    const void *next;
-    XrMarkerAprilTagDictML aprilTagDict;
-};
-
-struct XrMarkerDetectorCreateInfoML
-{
-    XrStructureType type;
-    const void *next;
-    XrMarkerDetectorProfileML profile;
-    XrMarkerTypeML markerType;
-};
-
-struct XrMarkerDetectorSizeInfoML
-{
-    XrStructureType type;
-    const void *next;
-    float markerLength;
-};
-
-struct XrMarkerDetectorStateML
-{
-    XrStructureType type;
-    void *next;
-    XrMarkerDetectorStatusML state;
-};
-
-struct XrNegotiateApiLayerRequest
-{
-    XrLoaderInterfaceStructs structType;
-    uint32_t structVersion;
-    size_t structSize;
-    uint32_t layerInterfaceVersion;
-    XrVersion layerApiVersion;
-    PFN_xrGetInstanceProcAddr getInstanceProcAddr;
-    PFN_xrCreateApiLayerInstance createApiLayerInstance;
-};
-
-struct XrNegotiateRuntimeRequest
-{
-    XrLoaderInterfaceStructs structType;
-    uint32_t structVersion;
-    size_t structSize;
-    uint32_t runtimeInterfaceVersion;
-    XrVersion runtimeApiVersion;
-    PFN_xrGetInstanceProcAddr getInstanceProcAddr;
-};
-
-struct XrOffset2Df
-{
-    float x;
-    float y;
-};
-
-struct XrOffset3DfFB
-{
-    float x;
-    float y;
-    float z;
-};
-
-struct XrPassthroughColorHTC
-{
-    XrStructureType type;
-    const void *next;
-    float alpha;
-};
-
-struct XrPassthroughColorLutDataMETA
-{
-    uint32_t bufferSize;
-    const uint8_t *buffer;
-};
-
-struct XrPassthroughColorMapInterpolatedLutMETA
-{
-    XrStructureType type;
-    const void *next;
-    XrPassthroughColorLutMETA sourceColorLut;
-    XrPassthroughColorLutMETA targetColorLut;
-    float weight;
-};
-
-struct XrPassthroughColorMapMonoToMonoFB
-{
-    XrStructureType type;
-    const void *next;
-    uint8_t textureColorMap[XR_PASSTHROUGH_COLOR_MAP_MONO_SIZE_FB];
-};
-
-struct XrPassthroughCreateInfoFB
-{
-    XrStructureType type;
-    const void *next;
-    XrPassthroughFlagsFB flags;
-};
-
-struct XrPassthroughKeyboardHandsIntensityFB
-{
-    XrStructureType type;
-    const void *next;
-    float leftHandIntensity;
-    float rightHandIntensity;
-};
-
-struct XrPassthroughPreferencesMETA
-{
-    XrStructureType type;
-    const void *next;
-    XrPassthroughPreferenceFlagsMETA flags;
-};
-
-struct XrPerformanceMetricsCounterMETA
-{
-    XrStructureType type;
-    const void *next;
-    XrPerformanceMetricsCounterFlagsMETA counterFlags;
-    XrPerformanceMetricsCounterUnitMETA counterUnit;
-    uint32_t uintValue;
-    float floatValue;
-};
-
-struct XrPlaneDetectorCreateInfoEXT
-{
-    XrStructureType type;
-    const void *next;
-    XrPlaneDetectorFlagsEXT flags;
-};
-
-struct XrQuaternionf
-{
-    float x;
-    float y;
-    float z;
-    float w;
-};
-
-struct XrRecommendedLayerResolutionMETA
-{
-    XrStructureType type;
-    void *next;
-    XrExtent2Di recommendedImageDimensions;
-    XrBool32 isValid;
-};
-
-struct XrRect3DfFB
-{
-    XrOffset3DfFB offset;
-    XrExtent3DfFB extent;
-};
-
-struct XrRenderModelBufferFB
-{
-    XrStructureType type;
-    void *next;
-    uint32_t bufferCapacityInput;
-    uint32_t bufferCountOutput;
-    uint8_t *buffer;
-};
-
-struct XrRenderModelLoadInfoFB
-{
-    XrStructureType type;
-    void *next;
-    XrRenderModelKeyFB modelKey;
-};
-
-struct XrRenderModelPropertiesFB
-{
-    XrStructureType type;
-    void *next;
-    uint32_t vendorId;
-    char modelName[XR_MAX_RENDER_MODEL_NAME_SIZE_FB];
-    XrRenderModelKeyFB modelKey;
-    uint32_t modelVersion;
-    XrRenderModelFlagsFB flags;
-};
-
-struct XrSceneCaptureRequestInfoFB
-{
-    XrStructureType type;
-    const void *next;
-    uint32_t requestByteCount;
-    const char *request;
-};
-
-struct XrSceneComponentsGetInfoMSFT
-{
-    XrStructureType type;
-    const void *next;
-    XrSceneComponentTypeMSFT componentType;
-};
-
-struct XrSceneCreateInfoMSFT
-{
-    XrStructureType type;
-    const void *next;
-};
-
-struct XrSceneMarkerQRCodeMSFT
-{
-    XrSceneMarkerQRCodeSymbolTypeMSFT symbolType;
-    uint8_t version;
-};
-
-struct XrSceneMarkerTypeFilterMSFT
-{
-    XrStructureType type;
-    const void *next;
-    uint32_t markerTypeCount;
-    XrSceneMarkerTypeMSFT *markerTypes;
-};
-
-struct XrSceneMeshBuffersGetInfoMSFT
-{
-    XrStructureType type;
-    const void *next;
-    uint64_t WINE_XR_ALIGN(8) meshBufferId;
-};
-
-struct XrSceneMeshIndicesUint16MSFT
-{
-    XrStructureType type;
-    void *next;
-    uint32_t indexCapacityInput;
-    uint32_t indexCountOutput;
-    uint16_t *indices;
-};
-
-struct XrSceneMeshMSFT
-{
-    uint64_t WINE_XR_ALIGN(8) meshBufferId;
-    XrBool32 supportsIndicesUint16;
-};
-
-struct XrSceneMeshesMSFT
-{
-    XrStructureType type;
-    void *next;
-    uint32_t sceneMeshCount;
-    XrSceneMeshMSFT *sceneMeshes;
-};
-
-struct XrSceneObjectTypesFilterInfoMSFT
-{
-    XrStructureType type;
-    const void *next;
-    uint32_t objectTypeCount;
-    const XrSceneObjectTypeMSFT *objectTypes;
-};
-
-struct XrSceneObserverCreateInfoMSFT
-{
-    XrStructureType type;
-    const void *next;
-};
-
-struct XrScenePlaneAlignmentFilterInfoMSFT
-{
-    XrStructureType type;
-    const void *next;
-    uint32_t alignmentCount;
-    const XrScenePlaneAlignmentTypeMSFT *alignments;
-};
-
-struct XrSecondaryViewConfigurationSessionBeginInfoMSFT
-{
-    XrStructureType type;
-    const void *next;
-    uint32_t viewConfigurationCount;
-    const XrViewConfigurationType *enabledViewConfigurationTypes;
-};
-
-struct XrSecondaryViewConfigurationSwapchainCreateInfoMSFT
-{
-    XrStructureType type;
-    const void *next;
-    XrViewConfigurationType viewConfigurationType;
-};
-
-struct XrSemanticLabelsSupportInfoFB
-{
-    XrStructureType type;
-    const void *next;
-    XrSemanticLabelsSupportFlagsFB flags;
-    const char *recognizedLabels;
-};
-
-struct XrSessionActionSetsAttachInfo
-{
-    XrStructureType type;
-    const void *next;
-    uint32_t countActionSets;
-    const XrActionSet *actionSets;
-};
-
-struct XrSessionCreateInfo
-{
-    XrStructureType type;
-    const void *next;
-    XrSessionCreateFlags createFlags;
-    XrSystemId systemId;
-};
-
-struct XrSpaceComponentFilterInfoFB
-{
-    XrStructureType type;
-    const void *next;
-    XrSpaceComponentTypeFB componentType;
-};
-
-struct XrSpaceComponentStatusSetInfoFB
-{
-    XrStructureType type;
-    const void *next;
-    XrSpaceComponentTypeFB componentType;
-    XrBool32 enabled;
-    XrDuration timeout;
-};
-
-struct XrSpaceEraseInfoFB
-{
-    XrStructureType type;
-    const void *next;
-    XrSpace space;
-    XrSpaceStorageLocationFB location;
-};
-
-struct XrSpaceListSaveInfoFB
-{
-    XrStructureType type;
-    const void *next;
-    uint32_t spaceCount;
-    XrSpace *spaces;
-    XrSpaceStorageLocationFB location;
-};
-
-struct XrSpaceSaveInfoFB
-{
-    XrStructureType type;
-    const void *next;
-    XrSpace space;
-    XrSpaceStorageLocationFB location;
-    XrSpacePersistenceModeFB persistenceMode;
-};
-
-struct XrSpaceStorageLocationFilterInfoFB
-{
-    XrStructureType type;
-    const void *next;
-    XrSpaceStorageLocationFB location;
-};
-
-struct XrSpaceUserCreateInfoFB
-{
-    XrStructureType type;
-    const void *next;
-    XrSpaceUserIdFB userId;
-};
-
-struct XrSpatialAnchorNameHTC
-{
-    char name[XR_MAX_SPATIAL_ANCHOR_NAME_SIZE_HTC];
-};
-
-struct XrSpatialAnchorPersistenceNameMSFT
-{
-    char name[XR_MAX_SPATIAL_ANCHOR_NAME_SIZE_MSFT];
-};
-
-struct XrSpatialGraphNodeBindingPropertiesGetInfoMSFT
-{
-    XrStructureType type;
-    const void *next;
-};
-
-struct XrSwapchainCreateInfoFoveationFB
-{
-    XrStructureType type;
-    void *next;
-    XrSwapchainCreateFoveationFlagsFB flags;
-};
-
-struct XrSwapchainImageBaseHeader
-{
-    XrStructureType type;
-    void *next;
-};
-
-struct XrSwapchainImageD3D12KHR
-{
-    XrStructureType type;
-    void *next;
-    ID3D12Resource *texture;
-};
-
-struct XrSwapchainImageReleaseInfo
-{
-    XrStructureType type;
-    const void *next;
-};
-
-struct XrSwapchainImageVulkanKHR
-{
-    XrStructureType type;
-    void *next;
-    VkImage image;
-};
-
-struct XrSwapchainStateBaseHeaderFB
-{
-    XrStructureType type;
-    void *next;
-};
-
-struct XrSystemAnchorPropertiesHTC
-{
-    XrStructureType type;
-    void *next;
-    XrBool32 supportsAnchor;
-};
-
-struct XrSystemColorSpacePropertiesFB
-{
-    XrStructureType type;
-    void *next;
-    XrColorSpaceFB colorSpace;
-};
-
-struct XrSystemEyeGazeInteractionPropertiesEXT
-{
-    XrStructureType type;
-    void *next;
-    XrBool32 supportsEyeGazeInteraction;
-};
-
-struct XrSystemFaceTrackingProperties2FB
-{
-    XrStructureType type;
-    void *next;
-    XrBool32 supportsVisualFaceTracking;
-    XrBool32 supportsAudioFaceTracking;
-};
-
-struct XrSystemFacialTrackingPropertiesHTC
-{
-    XrStructureType type;
-    void *next;
-    XrBool32 supportEyeFacialTracking;
-    XrBool32 supportLipFacialTracking;
-};
-
-struct XrSystemFoveatedRenderingPropertiesVARJO
-{
-    XrStructureType type;
-    void *next;
-    XrBool32 supportsFoveatedRendering;
-};
-
-struct XrSystemGetInfo
-{
-    XrStructureType type;
-    const void *next;
-    XrFormFactor formFactor;
-};
-
-struct XrSystemHandTrackingMeshPropertiesMSFT
-{
-    XrStructureType type;
-    void *next;
-    XrBool32 supportsHandTrackingMesh;
-    uint32_t maxHandMeshIndexCount;
-    uint32_t maxHandMeshVertexCount;
-};
-
-struct XrSystemKeyboardTrackingPropertiesFB
-{
-    XrStructureType type;
-    void *next;
-    XrBool32 supportsKeyboardTracking;
-};
-
-struct XrSystemMarkerUnderstandingPropertiesML
-{
-    XrStructureType type;
-    void *next;
-    XrBool32 supportsMarkerUnderstanding;
-};
-
-struct XrSystemPassthroughProperties2FB
-{
-    XrStructureType type;
-    const void *next;
-    XrPassthroughCapabilityFlagsFB capabilities;
-};
-
-struct XrSystemPlaneDetectionPropertiesEXT
-{
-    XrStructureType type;
-    void *next;
-    XrPlaneDetectionCapabilityFlagsEXT supportedFeatures;
-};
-
-struct XrSystemRenderModelPropertiesFB
-{
-    XrStructureType type;
-    void *next;
-    XrBool32 supportsRenderModelLoading;
-};
-
-struct XrSystemSpatialEntityPropertiesFB
-{
-    XrStructureType type;
-    const void *next;
-    XrBool32 supportsSpatialEntity;
-};
-
-struct XrSystemUserPresencePropertiesEXT
-{
-    XrStructureType type;
-    void *next;
-    XrBool32 supportsUserPresence;
-};
-
-struct XrUserCalibrationEnableEventsInfoML
-{
-    XrStructureType type;
-    const void *next;
-    XrBool32 enabled;
-};
-
-struct XrUuidMSFT
-{
-    uint8_t bytes[16];
-};
-
-struct XrVector3f
-{
-    float x;
-    float y;
-    float z;
-};
-
-struct XrVector4sFB
-{
-    int16_t x;
-    int16_t y;
-    int16_t z;
-    int16_t w;
-};
-
-struct XrViewConfigurationDepthRangeEXT
-{
-    XrStructureType type;
-    void *next;
-    float recommendedNearZ;
-    float minNearZ;
-    float recommendedFarZ;
-    float maxFarZ;
-};
-
-struct XrViewConfigurationView
-{
-    XrStructureType type;
-    void *next;
-    uint32_t recommendedImageRectWidth;
-    uint32_t maxImageRectWidth;
-    uint32_t recommendedImageRectHeight;
-    uint32_t maxImageRectHeight;
-    uint32_t recommendedSwapchainSampleCount;
-    uint32_t maxSwapchainSampleCount;
-};
-
-struct XrViewLocateFoveatedRenderingVARJO
-{
-    XrStructureType type;
-    const void *next;
-    XrBool32 foveatedRenderingActive;
-};
-
-struct XrViewState
-{
-    XrStructureType type;
-    void *next;
-    XrViewStateFlags viewStateFlags;
-};
-
-struct XrVirtualKeyboardCreateInfoMETA
-{
-    XrStructureType type;
-    const void *next;
-};
-
-struct XrVirtualKeyboardModelVisibilitySetInfoMETA
-{
-    XrStructureType type;
-    const void *next;
-    XrBool32 visible;
-};
-
-struct XrVirtualKeyboardTextContextChangeInfoMETA
-{
-    XrStructureType type;
-    const void *next;
-    const char *textContext;
-};
-
-struct XrVisualMeshComputeLodInfoMSFT
-{
-    XrStructureType type;
-    const void *next;
-    XrMeshComputeLodMSFT lod;
-};
-
-struct XrVulkanDeviceCreateInfoKHR
-{
-    XrStructureType type;
-    const void *next;
-    XrSystemId systemId;
-    XrVulkanDeviceCreateFlagsKHR createFlags;
-    PFN_vkGetInstanceProcAddr pfnGetInstanceProcAddr;
-    VkPhysicalDevice vulkanPhysicalDevice;
-    const VkDeviceCreateInfo *vulkanCreateInfo;
-    const VkAllocationCallbacks *vulkanAllocator;
-};
-
-struct XrVulkanInstanceCreateInfoKHR
-{
-    XrStructureType type;
-    const void *next;
-    XrSystemId systemId;
-    XrVulkanInstanceCreateFlagsKHR createFlags;
-    PFN_vkGetInstanceProcAddr pfnGetInstanceProcAddr;
-    const VkInstanceCreateInfo *vulkanCreateInfo;
-    const VkAllocationCallbacks *vulkanAllocator;
-};
-
-struct XrVulkanSwapchainFormatListCreateInfoKHR
-{
-    XrStructureType type;
-    const void *next;
-    uint32_t viewFormatCount;
-    const VkFormat *viewFormats;
-};
-
-struct XrUuid
-{
-    uint8_t data[XR_UUID_SIZE];
-};
-
-struct XrActionStateFloat
-{
-    XrStructureType type;
-    void *next;
-    float currentState;
-    XrBool32 changedSinceLastSync;
-    XrTime lastChangeTime;
-    XrBool32 isActive;
-};
-
-struct XrActionsSyncInfo
-{
-    XrStructureType type;
-    const void *next;
-    uint32_t countActiveActionSets;
-    const XrActiveActionSet *activeActionSets;
-};
-
-struct XrApiLayerCreateInfo
-{
-    XrLoaderInterfaceStructs structType;
-    uint32_t structVersion;
-    size_t structSize;
-    void *loaderInstance;
-    char settings_file_location[XR_API_LAYER_MAX_SETTINGS_PATH_SIZE];
-    XrApiLayerNextInfo *nextInfo;
-};
-
-struct XrBaseInStructure
-{
-    XrStructureType type;
-    const struct XrBaseInStructure *next;
-};
-
-struct XrBoundSourcesForActionEnumerateInfo
-{
-    XrStructureType type;
-    const void *next;
-    XrAction action;
-};
-
-struct XrColor3f
-{
-    float r;
-    float g;
-    float b;
-};
-
-struct XrCompositionLayerBaseHeader
-{
-    XrStructureType type;
-    const void *next;
-    XrCompositionLayerFlags layerFlags;
-    XrSpace space;
-};
-
-struct XrCompositionLayerCubeKHR
-{
-    XrStructureType type;
-    const void *next;
-    XrCompositionLayerFlags layerFlags;
-    XrSpace space;
-    XrEyeVisibility eyeVisibility;
-    XrSwapchain swapchain;
-    uint32_t imageArrayIndex;
-    XrQuaternionf orientation;
-};
-
-struct XrCompositionLayerDepthTestVARJO
+typedef struct XrCompositionLayerDepthTestVARJO
 {
     XrStructureType type;
     const void *next;
     float depthTestRangeNearZ;
     float depthTestRangeFarZ;
-};
+} XrCompositionLayerDepthTestVARJO;
 
-struct XrCompositionLayerPassthroughFB
+typedef struct XrCompositionLayerImageLayoutFB
+{
+    XrStructureType type;
+    void *next;
+    XrCompositionLayerImageLayoutFlagsFB WINE_XR_ALIGN(8) flags;
+} XrCompositionLayerImageLayoutFB;
+
+typedef struct XrCompositionLayerPassthroughFB
 {
     XrStructureType type;
     const void *next;
-    XrCompositionLayerFlags flags;
+    XrCompositionLayerFlags WINE_XR_ALIGN(8) flags;
     XrSpace space;
     XrPassthroughLayerFB layerHandle;
-};
+} XrCompositionLayerPassthroughFB;
 
-struct XrCompositionLayerReprojectionPlaneOverrideMSFT
+typedef struct XrCompositionLayerReprojectionInfoMSFT
 {
     XrStructureType type;
     const void *next;
-    XrVector3f position;
-    XrVector3f normal;
-    XrVector3f velocity;
-};
+    XrReprojectionModeMSFT reprojectionMode;
+} XrCompositionLayerReprojectionInfoMSFT;
 
-struct XrControllerModelNodePropertiesMSFT
+typedef struct XrCompositionLayerSecureContentFB
+{
+    XrStructureType type;
+    const void *next;
+    XrCompositionLayerSecureContentFlagsFB WINE_XR_ALIGN(8) flags;
+} XrCompositionLayerSecureContentFB;
+
+typedef struct XrCompositionLayerSettingsFB
+{
+    XrStructureType type;
+    const void *next;
+    XrCompositionLayerSettingsFlagsFB WINE_XR_ALIGN(8) layerFlags;
+} XrCompositionLayerSettingsFB;
+
+typedef struct XrControllerModelKeyStateMSFT
+{
+    XrStructureType type;
+    void *next;
+    XrControllerModelKeyMSFT modelKey;
+} XrControllerModelKeyStateMSFT;
+
+typedef struct XrControllerModelNodePropertiesMSFT
 {
     XrStructureType type;
     void *next;
     char parentNodeName[XR_MAX_CONTROLLER_MODEL_NODE_NAME_SIZE_MSFT];
     char nodeName[XR_MAX_CONTROLLER_MODEL_NODE_NAME_SIZE_MSFT];
-};
+} XrControllerModelNodePropertiesMSFT;
 
-struct XrControllerModelPropertiesMSFT
+typedef struct XrControllerModelPropertiesMSFT
 {
     XrStructureType type;
     void *next;
     uint32_t nodeCapacityInput;
     uint32_t nodeCountOutput;
     XrControllerModelNodePropertiesMSFT *nodeProperties;
-};
+} XrControllerModelPropertiesMSFT;
 
-struct XrDebugUtilsLabelEXT
+typedef struct XrDeserializeSceneFragmentMSFT
+{
+    uint32_t bufferSize;
+    const uint8_t *buffer;
+} XrDeserializeSceneFragmentMSFT;
+
+
+typedef struct XrDevicePcmSampleRateStateFB
+{
+    XrStructureType type;
+    void *next;
+    float sampleRate;
+} XrDevicePcmSampleRateStateFB;
+typedef XrDevicePcmSampleRateStateFB XrDevicePcmSampleRateGetInfoFB;
+
+typedef struct XrDigitalLensControlALMALENCE
 {
     XrStructureType type;
     const void *next;
-    const char *labelName;
-};
+    XrDigitalLensControlFlagsALMALENCE WINE_XR_ALIGN(8) flags;
+} XrDigitalLensControlALMALENCE;
 
-struct XrDebugUtilsObjectNameInfoEXT
+typedef struct XrEnvironmentDepthHandRemovalSetInfoMETA
 {
     XrStructureType type;
     const void *next;
-    XrObjectType objectType;
-    uint64_t WINE_XR_ALIGN(8) objectHandle;
-    const char *objectName;
-};
+    XrBool32 enabled;
+} XrEnvironmentDepthHandRemovalSetInfoMETA;
 
-struct XrDigitalLensControlALMALENCE
+typedef struct XrEnvironmentDepthImageAcquireInfoMETA
 {
     XrStructureType type;
     const void *next;
-    XrDigitalLensControlFlagsALMALENCE flags;
-};
+    XrSpace space;
+    XrTime displayTime;
+} XrEnvironmentDepthImageAcquireInfoMETA;
 
-struct XrEnvironmentDepthSwapchainCreateInfoMETA
+typedef struct XrEnvironmentDepthProviderCreateInfoMETA
 {
     XrStructureType type;
     const void *next;
-    XrEnvironmentDepthSwapchainCreateFlagsMETA createFlags;
-};
+    XrEnvironmentDepthProviderCreateFlagsMETA WINE_XR_ALIGN(8) createFlags;
+} XrEnvironmentDepthProviderCreateInfoMETA;
 
-struct XrEventDataDisplayRefreshRateChangedFB
+typedef struct XrEnvironmentDepthSwapchainCreateInfoMETA
+{
+    XrStructureType type;
+    const void *next;
+    XrEnvironmentDepthSwapchainCreateFlagsMETA WINE_XR_ALIGN(8) createFlags;
+} XrEnvironmentDepthSwapchainCreateInfoMETA;
+
+typedef struct XrEnvironmentDepthSwapchainStateMETA
+{
+    XrStructureType type;
+    void *next;
+    uint32_t width;
+    uint32_t height;
+} XrEnvironmentDepthSwapchainStateMETA;
+
+typedef struct XrEventDataBaseHeader
+{
+    XrStructureType type;
+    const void *next;
+} XrEventDataBaseHeader;
+
+typedef struct XrEventDataBuffer
+{
+    XrStructureType type;
+    const void *next;
+    uint8_t varying[4000];
+} XrEventDataBuffer;
+
+typedef struct XrEventDataDisplayRefreshRateChangedFB
 {
     XrStructureType type;
     const void *next;
     float fromDisplayRefreshRate;
     float toDisplayRefreshRate;
-};
+} XrEventDataDisplayRefreshRateChangedFB;
 
-struct XrEventDataInstanceLossPending
+typedef struct XrEventDataEventsLost
+{
+    XrStructureType type;
+    const void *next;
+    uint32_t lostEventCount;
+} XrEventDataEventsLost;
+
+typedef struct XrEventDataEyeCalibrationChangedML
+{
+    XrStructureType type;
+    const void *next;
+    XrEyeCalibrationStatusML status;
+} XrEventDataEyeCalibrationChangedML;
+
+typedef struct XrEventDataHeadsetFitChangedML
+{
+    XrStructureType type;
+    const void *next;
+    XrHeadsetFitStatusML status;
+    XrTime time;
+} XrEventDataHeadsetFitChangedML;
+
+typedef struct XrEventDataInstanceLossPending
 {
     XrStructureType type;
     const void *next;
     XrTime lossTime;
-};
+} XrEventDataInstanceLossPending;
 
-struct XrEventDataMarkerTrackingUpdateVARJO
+typedef struct XrEventDataInteractionProfileChanged
+{
+    XrStructureType type;
+    const void *next;
+    XrSession session;
+} XrEventDataInteractionProfileChanged;
+
+typedef struct XrEventDataMainSessionVisibilityChangedEXTX
+{
+    XrStructureType type;
+    const void *next;
+    XrBool32 visible;
+    XrOverlayMainSessionFlagsEXTX WINE_XR_ALIGN(8) flags;
+} XrEventDataMainSessionVisibilityChangedEXTX;
+
+typedef struct XrEventDataMarkerTrackingUpdateVARJO
 {
     XrStructureType type;
     const void *next;
@@ -4069,61 +2747,200 @@ struct XrEventDataMarkerTrackingUpdateVARJO
     XrBool32 isActive;
     XrBool32 isPredicted;
     XrTime time;
-};
+} XrEventDataMarkerTrackingUpdateVARJO;
 
-struct XrEventDataSessionStateChanged
+typedef struct XrEventDataPassthroughStateChangedFB
+{
+    XrStructureType type;
+    const void *next;
+    XrPassthroughStateChangedFlagsFB WINE_XR_ALIGN(8) flags;
+} XrEventDataPassthroughStateChangedFB;
+
+typedef struct XrEventDataPerfSettingsEXT
+{
+    XrStructureType type;
+    const void *next;
+    XrPerfSettingsDomainEXT domain;
+    XrPerfSettingsSubDomainEXT subDomain;
+    XrPerfSettingsNotificationLevelEXT fromLevel;
+    XrPerfSettingsNotificationLevelEXT toLevel;
+} XrEventDataPerfSettingsEXT;
+
+typedef struct XrEventDataSceneCaptureCompleteFB
+{
+    XrStructureType type;
+    const void *next;
+    XrAsyncRequestIdFB requestId;
+    XrResult result;
+} XrEventDataSceneCaptureCompleteFB;
+
+typedef struct XrEventDataSessionStateChanged
 {
     XrStructureType type;
     const void *next;
     XrSession session;
     XrSessionState state;
     XrTime time;
-};
+} XrEventDataSessionStateChanged;
 
-struct XrEventDataSpaceQueryCompleteFB
+typedef struct XrEventDataSpaceListSaveCompleteFB
 {
     XrStructureType type;
     const void *next;
     XrAsyncRequestIdFB requestId;
     XrResult result;
-};
+} XrEventDataSpaceListSaveCompleteFB;
 
-struct XrEventDataVirtualKeyboardBackspaceMETA
+typedef struct XrEventDataSpaceQueryCompleteFB
+{
+    XrStructureType type;
+    const void *next;
+    XrAsyncRequestIdFB requestId;
+    XrResult result;
+} XrEventDataSpaceQueryCompleteFB;
+
+typedef struct XrEventDataSpaceQueryResultsAvailableFB
+{
+    XrStructureType type;
+    const void *next;
+    XrAsyncRequestIdFB requestId;
+} XrEventDataSpaceQueryResultsAvailableFB;
+
+typedef struct XrEventDataSpaceShareCompleteFB
+{
+    XrStructureType type;
+    const void *next;
+    XrAsyncRequestIdFB requestId;
+    XrResult result;
+} XrEventDataSpaceShareCompleteFB;
+
+typedef struct XrEventDataUserPresenceChangedEXT
+{
+    XrStructureType type;
+    const void *next;
+    XrSession session;
+    XrBool32 isUserPresent;
+} XrEventDataUserPresenceChangedEXT;
+
+typedef struct XrEventDataVirtualKeyboardBackspaceMETA
 {
     XrStructureType type;
     const void *next;
     XrVirtualKeyboardMETA keyboard;
-};
+} XrEventDataVirtualKeyboardBackspaceMETA;
 
-struct XrEventDataVirtualKeyboardShownMETA
+typedef struct XrEventDataVirtualKeyboardCommitTextMETA
 {
     XrStructureType type;
     const void *next;
     XrVirtualKeyboardMETA keyboard;
-};
+    char text[XR_MAX_VIRTUAL_KEYBOARD_COMMIT_TEXT_SIZE_META];
+} XrEventDataVirtualKeyboardCommitTextMETA;
 
-struct XrExtent2Df
+typedef struct XrEventDataVirtualKeyboardEnterMETA
+{
+    XrStructureType type;
+    const void *next;
+    XrVirtualKeyboardMETA keyboard;
+} XrEventDataVirtualKeyboardEnterMETA;
+
+typedef struct XrEventDataVirtualKeyboardHiddenMETA
+{
+    XrStructureType type;
+    const void *next;
+    XrVirtualKeyboardMETA keyboard;
+} XrEventDataVirtualKeyboardHiddenMETA;
+
+typedef struct XrEventDataVirtualKeyboardShownMETA
+{
+    XrStructureType type;
+    const void *next;
+    XrVirtualKeyboardMETA keyboard;
+} XrEventDataVirtualKeyboardShownMETA;
+
+typedef struct XrEventDataVisibilityMaskChangedKHR
+{
+    XrStructureType type;
+    const void *next;
+    XrSession session;
+    XrViewConfigurationType viewConfigurationType;
+    uint32_t viewIndex;
+} XrEventDataVisibilityMaskChangedKHR;
+
+typedef struct XrExtensionProperties
+{
+    XrStructureType type;
+    void *next;
+    char extensionName[XR_MAX_EXTENSION_NAME_SIZE];
+    uint32_t extensionVersion;
+} XrExtensionProperties;
+
+typedef struct XrExtent2Df
 {
     float width;
     float height;
-};
+} XrExtent2Df;
 
-struct XrExternalCameraIntrinsicsOCULUS
+typedef struct XrExtent2Di
 {
-    XrTime lastChangeTime;
-    XrFovf fov;
-    float virtualNearPlaneDistance;
-    float virtualFarPlaneDistance;
-    XrExtent2Di imageSensorPixelResolution;
-};
+    int32_t width;
+    int32_t height;
+} XrExtent2Di;
 
-struct XrEyeTrackerCreateInfoFB
+typedef struct XrExtent3Df
+{
+    float width;
+    float height;
+    float depth;
+} XrExtent3Df;
+typedef XrExtent3Df XrExtent3DfEXT;
+typedef XrExtent3Df XrExtent3DfFB;
+typedef XrExtent3Df XrExtent3DfKHR;
+
+
+
+typedef struct XrEyeGazeSampleTimeEXT
+{
+    XrStructureType type;
+    void *next;
+    XrTime time;
+} XrEyeGazeSampleTimeEXT;
+
+typedef struct XrEyeGazesInfoFB
 {
     XrStructureType type;
     const void *next;
-};
+    XrSpace baseSpace;
+    XrTime time;
+} XrEyeGazesInfoFB;
 
-struct XrFaceExpressionWeights2FB
+typedef struct XrEyeTrackerCreateInfoFB
+{
+    XrStructureType type;
+    const void *next;
+} XrEyeTrackerCreateInfoFB;
+
+typedef struct XrFaceExpressionInfo2FB
+{
+    XrStructureType type;
+    const void *next;
+    XrTime time;
+} XrFaceExpressionInfo2FB;
+
+typedef struct XrFaceExpressionInfoFB
+{
+    XrStructureType type;
+    const void *next;
+    XrTime time;
+} XrFaceExpressionInfoFB;
+
+typedef struct XrFaceExpressionStatusFB
+{
+    XrBool32 isValid;
+    XrBool32 isEyeFollowingBlendshapesValid;
+} XrFaceExpressionStatusFB;
+
+typedef struct XrFaceExpressionWeights2FB
 {
     XrStructureType type;
     void *next;
@@ -4135,9 +2952,37 @@ struct XrFaceExpressionWeights2FB
     XrBool32 isEyeFollowingBlendshapesValid;
     XrFaceTrackingDataSource2FB dataSource;
     XrTime time;
-};
+} XrFaceExpressionWeights2FB;
 
-struct XrFacialExpressionsHTC
+typedef struct XrFaceExpressionWeightsFB
+{
+    XrStructureType type;
+    void *next;
+    uint32_t weightCount;
+    float *weights;
+    uint32_t confidenceCount;
+    float *confidences;
+    XrFaceExpressionStatusFB status;
+    XrTime time;
+} XrFaceExpressionWeightsFB;
+
+typedef struct XrFaceTrackerCreateInfo2FB
+{
+    XrStructureType type;
+    const void *next;
+    XrFaceExpressionSet2FB faceExpressionSet;
+    uint32_t requestedDataSourceCount;
+    XrFaceTrackingDataSource2FB *requestedDataSources;
+} XrFaceTrackerCreateInfo2FB;
+
+typedef struct XrFaceTrackerCreateInfoFB
+{
+    XrStructureType type;
+    const void *next;
+    XrFaceExpressionSetFB faceExpressionSet;
+} XrFaceTrackerCreateInfoFB;
+
+typedef struct XrFacialExpressionsHTC
 {
     XrStructureType type;
     const void *next;
@@ -4145,22 +2990,73 @@ struct XrFacialExpressionsHTC
     XrTime sampleTime;
     uint32_t expressionCount;
     float *expressionWeightings;
-};
+} XrFacialExpressionsHTC;
 
-struct XrFoveationEyeTrackedProfileCreateInfoMETA
+typedef struct XrFacialTrackerCreateInfoHTC
 {
     XrStructureType type;
     const void *next;
-    XrFoveationEyeTrackedProfileCreateFlagsMETA flags;
-};
+    XrFacialTrackingTypeHTC facialTrackingType;
+} XrFacialTrackerCreateInfoHTC;
 
-struct XrFoveationProfileCreateInfoFB
+typedef struct XrForceFeedbackCurlApplyLocationMNDX
+{
+    XrForceFeedbackCurlLocationMNDX location;
+    float value;
+} XrForceFeedbackCurlApplyLocationMNDX;
+
+typedef struct XrForceFeedbackCurlApplyLocationsMNDX
+{
+    XrStructureType type;
+    const void *next;
+    uint32_t locationCount;
+    XrForceFeedbackCurlApplyLocationMNDX *locations;
+} XrForceFeedbackCurlApplyLocationsMNDX;
+
+typedef struct XrFoveatedViewConfigurationViewVARJO
 {
     XrStructureType type;
     void *next;
-};
+    XrBool32 foveatedRenderingActive;
+} XrFoveatedViewConfigurationViewVARJO;
 
-struct XrFrameEndInfo
+typedef struct XrFoveationEyeTrackedProfileCreateInfoMETA
+{
+    XrStructureType type;
+    const void *next;
+    XrFoveationEyeTrackedProfileCreateFlagsMETA WINE_XR_ALIGN(8) flags;
+} XrFoveationEyeTrackedProfileCreateInfoMETA;
+
+typedef struct XrFoveationLevelProfileCreateInfoFB
+{
+    XrStructureType type;
+    void *next;
+    XrFoveationLevelFB level;
+    float verticalOffset;
+    XrFoveationDynamicFB dynamic;
+} XrFoveationLevelProfileCreateInfoFB;
+
+typedef struct XrFoveationProfileCreateInfoFB
+{
+    XrStructureType type;
+    void *next;
+} XrFoveationProfileCreateInfoFB;
+
+typedef struct XrFovf
+{
+    float angleLeft;
+    float angleRight;
+    float angleUp;
+    float angleDown;
+} XrFovf;
+
+typedef struct XrFrameBeginInfo
+{
+    XrStructureType type;
+    const void *next;
+} XrFrameBeginInfo;
+
+typedef struct XrFrameEndInfo
 {
     XrStructureType type;
     const void *next;
@@ -4168,766 +3064,294 @@ struct XrFrameEndInfo
     XrEnvironmentBlendMode environmentBlendMode;
     uint32_t layerCount;
     const XrCompositionLayerBaseHeader * const*layers;
-};
+} XrFrameEndInfo;
 
-struct XrFutureCancelInfoEXT
+typedef struct XrFrameEndInfoML
+{
+    XrStructureType type;
+    const void *next;
+    float focusDistance;
+    XrFrameEndInfoFlagsML WINE_XR_ALIGN(8) flags;
+} XrFrameEndInfoML;
+
+typedef struct XrFrameState
+{
+    XrStructureType type;
+    void *next;
+    XrTime predictedDisplayTime;
+    XrDuration predictedDisplayPeriod;
+    XrBool32 shouldRender;
+} XrFrameState;
+
+typedef struct XrFrameWaitInfo
+{
+    XrStructureType type;
+    const void *next;
+} XrFrameWaitInfo;
+
+typedef struct XrFutureCancelInfoEXT
 {
     XrStructureType type;
     const void *next;
     XrFutureEXT future;
-};
+} XrFutureCancelInfoEXT;
 
-struct XrFuturePollResultEXT
+typedef struct XrFutureCompletionBaseHeaderEXT
+{
+    XrStructureType type;
+    void *next;
+    XrResult futureResult;
+} XrFutureCompletionBaseHeaderEXT;
+
+typedef struct XrFutureCompletionEXT
+{
+    XrStructureType type;
+    void *next;
+    XrResult futureResult;
+} XrFutureCompletionEXT;
+
+typedef struct XrFuturePollInfoEXT
+{
+    XrStructureType type;
+    const void *next;
+    XrFutureEXT future;
+} XrFuturePollInfoEXT;
+
+typedef struct XrFuturePollResultEXT
 {
     XrStructureType type;
     void *next;
     XrFutureStateEXT state;
-};
+} XrFuturePollResultEXT;
 
-struct XrGraphicsBindingD3D11KHR
+typedef struct XrGlobalDimmerFrameEndInfoML
+{
+    XrStructureType type;
+    const void *next;
+    float dimmerValue;
+    XrGlobalDimmerFrameEndInfoFlagsML WINE_XR_ALIGN(8) flags;
+} XrGlobalDimmerFrameEndInfoML;
+
+typedef struct XrGraphicsBindingD3D11KHR
 {
     XrStructureType type;
     const void *next;
     ID3D11Device *device;
-};
+} XrGraphicsBindingD3D11KHR;
 
-struct XrHandCapsuleFB
+typedef struct XrGraphicsBindingD3D12KHR
 {
-    XrVector3f points[XR_HAND_TRACKING_CAPSULE_POINT_COUNT_FB];
-    float radius;
-    XrHandJointEXT joint;
-};
+    XrStructureType type;
+    const void *next;
+    ID3D12Device *device;
+    ID3D12CommandQueue *queue;
+} XrGraphicsBindingD3D12KHR;
 
-struct XrHandJointVelocityEXT
+typedef struct XrGraphicsBindingOpenGLWin32KHR
 {
-    XrSpaceVelocityFlags velocityFlags;
-    XrVector3f linearVelocity;
-    XrVector3f angularVelocity;
-};
+    XrStructureType type;
+    const void *next;
+    HDC hDC;
+    HGLRC hGLRC;
+} XrGraphicsBindingOpenGLWin32KHR;
 
-struct XrHandMeshVertexMSFT
+typedef struct XrGraphicsBindingVulkanKHR
 {
-    XrVector3f position;
-    XrVector3f normal;
-};
+    XrStructureType type;
+    const void *next;
+    VkInstance instance;
+    VkPhysicalDevice physicalDevice;
+    VkDevice device;
+    uint32_t queueFamilyIndex;
+    uint32_t queueIndex;
+} XrGraphicsBindingVulkanKHR;
+typedef XrGraphicsBindingVulkanKHR XrGraphicsBindingVulkan2KHR;
 
-struct XrHandTrackingCapsulesStateFB
+typedef struct XrGraphicsRequirementsD3D11KHR
 {
     XrStructureType type;
     void *next;
-    XrHandCapsuleFB capsules[XR_HAND_TRACKING_CAPSULE_COUNT_FB];
-};
+    LUID adapterLuid;
+    D3D_FEATURE_LEVEL minFeatureLevel;
+} XrGraphicsRequirementsD3D11KHR;
 
-struct XrHapticActionInfo
+typedef struct XrGraphicsRequirementsD3D12KHR
+{
+    XrStructureType type;
+    void *next;
+    LUID adapterLuid;
+    D3D_FEATURE_LEVEL minFeatureLevel;
+} XrGraphicsRequirementsD3D12KHR;
+
+typedef struct XrGraphicsRequirementsOpenGLKHR
+{
+    XrStructureType type;
+    void *next;
+    XrVersion minApiVersionSupported;
+    XrVersion maxApiVersionSupported;
+} XrGraphicsRequirementsOpenGLKHR;
+
+typedef struct XrGraphicsRequirementsVulkanKHR
+{
+    XrStructureType type;
+    void *next;
+    XrVersion minApiVersionSupported;
+    XrVersion maxApiVersionSupported;
+} XrGraphicsRequirementsVulkanKHR;
+typedef XrGraphicsRequirementsVulkanKHR XrGraphicsRequirementsVulkan2KHR;
+
+typedef struct XrHandJointsLocateInfoEXT
+{
+    XrStructureType type;
+    const void *next;
+    XrSpace baseSpace;
+    XrTime time;
+} XrHandJointsLocateInfoEXT;
+
+typedef struct XrHandJointsMotionRangeInfoEXT
+{
+    XrStructureType type;
+    const void *next;
+    XrHandJointsMotionRangeEXT handJointsMotionRange;
+} XrHandJointsMotionRangeInfoEXT;
+
+typedef struct XrHandMeshIndexBufferMSFT
+{
+    uint32_t indexBufferKey;
+    uint32_t indexCapacityInput;
+    uint32_t indexCountOutput;
+    uint32_t *indices;
+} XrHandMeshIndexBufferMSFT;
+
+typedef struct XrHandMeshUpdateInfoMSFT
+{
+    XrStructureType type;
+    const void *next;
+    XrTime time;
+    XrHandPoseTypeMSFT handPoseType;
+} XrHandMeshUpdateInfoMSFT;
+
+typedef struct XrHandPoseTypeInfoMSFT
+{
+    XrStructureType type;
+    const void *next;
+    XrHandPoseTypeMSFT handPoseType;
+} XrHandPoseTypeInfoMSFT;
+
+typedef struct XrHandTrackerCreateInfoEXT
+{
+    XrStructureType type;
+    const void *next;
+    XrHandEXT hand;
+    XrHandJointSetEXT handJointSet;
+} XrHandTrackerCreateInfoEXT;
+
+typedef struct XrHandTrackingDataSourceInfoEXT
+{
+    XrStructureType type;
+    const void *next;
+    uint32_t requestedDataSourceCount;
+    XrHandTrackingDataSourceEXT *requestedDataSources;
+} XrHandTrackingDataSourceInfoEXT;
+
+typedef struct XrHandTrackingDataSourceStateEXT
+{
+    XrStructureType type;
+    void *next;
+    XrBool32 isActive;
+    XrHandTrackingDataSourceEXT dataSource;
+} XrHandTrackingDataSourceStateEXT;
+
+typedef struct XrHandTrackingScaleFB
+{
+    XrStructureType type;
+    void *next;
+    float sensorOutput;
+    float currentOutput;
+    XrBool32 overrideHandScale;
+    float overrideValueInput;
+} XrHandTrackingScaleFB;
+
+typedef struct XrHapticActionInfo
 {
     XrStructureType type;
     const void *next;
     XrAction action;
     XrPath subactionPath;
-};
+} XrHapticActionInfo;
 
-struct XrHapticVibration
+typedef struct XrHapticAmplitudeEnvelopeVibrationFB
+{
+    XrStructureType type;
+    const void *next;
+    XrDuration duration;
+    uint32_t amplitudeCount;
+    const float *amplitudes;
+} XrHapticAmplitudeEnvelopeVibrationFB;
+
+typedef struct XrHapticBaseHeader
+{
+    XrStructureType type;
+    const void *next;
+} XrHapticBaseHeader;
+
+typedef struct XrHapticPcmVibrationFB
+{
+    XrStructureType type;
+    const void *next;
+    uint32_t bufferSize;
+    const float *buffer;
+    float sampleRate;
+    XrBool32 append;
+    uint32_t *samplesConsumed;
+} XrHapticPcmVibrationFB;
+
+typedef struct XrHapticVibration
 {
     XrStructureType type;
     const void *next;
     XrDuration duration;
     float frequency;
     float amplitude;
-};
+} XrHapticVibration;
 
-struct XrInteractionProfileSuggestedBinding
+typedef struct XrHolographicWindowAttachmentMSFT
 {
     XrStructureType type;
     const void *next;
-    XrPath interactionProfile;
-    uint32_t countSuggestedBindings;
-    const XrActionSuggestedBinding *suggestedBindings;
-};
+    IUnknown *holographicSpace;
+    IUnknown *coreWindow;
+} XrHolographicWindowAttachmentMSFT;
 
-struct XrLocalizationMapImportInfoML
+typedef struct XrInputSourceLocalizedNameGetInfo
 {
     XrStructureType type;
     const void *next;
-    uint32_t size;
-    char *data;
-};
+    XrPath sourcePath;
+    XrInputSourceLocalizedNameFlags WINE_XR_ALIGN(8) whichComponents;
+} XrInputSourceLocalizedNameGetInfo;
 
-struct XrMarkerDetectorArucoInfoML
+typedef struct XrInstanceCreateInfo
 {
     XrStructureType type;
     const void *next;
-    XrMarkerArucoDictML arucoDict;
-};
+    XrInstanceCreateFlags WINE_XR_ALIGN(8) createFlags;
+    XrApplicationInfo applicationInfo;
+    uint32_t enabledApiLayerCount;
+    const char * const*enabledApiLayerNames;
+    uint32_t enabledExtensionCount;
+    const char * const*enabledExtensionNames;
+} XrInstanceCreateInfo;
 
-struct XrMarkerDetectorSnapshotInfoML
-{
-    XrStructureType type;
-    const void *next;
-};
-
-struct XrNegotiateLoaderInfo
-{
-    XrLoaderInterfaceStructs structType;
-    uint32_t structVersion;
-    size_t structSize;
-    uint32_t minInterfaceVersion;
-    uint32_t maxInterfaceVersion;
-    XrVersion minApiVersion;
-    XrVersion maxApiVersion;
-};
-
-struct XrOffset2Di
-{
-    int32_t x;
-    int32_t y;
-};
-
-struct XrPassthroughColorLutCreateInfoMETA
-{
-    XrStructureType type;
-    const void *next;
-    XrPassthroughColorLutChannelsMETA channels;
-    uint32_t resolution;
-    XrPassthroughColorLutDataMETA data;
-};
-
-struct XrPassthroughColorMapLutMETA
-{
-    XrStructureType type;
-    const void *next;
-    XrPassthroughColorLutMETA colorLut;
-    float weight;
-};
-
-struct XrPassthroughCreateInfoHTC
-{
-    XrStructureType type;
-    const void *next;
-    XrPassthroughFormHTC form;
-};
-
-struct XrPerformanceMetricsStateMETA
-{
-    XrStructureType type;
-    const void *next;
-    XrBool32 enabled;
-};
-
-struct XrPlaneDetectorGetInfoEXT
-{
-    XrStructureType type;
-    const void *next;
-    XrSpace baseSpace;
-    XrTime time;
-};
-
-struct XrPosef
-{
-    XrQuaternionf orientation;
-    XrVector3f position;
-};
-
-struct XrRect2Df
-{
-    XrOffset2Df offset;
-    XrExtent2Df extent;
-};
-
-struct XrReferenceSpaceCreateInfo
-{
-    XrStructureType type;
-    const void *next;
-    XrReferenceSpaceType referenceSpaceType;
-    XrPosef poseInReferenceSpace;
-};
-
-struct XrRenderModelPathInfoFB
+typedef struct XrInstanceProperties
 {
     XrStructureType type;
     void *next;
-    XrPath path;
-};
-
-struct XrSceneComponentLocationMSFT
-{
-    XrSpaceLocationFlags flags;
-    XrPosef pose;
-};
-
-struct XrSceneComponentMSFT
-{
-    XrSceneComponentTypeMSFT componentType;
-    XrUuidMSFT id;
-    XrUuidMSFT parentId;
-    XrTime updateTime;
-};
-
-struct XrSceneComponentsLocateInfoMSFT
-{
-    XrStructureType type;
-    const void *next;
-    XrSpace baseSpace;
-    XrTime time;
-    uint32_t componentIdCount;
-    const XrUuidMSFT *componentIds;
-};
-
-struct XrSceneDeserializeInfoMSFT
-{
-    XrStructureType type;
-    const void *next;
-    uint32_t fragmentCount;
-    const XrDeserializeSceneFragmentMSFT *fragments;
-};
-
-struct XrSceneMarkerMSFT
-{
-    XrSceneMarkerTypeMSFT markerType;
-    XrTime lastSeenTime;
-    XrOffset2Df center;
-    XrExtent2Df size;
-};
-
-struct XrSceneMarkersMSFT
-{
-    XrStructureType type;
-    const void *next;
-    uint32_t sceneMarkerCapacityInput;
-    XrSceneMarkerMSFT *sceneMarkers;
-};
-
-struct XrSceneMeshIndicesUint32MSFT
-{
-    XrStructureType type;
-    void *next;
-    uint32_t indexCapacityInput;
-    uint32_t indexCountOutput;
-    uint32_t *indices;
-};
-
-struct XrSceneObjectMSFT
-{
-    XrSceneObjectTypeMSFT objectType;
-};
-
-struct XrSceneOrientedBoxBoundMSFT
-{
-    XrPosef pose;
-    XrVector3f extents;
-};
-
-struct XrSceneSphereBoundMSFT
-{
-    XrVector3f center;
-    float radius;
-};
-
-struct XrSecondaryViewConfigurationLayerInfoMSFT
-{
-    XrStructureType type;
-    const void *next;
-    XrViewConfigurationType viewConfigurationType;
-    XrEnvironmentBlendMode environmentBlendMode;
-    uint32_t layerCount;
-    const XrCompositionLayerBaseHeader * const*layers;
-};
-
-struct XrSemanticLabelsFB
-{
-    XrStructureType type;
-    const void *next;
-    uint32_t bufferCapacityInput;
-    uint32_t bufferCountOutput;
-    char *buffer;
-};
-
-struct XrSessionBeginInfo
-{
-    XrStructureType type;
-    const void *next;
-    XrViewConfigurationType primaryViewConfigurationType;
-};
-
-struct XrSpaceComponentStatusFB
-{
-    XrStructureType type;
-    void *next;
-    XrBool32 enabled;
-    XrBool32 changePending;
-};
-
-struct XrSpaceFilterInfoBaseHeaderFB
-{
-    XrStructureType type;
-    const void *next;
-};
-
-struct XrSpaceLocationData
-{
-    XrSpaceLocationFlags locationFlags;
-    XrPosef pose;
-};
-
-struct XrSpaceQueryInfoBaseHeaderFB
-{
-    XrStructureType type;
-    const void *next;
-};
-
-struct XrSpaceShareInfoFB
-{
-    XrStructureType type;
-    const void *next;
-    uint32_t spaceCount;
-    XrSpace *spaces;
-    uint32_t userCount;
-    XrSpaceUserFB *users;
-};
-
-struct XrSpaceTriangleMeshMETA
-{
-    XrStructureType type;
-    void *next;
-    uint32_t vertexCapacityInput;
-    uint32_t vertexCountOutput;
-    XrVector3f *vertices;
-    uint32_t indexCapacityInput;
-    uint32_t indexCountOutput;
-    uint32_t *indices;
-};
-
-struct XrSpaceVelocity
-{
-    XrStructureType type;
-    void *next;
-    XrSpaceVelocityFlags velocityFlags;
-    XrVector3f linearVelocity;
-    XrVector3f angularVelocity;
-};
-
-struct XrSpacesLocateInfo
-{
-    XrStructureType type;
-    const void *next;
-    XrSpace baseSpace;
-    XrTime time;
-    uint32_t spaceCount;
-    const XrSpace *spaces;
-};
-
-struct XrSpatialAnchorCreateInfoHTC
-{
-    XrStructureType type;
-    const void *next;
-    XrSpace space;
-    XrPosef poseInSpace;
-    XrSpatialAnchorNameHTC name;
-};
-
-struct XrSpatialAnchorFromPersistedAnchorCreateInfoMSFT
-{
-    XrStructureType type;
-    const void *next;
-    XrSpatialAnchorStoreConnectionMSFT spatialAnchorStore;
-    XrSpatialAnchorPersistenceNameMSFT spatialAnchorPersistenceName;
-};
-
-struct XrSpatialAnchorSpaceCreateInfoMSFT
-{
-    XrStructureType type;
-    const void *next;
-    XrSpatialAnchorMSFT anchor;
-    XrPosef poseInAnchorSpace;
-};
-
-struct XrSpatialGraphNodeSpaceCreateInfoMSFT
-{
-    XrStructureType type;
-    const void *next;
-    XrSpatialGraphNodeTypeMSFT nodeType;
-    uint8_t nodeId[XR_GUID_SIZE_MSFT];
-    XrPosef pose;
-};
-
-struct XrSpheref
-{
-    XrPosef center;
-    float radius;
-};
-
-struct XrSwapchainImageAcquireInfo
-{
-    XrStructureType type;
-    const void *next;
-};
-
-struct XrSwapchainImageFoveationVulkanFB
-{
-    XrStructureType type;
-    void *next;
-    VkImage image;
-    uint32_t width;
-    uint32_t height;
-};
-
-struct XrSwapchainStateFoveationFB
-{
-    XrStructureType type;
-    void *next;
-    XrSwapchainStateFoveationFlagsFB flags;
-    XrFoveationProfileFB profile;
-};
-
-struct XrSystemBodyTrackingPropertiesFB
-{
-    XrStructureType type;
-    void *next;
-    XrBool32 supportsBodyTracking;
-};
-
-struct XrSystemEyeTrackingPropertiesFB
-{
-    XrStructureType type;
-    void *next;
-    XrBool32 supportsEyeTracking;
-};
-
-struct XrSystemForceFeedbackCurlPropertiesMNDX
-{
-    XrStructureType type;
-    void *next;
-    XrBool32 supportsForceFeedbackCurl;
-};
-
-struct XrSystemGraphicsProperties
-{
-    uint32_t maxSwapchainImageHeight;
-    uint32_t maxSwapchainImageWidth;
-    uint32_t maxLayerCount;
-};
-
-struct XrSystemMarkerTrackingPropertiesVARJO
-{
-    XrStructureType type;
-    void *next;
-    XrBool32 supportsMarkerTracking;
-};
-
-struct XrSystemPassthroughPropertiesFB
-{
-    XrStructureType type;
-    const void *next;
-    XrBool32 supportsPassthrough;
-};
-
-struct XrSystemSpaceWarpPropertiesFB
-{
-    XrStructureType type;
-    void *next;
-    uint32_t recommendedMotionVectorImageRectWidth;
-    uint32_t recommendedMotionVectorImageRectHeight;
-};
-
-struct XrSystemVirtualKeyboardPropertiesMETA
-{
-    XrStructureType type;
-    void *next;
-    XrBool32 supportsVirtualKeyboard;
-};
-
-struct XrVector4f
-{
-    float x;
-    float y;
-    float z;
-    float w;
-};
-
-struct XrViewConfigurationProperties
-{
-    XrStructureType type;
-    void *next;
-    XrViewConfigurationType viewConfigurationType;
-    XrBool32 fovMutable;
-};
-
-struct XrViewLocateInfo
-{
-    XrStructureType type;
-    const void *next;
-    XrViewConfigurationType viewConfigurationType;
-    XrTime displayTime;
-    XrSpace space;
-};
-
-struct XrVirtualKeyboardInputInfoMETA
-{
-    XrStructureType type;
-    const void *next;
-    XrVirtualKeyboardInputSourceMETA inputSource;
-    XrSpace inputSpace;
-    XrPosef inputPoseInSpace;
-    XrVirtualKeyboardInputStateFlagsMETA inputState;
-};
-
-struct XrVirtualKeyboardSpaceCreateInfoMETA
-{
-    XrStructureType type;
-    const void *next;
-    XrVirtualKeyboardLocationTypeMETA locationType;
-    XrSpace space;
-    XrPosef poseInSpace;
-};
-
-struct XrViveTrackerPathsHTCX
-{
-    XrStructureType type;
-    void *next;
-    XrPath persistentPath;
-    XrPath rolePath;
-};
-
-struct XrVulkanSwapchainCreateInfoMETA
-{
-    XrStructureType type;
-    const void *next;
-    VkImageCreateFlags additionalCreateFlags;
-    VkImageUsageFlags additionalUsageFlags;
-};
-
-struct XrActionSetCreateInfo
-{
-    XrStructureType type;
-    const void *next;
-    char actionSetName[XR_MAX_ACTION_SET_NAME_SIZE];
-    char localizedActionSetName[XR_MAX_LOCALIZED_ACTION_SET_NAME_SIZE];
-    uint32_t priority;
-};
-
-struct XrActionStatePose
-{
-    XrStructureType type;
-    void *next;
-    XrBool32 isActive;
-};
-
-struct XrActiveActionSetPrioritiesEXT
-{
-    XrStructureType type;
-    const void *next;
-    uint32_t actionSetPriorityCount;
-    const XrActiveActionSetPriorityEXT *actionSetPriorities;
-};
-
-struct XrBindingModificationBaseHeaderKHR
-{
-    XrStructureType type;
-    const void *next;
-};
-
-struct XrBodyJointLocationFB
-{
-    XrSpaceLocationFlags locationFlags;
-    XrPosef pose;
-};
-
-struct XrBodySkeletonJointFB
-{
-    int32_t joint;
-    int32_t parentJoint;
-    XrPosef pose;
-};
-
-struct XrBoxf
-{
-    XrPosef center;
-    XrExtent3Df extents;
-};
-
-struct XrCompositionLayerPassthroughHTC
-{
-    XrStructureType type;
-    const void *next;
-    XrCompositionLayerFlags layerFlags;
-    XrSpace space;
-    XrPassthroughHTC passthrough;
-    XrPassthroughColorHTC color;
-};
-
-struct XrCompositionLayerSettingsFB
-{
-    XrStructureType type;
-    const void *next;
-    XrCompositionLayerSettingsFlagsFB layerFlags;
-};
-
-struct XrControllerModelNodeStateMSFT
-{
-    XrStructureType type;
-    void *next;
-    XrPosef nodePose;
-};
-
-struct XrDebugUtilsMessengerCallbackDataEXT
-{
-    XrStructureType type;
-    const void *next;
-    const char *messageId;
-    const char *functionName;
-    const char *message;
-    uint32_t objectCount;
-    XrDebugUtilsObjectNameInfoEXT *objects;
-    uint32_t sessionLabelCount;
-    XrDebugUtilsLabelEXT *sessionLabels;
-};
-
-struct XrEnvironmentDepthImageAcquireInfoMETA
-{
-    XrStructureType type;
-    const void *next;
-    XrSpace space;
-    XrTime displayTime;
-};
-
-struct XrEnvironmentDepthImageViewMETA
-{
-    XrStructureType type;
-    const void *next;
-    XrFovf fov;
-    XrPosef pose;
-};
-
-struct XrEventDataEyeCalibrationChangedML
-{
-    XrStructureType type;
-    const void *next;
-    XrEyeCalibrationStatusML status;
-};
-
-struct XrEventDataPerfSettingsEXT
-{
-    XrStructureType type;
-    const void *next;
-    XrPerfSettingsDomainEXT domain;
-    XrPerfSettingsSubDomainEXT subDomain;
-    XrPerfSettingsNotificationLevelEXT fromLevel;
-    XrPerfSettingsNotificationLevelEXT toLevel;
-};
-
-struct XrEventDataSpaceEraseCompleteFB
-{
-    XrStructureType type;
-    const void *next;
-    XrAsyncRequestIdFB requestId;
-    XrResult result;
-    XrSpace space;
-    XrUuidEXT uuid;
-    XrSpaceStorageLocationFB location;
-};
-
-struct XrEventDataSpaceSetStatusCompleteFB
-{
-    XrStructureType type;
-    const void *next;
-    XrAsyncRequestIdFB requestId;
-    XrResult result;
-    XrSpace space;
-    XrUuidEXT uuid;
-    XrSpaceComponentTypeFB componentType;
-    XrBool32 enabled;
-};
-
-struct XrEventDataVirtualKeyboardEnterMETA
-{
-    XrStructureType type;
-    const void *next;
-    XrVirtualKeyboardMETA keyboard;
-};
-
-struct XrEyeGazeFB
-{
-    XrBool32 isValid;
-    XrPosef gazePose;
-    float gazeConfidence;
-};
-
-struct XrFaceExpressionInfoFB
-{
-    XrStructureType type;
-    const void *next;
-    XrTime time;
-};
-
-struct XrForceFeedbackCurlApplyLocationMNDX
-{
-    XrForceFeedbackCurlLocationMNDX location;
-    float value;
-};
-
-struct XrFrameBeginInfo
-{
-    XrStructureType type;
-    const void *next;
-};
-
-struct XrFrustumf
-{
-    XrPosef pose;
-    XrFovf fov;
-    float nearZ;
-    float farZ;
-};
-
-struct XrGeometryInstanceCreateInfoFB
-{
-    XrStructureType type;
-    const void *next;
-    XrPassthroughLayerFB layer;
-    XrTriangleMeshFB mesh;
-    XrSpace baseSpace;
-    XrPosef pose;
-    XrVector3f scale;
-};
-
-struct XrHandJointVelocitiesEXT
-{
-    XrStructureType type;
-    void *next;
-    uint32_t jointCount;
-    XrHandJointVelocityEXT *jointVelocities;
-};
-
-struct XrHandMeshSpaceCreateInfoMSFT
-{
-    XrStructureType type;
-    const void *next;
-    XrHandPoseTypeMSFT handPoseType;
-    XrPosef poseInHandMeshSpace;
-};
-
-struct XrHandTrackerCreateInfoEXT
-{
-    XrStructureType type;
-    const void *next;
-    XrHandEXT hand;
-    XrHandJointSetEXT handJointSet;
-};
-
-struct XrHandTrackingDataSourceStateEXT
-{
-    XrStructureType type;
-    void *next;
-    XrBool32 isActive;
-    XrHandTrackingDataSourceEXT dataSource;
-};
-
-struct XrHapticBaseHeader
-{
-    XrStructureType type;
-    const void *next;
-};
-
-struct XrInteractionProfileAnalogThresholdVALVE
+    XrVersion runtimeVersion;
+    char runtimeName[XR_MAX_RUNTIME_NAME_SIZE];
+} XrInstanceProperties;
+
+typedef struct XrInteractionProfileAnalogThresholdVALVE
 {
     XrStructureType type;
     const void *next;
@@ -4937,26 +3361,104 @@ struct XrInteractionProfileAnalogThresholdVALVE
     float offThreshold;
     const XrHapticBaseHeader *onHaptic;
     const XrHapticBaseHeader *offHaptic;
-};
+} XrInteractionProfileAnalogThresholdVALVE;
 
-struct XrKeyboardTrackingDescriptionFB
+typedef struct XrInteractionProfileDpadBindingEXT
 {
-    uint64_t WINE_XR_ALIGN(8) trackedKeyboardId;
-    XrVector3f size;
-    XrKeyboardTrackingFlagsFB flags;
-    char name[XR_MAX_KEYBOARD_TRACKING_NAME_SIZE_FB];
-};
+    XrStructureType type;
+    const void *next;
+    XrPath binding;
+    XrActionSet actionSet;
+    float forceThreshold;
+    float forceThresholdReleased;
+    float centerRegion;
+    float wedgeAngle;
+    XrBool32 isSticky;
+    const XrHapticBaseHeader *onHaptic;
+    const XrHapticBaseHeader *offHaptic;
+} XrInteractionProfileDpadBindingEXT;
 
-struct XrLocalizationMapML
+typedef struct XrInteractionProfileState
 {
     XrStructureType type;
     void *next;
-    char name[XR_MAX_LOCALIZATION_MAP_NAME_LENGTH_ML];
-    XrUuidEXT mapUuid;
-    XrLocalizationMapTypeML mapType;
-};
+    XrPath interactionProfile;
+} XrInteractionProfileState;
 
-struct XrMarkerDetectorCustomProfileInfoML
+typedef struct XrInteractionProfileSuggestedBinding
+{
+    XrStructureType type;
+    const void *next;
+    XrPath interactionProfile;
+    uint32_t countSuggestedBindings;
+    const XrActionSuggestedBinding *suggestedBindings;
+} XrInteractionProfileSuggestedBinding;
+
+typedef struct XrKeyboardSpaceCreateInfoFB
+{
+    XrStructureType type;
+    void *next;
+    uint64_t WINE_XR_ALIGN(8) trackedKeyboardId;
+} XrKeyboardSpaceCreateInfoFB;
+
+typedef struct XrKeyboardTrackingQueryFB
+{
+    XrStructureType type;
+    void *next;
+    XrKeyboardTrackingQueryFlagsFB WINE_XR_ALIGN(8) flags;
+} XrKeyboardTrackingQueryFB;
+
+typedef struct XrLocalDimmingFrameEndInfoMETA
+{
+    XrStructureType type;
+    const void *next;
+    XrLocalDimmingModeMETA localDimmingMode;
+} XrLocalDimmingFrameEndInfoMETA;
+
+typedef struct XrLocalizationEnableEventsInfoML
+{
+    XrStructureType type;
+    const void *next;
+    XrBool32 enabled;
+} XrLocalizationEnableEventsInfoML;
+
+typedef struct XrLocalizationMapImportInfoML
+{
+    XrStructureType type;
+    const void *next;
+    uint32_t size;
+    char *data;
+} XrLocalizationMapImportInfoML;
+
+typedef struct XrLocalizationMapQueryInfoBaseHeaderML
+{
+    XrStructureType type;
+    const void *next;
+} XrLocalizationMapQueryInfoBaseHeaderML;
+
+typedef struct XrMarkerDetectorAprilTagInfoML
+{
+    XrStructureType type;
+    const void *next;
+    XrMarkerAprilTagDictML aprilTagDict;
+} XrMarkerDetectorAprilTagInfoML;
+
+typedef struct XrMarkerDetectorArucoInfoML
+{
+    XrStructureType type;
+    const void *next;
+    XrMarkerArucoDictML arucoDict;
+} XrMarkerDetectorArucoInfoML;
+
+typedef struct XrMarkerDetectorCreateInfoML
+{
+    XrStructureType type;
+    const void *next;
+    XrMarkerDetectorProfileML profile;
+    XrMarkerTypeML markerType;
+} XrMarkerDetectorCreateInfoML;
+
+typedef struct XrMarkerDetectorCustomProfileInfoML
 {
     XrStructureType type;
     const void *next;
@@ -4966,140 +3468,598 @@ struct XrMarkerDetectorCustomProfileInfoML
     XrMarkerDetectorCornerRefineMethodML cornerRefineMethod;
     XrBool32 useEdgeRefinement;
     XrMarkerDetectorFullAnalysisIntervalML fullAnalysisIntervalHint;
-};
+} XrMarkerDetectorCustomProfileInfoML;
 
-struct XrMarkerSpaceCreateInfoVARJO
+typedef struct XrMarkerDetectorSizeInfoML
 {
     XrStructureType type;
     const void *next;
-    uint64_t WINE_XR_ALIGN(8) markerId;
-    XrPosef poseInMarkerSpace;
-};
+    float markerLength;
+} XrMarkerDetectorSizeInfoML;
 
-struct XrPassthroughBrightnessContrastSaturationFB
+typedef struct XrMarkerDetectorSnapshotInfoML
+{
+    XrStructureType type;
+    const void *next;
+} XrMarkerDetectorSnapshotInfoML;
+
+typedef struct XrMarkerDetectorStateML
+{
+    XrStructureType type;
+    void *next;
+    XrMarkerDetectorStatusML state;
+} XrMarkerDetectorStateML;
+
+typedef struct XrNegotiateApiLayerRequest
+{
+    XrLoaderInterfaceStructs structType;
+    uint32_t structVersion;
+    size_t structSize;
+    uint32_t layerInterfaceVersion;
+    XrVersion layerApiVersion;
+    PFN_xrGetInstanceProcAddr getInstanceProcAddr;
+    PFN_xrCreateApiLayerInstance createApiLayerInstance;
+} XrNegotiateApiLayerRequest;
+
+typedef struct XrNegotiateLoaderInfo
+{
+    XrLoaderInterfaceStructs structType;
+    uint32_t structVersion;
+    size_t structSize;
+    uint32_t minInterfaceVersion;
+    uint32_t maxInterfaceVersion;
+    XrVersion minApiVersion;
+    XrVersion maxApiVersion;
+} XrNegotiateLoaderInfo;
+
+typedef struct XrNegotiateRuntimeRequest
+{
+    XrLoaderInterfaceStructs structType;
+    uint32_t structVersion;
+    size_t structSize;
+    uint32_t runtimeInterfaceVersion;
+    XrVersion runtimeApiVersion;
+    PFN_xrGetInstanceProcAddr getInstanceProcAddr;
+} XrNegotiateRuntimeRequest;
+
+typedef struct XrOffset2Df
+{
+    float x;
+    float y;
+} XrOffset2Df;
+
+typedef struct XrOffset2Di
+{
+    int32_t x;
+    int32_t y;
+} XrOffset2Di;
+
+typedef struct XrOffset3DfFB
+{
+    float x;
+    float y;
+    float z;
+} XrOffset3DfFB;
+
+typedef struct XrPassthroughBrightnessContrastSaturationFB
 {
     XrStructureType type;
     const void *next;
     float brightness;
     float contrast;
     float saturation;
-};
+} XrPassthroughBrightnessContrastSaturationFB;
 
-struct XrPassthroughLayerCreateInfoFB
+typedef struct XrPassthroughColorHTC
+{
+    XrStructureType type;
+    const void *next;
+    float alpha;
+} XrPassthroughColorHTC;
+
+typedef struct XrPassthroughColorLutDataMETA
+{
+    uint32_t bufferSize;
+    const uint8_t *buffer;
+} XrPassthroughColorLutDataMETA;
+
+typedef struct XrPassthroughColorLutUpdateInfoMETA
+{
+    XrStructureType type;
+    const void *next;
+    XrPassthroughColorLutDataMETA data;
+} XrPassthroughColorLutUpdateInfoMETA;
+
+typedef struct XrPassthroughColorMapInterpolatedLutMETA
+{
+    XrStructureType type;
+    const void *next;
+    XrPassthroughColorLutMETA sourceColorLut;
+    XrPassthroughColorLutMETA targetColorLut;
+    float weight;
+} XrPassthroughColorMapInterpolatedLutMETA;
+
+typedef struct XrPassthroughColorMapLutMETA
+{
+    XrStructureType type;
+    const void *next;
+    XrPassthroughColorLutMETA colorLut;
+    float weight;
+} XrPassthroughColorMapLutMETA;
+
+typedef struct XrPassthroughColorMapMonoToMonoFB
+{
+    XrStructureType type;
+    const void *next;
+    uint8_t textureColorMap[XR_PASSTHROUGH_COLOR_MAP_MONO_SIZE_FB];
+} XrPassthroughColorMapMonoToMonoFB;
+
+typedef struct XrPassthroughColorMapMonoToRgbaFB
+{
+    XrStructureType type;
+    const void *next;
+    XrColor4f textureColorMap[XR_PASSTHROUGH_COLOR_MAP_MONO_SIZE_FB];
+} XrPassthroughColorMapMonoToRgbaFB;
+
+typedef struct XrPassthroughCreateInfoFB
+{
+    XrStructureType type;
+    const void *next;
+    XrPassthroughFlagsFB WINE_XR_ALIGN(8) flags;
+} XrPassthroughCreateInfoFB;
+
+typedef struct XrPassthroughCreateInfoHTC
+{
+    XrStructureType type;
+    const void *next;
+    XrPassthroughFormHTC form;
+} XrPassthroughCreateInfoHTC;
+
+typedef struct XrPassthroughKeyboardHandsIntensityFB
+{
+    XrStructureType type;
+    const void *next;
+    float leftHandIntensity;
+    float rightHandIntensity;
+} XrPassthroughKeyboardHandsIntensityFB;
+
+typedef struct XrPassthroughLayerCreateInfoFB
 {
     XrStructureType type;
     const void *next;
     XrPassthroughFB passthrough;
-    XrPassthroughFlagsFB flags;
+    XrPassthroughFlagsFB WINE_XR_ALIGN(8) flags;
     XrPassthroughLayerPurposeFB purpose;
-};
+} XrPassthroughLayerCreateInfoFB;
 
-struct XrPlaneDetectorBeginInfoEXT
+typedef struct XrPassthroughPreferencesMETA
+{
+    XrStructureType type;
+    const void *next;
+    XrPassthroughPreferenceFlagsMETA WINE_XR_ALIGN(8) flags;
+} XrPassthroughPreferencesMETA;
+
+typedef struct XrPassthroughStyleFB
+{
+    XrStructureType type;
+    const void *next;
+    float textureOpacityFactor;
+    XrColor4f edgeColor;
+} XrPassthroughStyleFB;
+
+typedef struct XrPerformanceMetricsCounterMETA
+{
+    XrStructureType type;
+    const void *next;
+    XrPerformanceMetricsCounterFlagsMETA WINE_XR_ALIGN(8) counterFlags;
+    XrPerformanceMetricsCounterUnitMETA counterUnit;
+    uint32_t uintValue;
+    float floatValue;
+} XrPerformanceMetricsCounterMETA;
+
+typedef struct XrPerformanceMetricsStateMETA
+{
+    XrStructureType type;
+    const void *next;
+    XrBool32 enabled;
+} XrPerformanceMetricsStateMETA;
+
+typedef struct XrPlaneDetectorCreateInfoEXT
+{
+    XrStructureType type;
+    const void *next;
+    XrPlaneDetectorFlagsEXT WINE_XR_ALIGN(8) flags;
+} XrPlaneDetectorCreateInfoEXT;
+
+typedef struct XrPlaneDetectorGetInfoEXT
 {
     XrStructureType type;
     const void *next;
     XrSpace baseSpace;
     XrTime time;
-    uint32_t orientationCount;
-    const XrPlaneDetectorOrientationEXT *orientations;
-    uint32_t semanticTypeCount;
-    const XrPlaneDetectorSemanticTypeEXT *semanticTypes;
-    uint32_t maxPlanes;
-    float minArea;
-    XrPosef boundingBoxPose;
-    XrExtent3DfEXT boundingBoxExtent;
-};
+} XrPlaneDetectorGetInfoEXT;
 
-struct XrRecommendedLayerResolutionGetInfoMETA
+typedef struct XrQuaternionf
+{
+    float x;
+    float y;
+    float z;
+    float w;
+} XrQuaternionf;
+
+typedef struct XrRecommendedLayerResolutionGetInfoMETA
 {
     XrStructureType type;
     const void *next;
     const XrCompositionLayerBaseHeader *layer;
     XrTime predictedDisplayTime;
-};
+} XrRecommendedLayerResolutionGetInfoMETA;
 
-struct XrRenderModelCapabilitiesRequestFB
+typedef struct XrRecommendedLayerResolutionMETA
 {
     XrStructureType type;
     void *next;
-    XrRenderModelFlagsFB flags;
-};
+    XrExtent2Di recommendedImageDimensions;
+    XrBool32 isValid;
+} XrRecommendedLayerResolutionMETA;
 
-struct XrSceneComponentLocationsMSFT
+typedef struct XrRect2Df
+{
+    XrOffset2Df offset;
+    XrExtent2Df extent;
+} XrRect2Df;
+
+typedef struct XrRect2Di
+{
+    XrOffset2Di offset;
+    XrExtent2Di extent;
+} XrRect2Di;
+
+typedef struct XrRect3DfFB
+{
+    XrOffset3DfFB offset;
+    XrExtent3DfFB extent;
+} XrRect3DfFB;
+
+typedef struct XrRenderModelBufferFB
 {
     XrStructureType type;
     void *next;
-    uint32_t locationCount;
-    XrSceneComponentLocationMSFT *locations;
-};
+    uint32_t bufferCapacityInput;
+    uint32_t bufferCountOutput;
+    uint8_t *buffer;
+} XrRenderModelBufferFB;
 
-struct XrSceneComponentsMSFT
+typedef struct XrRenderModelCapabilitiesRequestFB
 {
     XrStructureType type;
     void *next;
-    uint32_t componentCapacityInput;
-    uint32_t componentCountOutput;
-    XrSceneComponentMSFT *components;
-};
+    XrRenderModelFlagsFB WINE_XR_ALIGN(8) flags;
+} XrRenderModelCapabilitiesRequestFB;
 
-struct XrSceneMarkerQRCodesMSFT
+typedef struct XrRenderModelLoadInfoFB
+{
+    XrStructureType type;
+    void *next;
+    XrRenderModelKeyFB modelKey;
+} XrRenderModelLoadInfoFB;
+
+typedef struct XrRenderModelPathInfoFB
+{
+    XrStructureType type;
+    void *next;
+    XrPath path;
+} XrRenderModelPathInfoFB;
+
+typedef struct XrRenderModelPropertiesFB
+{
+    XrStructureType type;
+    void *next;
+    uint32_t vendorId;
+    char modelName[XR_MAX_RENDER_MODEL_NAME_SIZE_FB];
+    XrRenderModelKeyFB modelKey;
+    uint32_t modelVersion;
+    XrRenderModelFlagsFB WINE_XR_ALIGN(8) flags;
+} XrRenderModelPropertiesFB;
+
+typedef struct XrSceneCaptureRequestInfoFB
+{
+    XrStructureType type;
+    const void *next;
+    uint32_t requestByteCount;
+    const char *request;
+} XrSceneCaptureRequestInfoFB;
+
+typedef struct XrSceneComponentsGetInfoMSFT
+{
+    XrStructureType type;
+    const void *next;
+    XrSceneComponentTypeMSFT componentType;
+} XrSceneComponentsGetInfoMSFT;
+
+typedef struct XrSceneCreateInfoMSFT
+{
+    XrStructureType type;
+    const void *next;
+} XrSceneCreateInfoMSFT;
+
+typedef struct XrSceneDeserializeInfoMSFT
+{
+    XrStructureType type;
+    const void *next;
+    uint32_t fragmentCount;
+    const XrDeserializeSceneFragmentMSFT *fragments;
+} XrSceneDeserializeInfoMSFT;
+
+typedef struct XrSceneMarkerMSFT
+{
+    XrSceneMarkerTypeMSFT markerType;
+    XrTime lastSeenTime;
+    XrOffset2Df center;
+    XrExtent2Df size;
+} XrSceneMarkerMSFT;
+
+typedef struct XrSceneMarkerQRCodeMSFT
+{
+    XrSceneMarkerQRCodeSymbolTypeMSFT symbolType;
+    uint8_t version;
+} XrSceneMarkerQRCodeMSFT;
+
+typedef struct XrSceneMarkerQRCodesMSFT
 {
     XrStructureType type;
     const void *next;
     uint32_t qrCodeCapacityInput;
     XrSceneMarkerQRCodeMSFT *qrCodes;
-};
+} XrSceneMarkerQRCodesMSFT;
 
-struct XrSceneMeshVertexBufferMSFT
+typedef struct XrSceneMarkerTypeFilterMSFT
+{
+    XrStructureType type;
+    const void *next;
+    uint32_t markerTypeCount;
+    XrSceneMarkerTypeMSFT *markerTypes;
+} XrSceneMarkerTypeFilterMSFT;
+
+typedef struct XrSceneMarkersMSFT
+{
+    XrStructureType type;
+    const void *next;
+    uint32_t sceneMarkerCapacityInput;
+    XrSceneMarkerMSFT *sceneMarkers;
+} XrSceneMarkersMSFT;
+
+typedef struct XrSceneMeshBuffersGetInfoMSFT
+{
+    XrStructureType type;
+    const void *next;
+    uint64_t WINE_XR_ALIGN(8) meshBufferId;
+} XrSceneMeshBuffersGetInfoMSFT;
+
+typedef struct XrSceneMeshBuffersMSFT
 {
     XrStructureType type;
     void *next;
-    uint32_t vertexCapacityInput;
-    uint32_t vertexCountOutput;
-    XrVector3f *vertices;
-};
+} XrSceneMeshBuffersMSFT;
 
-struct XrScenePlaneMSFT
+typedef struct XrSceneMeshIndicesUint16MSFT
+{
+    XrStructureType type;
+    void *next;
+    uint32_t indexCapacityInput;
+    uint32_t indexCountOutput;
+    uint16_t *indices;
+} XrSceneMeshIndicesUint16MSFT;
+
+typedef struct XrSceneMeshIndicesUint32MSFT
+{
+    XrStructureType type;
+    void *next;
+    uint32_t indexCapacityInput;
+    uint32_t indexCountOutput;
+    uint32_t *indices;
+} XrSceneMeshIndicesUint32MSFT;
+
+typedef struct XrSceneMeshMSFT
+{
+    uint64_t WINE_XR_ALIGN(8) meshBufferId;
+    XrBool32 supportsIndicesUint16;
+} XrSceneMeshMSFT;
+
+typedef struct XrSceneMeshesMSFT
+{
+    XrStructureType type;
+    void *next;
+    uint32_t sceneMeshCount;
+    XrSceneMeshMSFT *sceneMeshes;
+} XrSceneMeshesMSFT;
+
+typedef struct XrSceneObjectMSFT
+{
+    XrSceneObjectTypeMSFT objectType;
+} XrSceneObjectMSFT;
+
+typedef struct XrSceneObjectTypesFilterInfoMSFT
+{
+    XrStructureType type;
+    const void *next;
+    uint32_t objectTypeCount;
+    const XrSceneObjectTypeMSFT *objectTypes;
+} XrSceneObjectTypesFilterInfoMSFT;
+
+typedef struct XrSceneObjectsMSFT
+{
+    XrStructureType type;
+    void *next;
+    uint32_t sceneObjectCount;
+    XrSceneObjectMSFT *sceneObjects;
+} XrSceneObjectsMSFT;
+
+typedef struct XrSceneObserverCreateInfoMSFT
+{
+    XrStructureType type;
+    const void *next;
+} XrSceneObserverCreateInfoMSFT;
+
+typedef struct XrScenePlaneAlignmentFilterInfoMSFT
+{
+    XrStructureType type;
+    const void *next;
+    uint32_t alignmentCount;
+    const XrScenePlaneAlignmentTypeMSFT *alignments;
+} XrScenePlaneAlignmentFilterInfoMSFT;
+
+typedef struct XrScenePlaneMSFT
 {
     XrScenePlaneAlignmentTypeMSFT alignment;
     XrExtent2Df size;
     uint64_t WINE_XR_ALIGN(8) meshBufferId;
     XrBool32 supportsIndicesUint16;
-};
+} XrScenePlaneMSFT;
 
-struct XrSecondaryViewConfigurationFrameEndInfoMSFT
+typedef struct XrScenePlanesMSFT
+{
+    XrStructureType type;
+    void *next;
+    uint32_t scenePlaneCount;
+    XrScenePlaneMSFT *scenePlanes;
+} XrScenePlanesMSFT;
+
+typedef struct XrSecondaryViewConfigurationLayerInfoMSFT
+{
+    XrStructureType type;
+    const void *next;
+    XrViewConfigurationType viewConfigurationType;
+    XrEnvironmentBlendMode environmentBlendMode;
+    uint32_t layerCount;
+    const XrCompositionLayerBaseHeader * const*layers;
+} XrSecondaryViewConfigurationLayerInfoMSFT;
+
+typedef struct XrSecondaryViewConfigurationSessionBeginInfoMSFT
 {
     XrStructureType type;
     const void *next;
     uint32_t viewConfigurationCount;
-    const XrSecondaryViewConfigurationLayerInfoMSFT *viewConfigurationLayersInfo;
-};
+    const XrViewConfigurationType *enabledViewConfigurationTypes;
+} XrSecondaryViewConfigurationSessionBeginInfoMSFT;
 
-struct XrSecondaryViewConfigurationStateMSFT
+typedef struct XrSecondaryViewConfigurationStateMSFT
 {
     XrStructureType type;
     void *next;
     XrViewConfigurationType viewConfigurationType;
     XrBool32 active;
-};
+} XrSecondaryViewConfigurationStateMSFT;
 
-struct XrSessionCreateInfoOverlayEXTX
+typedef struct XrSecondaryViewConfigurationSwapchainCreateInfoMSFT
 {
     XrStructureType type;
     const void *next;
-    XrOverlaySessionCreateFlagsEXTX createFlags;
-    uint32_t sessionLayersPlacement;
-};
+    XrViewConfigurationType viewConfigurationType;
+} XrSecondaryViewConfigurationSwapchainCreateInfoMSFT;
 
-struct XrSpaceLocation
+typedef struct XrSemanticLabelsFB
+{
+    XrStructureType type;
+    const void *next;
+    uint32_t bufferCapacityInput;
+    uint32_t bufferCountOutput;
+    char *buffer;
+} XrSemanticLabelsFB;
+
+typedef struct XrSemanticLabelsSupportInfoFB
+{
+    XrStructureType type;
+    const void *next;
+    XrSemanticLabelsSupportFlagsFB WINE_XR_ALIGN(8) flags;
+    const char *recognizedLabels;
+} XrSemanticLabelsSupportInfoFB;
+
+typedef struct XrSessionActionSetsAttachInfo
+{
+    XrStructureType type;
+    const void *next;
+    uint32_t countActionSets;
+    const XrActionSet *actionSets;
+} XrSessionActionSetsAttachInfo;
+
+typedef struct XrSessionBeginInfo
+{
+    XrStructureType type;
+    const void *next;
+    XrViewConfigurationType primaryViewConfigurationType;
+} XrSessionBeginInfo;
+
+typedef struct XrSessionCreateInfo
+{
+    XrStructureType type;
+    const void *next;
+    XrSessionCreateFlags WINE_XR_ALIGN(8) createFlags;
+    XrSystemId systemId;
+} XrSessionCreateInfo;
+
+typedef struct XrSessionCreateInfoOverlayEXTX
+{
+    XrStructureType type;
+    const void *next;
+    XrOverlaySessionCreateFlagsEXTX WINE_XR_ALIGN(8) createFlags;
+    uint32_t sessionLayersPlacement;
+} XrSessionCreateInfoOverlayEXTX;
+
+typedef struct XrSpaceComponentFilterInfoFB
+{
+    XrStructureType type;
+    const void *next;
+    XrSpaceComponentTypeFB componentType;
+} XrSpaceComponentFilterInfoFB;
+
+typedef struct XrSpaceComponentStatusFB
 {
     XrStructureType type;
     void *next;
-    XrSpaceLocationFlags locationFlags;
-    XrPosef pose;
-};
+    XrBool32 enabled;
+    XrBool32 changePending;
+} XrSpaceComponentStatusFB;
 
-struct XrSpaceQueryInfoFB
+typedef struct XrSpaceComponentStatusSetInfoFB
+{
+    XrStructureType type;
+    const void *next;
+    XrSpaceComponentTypeFB componentType;
+    XrBool32 enabled;
+    XrDuration timeout;
+} XrSpaceComponentStatusSetInfoFB;
+
+typedef struct XrSpaceEraseInfoFB
+{
+    XrStructureType type;
+    const void *next;
+    XrSpace space;
+    XrSpaceStorageLocationFB location;
+} XrSpaceEraseInfoFB;
+
+typedef struct XrSpaceFilterInfoBaseHeaderFB
+{
+    XrStructureType type;
+    const void *next;
+} XrSpaceFilterInfoBaseHeaderFB;
+
+typedef struct XrSpaceListSaveInfoFB
+{
+    XrStructureType type;
+    const void *next;
+    uint32_t spaceCount;
+    XrSpace *spaces;
+    XrSpaceStorageLocationFB location;
+} XrSpaceListSaveInfoFB;
+
+typedef struct XrSpaceQueryInfoBaseHeaderFB
+{
+    XrStructureType type;
+    const void *next;
+} XrSpaceQueryInfoBaseHeaderFB;
+
+typedef struct XrSpaceQueryInfoFB
 {
     XrStructureType type;
     const void *next;
@@ -5108,44 +4068,80 @@ struct XrSpaceQueryInfoFB
     XrDuration timeout;
     const XrSpaceFilterInfoBaseHeaderFB *filter;
     const XrSpaceFilterInfoBaseHeaderFB *excludeFilter;
-};
+} XrSpaceQueryInfoFB;
 
-struct XrSpaceTriangleMeshGetInfoMETA
-{
-    XrStructureType type;
-    const void *next;
-};
-
-struct XrSpaceVelocityData
-{
-    XrSpaceVelocityFlags velocityFlags;
-    XrVector3f linearVelocity;
-    XrVector3f angularVelocity;
-};
-
-struct XrSpatialAnchorCreateInfoMSFT
+typedef struct XrSpaceSaveInfoFB
 {
     XrStructureType type;
     const void *next;
     XrSpace space;
-    XrPosef pose;
-    XrTime time;
-};
+    XrSpaceStorageLocationFB location;
+    XrSpacePersistenceModeFB persistenceMode;
+} XrSpaceSaveInfoFB;
 
-struct XrSpatialGraphNodeBindingPropertiesMSFT
-{
-    XrStructureType type;
-    void *next;
-    uint8_t nodeId[XR_GUID_SIZE_MSFT];
-    XrPosef poseInNodeSpace;
-};
-
-struct XrSwapchainCreateInfo
+typedef struct XrSpaceShareInfoFB
 {
     XrStructureType type;
     const void *next;
-    XrSwapchainCreateFlags createFlags;
-    XrSwapchainUsageFlags usageFlags;
+    uint32_t spaceCount;
+    XrSpace *spaces;
+    uint32_t userCount;
+    XrSpaceUserFB *users;
+} XrSpaceShareInfoFB;
+
+typedef struct XrSpaceStorageLocationFilterInfoFB
+{
+    XrStructureType type;
+    const void *next;
+    XrSpaceStorageLocationFB location;
+} XrSpaceStorageLocationFilterInfoFB;
+
+typedef struct XrSpaceTriangleMeshGetInfoMETA
+{
+    XrStructureType type;
+    const void *next;
+} XrSpaceTriangleMeshGetInfoMETA;
+
+typedef struct XrSpaceUserCreateInfoFB
+{
+    XrStructureType type;
+    const void *next;
+    XrSpaceUserIdFB userId;
+} XrSpaceUserCreateInfoFB;
+
+typedef struct XrSpacesLocateInfo
+{
+    XrStructureType type;
+    const void *next;
+    XrSpace baseSpace;
+    XrTime time;
+    uint32_t spaceCount;
+    const XrSpace *spaces;
+} XrSpacesLocateInfo;
+typedef XrSpacesLocateInfo XrSpacesLocateInfoKHR;
+
+typedef struct XrSpatialAnchorNameHTC
+{
+    char name[XR_MAX_SPATIAL_ANCHOR_NAME_SIZE_HTC];
+} XrSpatialAnchorNameHTC;
+
+typedef struct XrSpatialAnchorPersistenceNameMSFT
+{
+    char name[XR_MAX_SPATIAL_ANCHOR_NAME_SIZE_MSFT];
+} XrSpatialAnchorPersistenceNameMSFT;
+
+typedef struct XrSpatialGraphNodeBindingPropertiesGetInfoMSFT
+{
+    XrStructureType type;
+    const void *next;
+} XrSpatialGraphNodeBindingPropertiesGetInfoMSFT;
+
+typedef struct XrSwapchainCreateInfo
+{
+    XrStructureType type;
+    const void *next;
+    XrSwapchainCreateFlags WINE_XR_ALIGN(8) createFlags;
+    XrSwapchainUsageFlags WINE_XR_ALIGN(8) usageFlags;
     int64_t format;
     uint32_t sampleCount;
     uint32_t width;
@@ -5153,68 +4149,471 @@ struct XrSwapchainCreateInfo
     uint32_t faceCount;
     uint32_t arraySize;
     uint32_t mipCount;
-};
+} XrSwapchainCreateInfo;
 
-struct XrSwapchainImageOpenGLKHR
+typedef struct XrSwapchainCreateInfoFoveationFB
+{
+    XrStructureType type;
+    void *next;
+    XrSwapchainCreateFoveationFlagsFB WINE_XR_ALIGN(8) flags;
+} XrSwapchainCreateInfoFoveationFB;
+
+typedef struct XrSwapchainImageAcquireInfo
+{
+    XrStructureType type;
+    const void *next;
+} XrSwapchainImageAcquireInfo;
+
+typedef struct XrSwapchainImageBaseHeader
+{
+    XrStructureType type;
+    void *next;
+} XrSwapchainImageBaseHeader;
+
+typedef struct XrSwapchainImageD3D11KHR
+{
+    XrStructureType type;
+    void *next;
+    ID3D11Texture2D *texture;
+} XrSwapchainImageD3D11KHR;
+
+typedef struct XrSwapchainImageD3D12KHR
+{
+    XrStructureType type;
+    void *next;
+    ID3D12Resource *texture;
+} XrSwapchainImageD3D12KHR;
+
+typedef struct XrSwapchainImageFoveationVulkanFB
+{
+    XrStructureType type;
+    void *next;
+    VkImage image;
+    uint32_t width;
+    uint32_t height;
+} XrSwapchainImageFoveationVulkanFB;
+
+typedef struct XrSwapchainImageOpenGLKHR
 {
     XrStructureType type;
     void *next;
     uint32_t image;
-};
+} XrSwapchainImageOpenGLKHR;
 
-struct XrSystemEnvironmentDepthPropertiesMETA
+typedef struct XrSwapchainImageReleaseInfo
+{
+    XrStructureType type;
+    const void *next;
+} XrSwapchainImageReleaseInfo;
+
+typedef struct XrSwapchainImageVulkanKHR
+{
+    XrStructureType type;
+    void *next;
+    VkImage image;
+} XrSwapchainImageVulkanKHR;
+typedef XrSwapchainImageVulkanKHR XrSwapchainImageVulkan2KHR;
+
+typedef struct XrSwapchainImageWaitInfo
+{
+    XrStructureType type;
+    const void *next;
+    XrDuration timeout;
+} XrSwapchainImageWaitInfo;
+
+typedef struct XrSwapchainStateBaseHeaderFB
+{
+    XrStructureType type;
+    void *next;
+} XrSwapchainStateBaseHeaderFB;
+
+typedef struct XrSwapchainStateFoveationFB
+{
+    XrStructureType type;
+    void *next;
+    XrSwapchainStateFoveationFlagsFB WINE_XR_ALIGN(8) flags;
+    XrFoveationProfileFB profile;
+} XrSwapchainStateFoveationFB;
+
+typedef struct XrSwapchainStateSamplerVulkanFB
+{
+    XrStructureType type;
+    void *next;
+    VkFilter minFilter;
+    VkFilter magFilter;
+    VkSamplerMipmapMode mipmapMode;
+    VkSamplerAddressMode wrapModeS;
+    VkSamplerAddressMode wrapModeT;
+    VkComponentSwizzle swizzleRed;
+    VkComponentSwizzle swizzleGreen;
+    VkComponentSwizzle swizzleBlue;
+    VkComponentSwizzle swizzleAlpha;
+    float maxAnisotropy;
+    XrColor4f borderColor;
+} XrSwapchainStateSamplerVulkanFB;
+
+typedef struct XrSwapchainSubImage
+{
+    XrSwapchain swapchain;
+    XrRect2Di imageRect;
+    uint32_t imageArrayIndex;
+} XrSwapchainSubImage;
+
+typedef struct XrSystemAnchorPropertiesHTC
+{
+    XrStructureType type;
+    void *next;
+    XrBool32 supportsAnchor;
+} XrSystemAnchorPropertiesHTC;
+
+typedef struct XrSystemBodyTrackingPropertiesFB
+{
+    XrStructureType type;
+    void *next;
+    XrBool32 supportsBodyTracking;
+} XrSystemBodyTrackingPropertiesFB;
+
+typedef struct XrSystemColorSpacePropertiesFB
+{
+    XrStructureType type;
+    void *next;
+    XrColorSpaceFB colorSpace;
+} XrSystemColorSpacePropertiesFB;
+
+typedef struct XrSystemEnvironmentDepthPropertiesMETA
 {
     XrStructureType type;
     void *next;
     XrBool32 supportsEnvironmentDepth;
     XrBool32 supportsHandRemoval;
-};
+} XrSystemEnvironmentDepthPropertiesMETA;
 
-struct XrSystemFoveationEyeTrackedPropertiesMETA
+typedef struct XrSystemEyeGazeInteractionPropertiesEXT
+{
+    XrStructureType type;
+    void *next;
+    XrBool32 supportsEyeGazeInteraction;
+} XrSystemEyeGazeInteractionPropertiesEXT;
+
+typedef struct XrSystemEyeTrackingPropertiesFB
+{
+    XrStructureType type;
+    void *next;
+    XrBool32 supportsEyeTracking;
+} XrSystemEyeTrackingPropertiesFB;
+
+typedef struct XrSystemFaceTrackingProperties2FB
+{
+    XrStructureType type;
+    void *next;
+    XrBool32 supportsVisualFaceTracking;
+    XrBool32 supportsAudioFaceTracking;
+} XrSystemFaceTrackingProperties2FB;
+
+typedef struct XrSystemFaceTrackingPropertiesFB
+{
+    XrStructureType type;
+    void *next;
+    XrBool32 supportsFaceTracking;
+} XrSystemFaceTrackingPropertiesFB;
+
+typedef struct XrSystemFacialTrackingPropertiesHTC
+{
+    XrStructureType type;
+    void *next;
+    XrBool32 supportEyeFacialTracking;
+    XrBool32 supportLipFacialTracking;
+} XrSystemFacialTrackingPropertiesHTC;
+
+typedef struct XrSystemForceFeedbackCurlPropertiesMNDX
+{
+    XrStructureType type;
+    void *next;
+    XrBool32 supportsForceFeedbackCurl;
+} XrSystemForceFeedbackCurlPropertiesMNDX;
+
+typedef struct XrSystemFoveatedRenderingPropertiesVARJO
+{
+    XrStructureType type;
+    void *next;
+    XrBool32 supportsFoveatedRendering;
+} XrSystemFoveatedRenderingPropertiesVARJO;
+
+typedef struct XrSystemFoveationEyeTrackedPropertiesMETA
 {
     XrStructureType type;
     void *next;
     XrBool32 supportsFoveationEyeTracked;
-};
+} XrSystemFoveationEyeTrackedPropertiesMETA;
 
-struct XrSystemHeadsetIdPropertiesMETA
+typedef struct XrSystemGetInfo
+{
+    XrStructureType type;
+    const void *next;
+    XrFormFactor formFactor;
+} XrSystemGetInfo;
+
+typedef struct XrSystemGraphicsProperties
+{
+    uint32_t maxSwapchainImageHeight;
+    uint32_t maxSwapchainImageWidth;
+    uint32_t maxLayerCount;
+} XrSystemGraphicsProperties;
+
+typedef struct XrSystemHandTrackingMeshPropertiesMSFT
 {
     XrStructureType type;
     void *next;
-    XrUuidEXT id;
-};
+    XrBool32 supportsHandTrackingMesh;
+    uint32_t maxHandMeshIndexCount;
+    uint32_t maxHandMeshVertexCount;
+} XrSystemHandTrackingMeshPropertiesMSFT;
 
-struct XrSystemTrackingProperties
+typedef struct XrSystemHandTrackingPropertiesEXT
+{
+    XrStructureType type;
+    void *next;
+    XrBool32 supportsHandTracking;
+} XrSystemHandTrackingPropertiesEXT;
+
+typedef struct XrSystemKeyboardTrackingPropertiesFB
+{
+    XrStructureType type;
+    void *next;
+    XrBool32 supportsKeyboardTracking;
+} XrSystemKeyboardTrackingPropertiesFB;
+
+typedef struct XrSystemMarkerTrackingPropertiesVARJO
+{
+    XrStructureType type;
+    void *next;
+    XrBool32 supportsMarkerTracking;
+} XrSystemMarkerTrackingPropertiesVARJO;
+
+typedef struct XrSystemMarkerUnderstandingPropertiesML
+{
+    XrStructureType type;
+    void *next;
+    XrBool32 supportsMarkerUnderstanding;
+} XrSystemMarkerUnderstandingPropertiesML;
+
+typedef struct XrSystemPassthroughColorLutPropertiesMETA
+{
+    XrStructureType type;
+    const void *next;
+    uint32_t maxColorLutResolution;
+} XrSystemPassthroughColorLutPropertiesMETA;
+
+typedef struct XrSystemPassthroughProperties2FB
+{
+    XrStructureType type;
+    const void *next;
+    XrPassthroughCapabilityFlagsFB WINE_XR_ALIGN(8) capabilities;
+} XrSystemPassthroughProperties2FB;
+
+typedef struct XrSystemPassthroughPropertiesFB
+{
+    XrStructureType type;
+    const void *next;
+    XrBool32 supportsPassthrough;
+} XrSystemPassthroughPropertiesFB;
+
+typedef struct XrSystemPlaneDetectionPropertiesEXT
+{
+    XrStructureType type;
+    void *next;
+    XrPlaneDetectionCapabilityFlagsEXT WINE_XR_ALIGN(8) supportedFeatures;
+} XrSystemPlaneDetectionPropertiesEXT;
+
+typedef struct XrSystemRenderModelPropertiesFB
+{
+    XrStructureType type;
+    void *next;
+    XrBool32 supportsRenderModelLoading;
+} XrSystemRenderModelPropertiesFB;
+
+typedef struct XrSystemSpaceWarpPropertiesFB
+{
+    XrStructureType type;
+    void *next;
+    uint32_t recommendedMotionVectorImageRectWidth;
+    uint32_t recommendedMotionVectorImageRectHeight;
+} XrSystemSpaceWarpPropertiesFB;
+
+typedef struct XrSystemSpatialEntityPropertiesFB
+{
+    XrStructureType type;
+    const void *next;
+    XrBool32 supportsSpatialEntity;
+} XrSystemSpatialEntityPropertiesFB;
+
+typedef struct XrSystemTrackingProperties
 {
     XrBool32 orientationTracking;
     XrBool32 positionTracking;
-};
+} XrSystemTrackingProperties;
 
-struct XrVector2f
+typedef struct XrSystemUserPresencePropertiesEXT
+{
+    XrStructureType type;
+    void *next;
+    XrBool32 supportsUserPresence;
+} XrSystemUserPresencePropertiesEXT;
+
+typedef struct XrSystemVirtualKeyboardPropertiesMETA
+{
+    XrStructureType type;
+    void *next;
+    XrBool32 supportsVirtualKeyboard;
+} XrSystemVirtualKeyboardPropertiesMETA;
+
+typedef struct XrUserCalibrationEnableEventsInfoML
+{
+    XrStructureType type;
+    const void *next;
+    XrBool32 enabled;
+} XrUserCalibrationEnableEventsInfoML;
+
+typedef struct XrUuid
+{
+    uint8_t data[XR_UUID_SIZE];
+} XrUuid;
+typedef XrUuid XrUuidEXT;
+
+
+typedef struct XrUuidMSFT
+{
+    uint8_t bytes[16];
+} XrUuidMSFT;
+
+typedef struct XrVector2f
 {
     float x;
     float y;
-};
+} XrVector2f;
 
-struct XrViewConfigurationViewFovEPIC
+typedef struct XrVector3f
+{
+    float x;
+    float y;
+    float z;
+} XrVector3f;
+
+typedef struct XrVector4f
+{
+    float x;
+    float y;
+    float z;
+    float w;
+} XrVector4f;
+
+typedef struct XrVector4sFB
+{
+    int16_t x;
+    int16_t y;
+    int16_t z;
+    int16_t w;
+} XrVector4sFB;
+
+typedef struct XrViewConfigurationDepthRangeEXT
+{
+    XrStructureType type;
+    void *next;
+    float recommendedNearZ;
+    float minNearZ;
+    float recommendedFarZ;
+    float maxFarZ;
+} XrViewConfigurationDepthRangeEXT;
+
+typedef struct XrViewConfigurationProperties
+{
+    XrStructureType type;
+    void *next;
+    XrViewConfigurationType viewConfigurationType;
+    XrBool32 fovMutable;
+} XrViewConfigurationProperties;
+
+typedef struct XrViewConfigurationView
+{
+    XrStructureType type;
+    void *next;
+    uint32_t recommendedImageRectWidth;
+    uint32_t maxImageRectWidth;
+    uint32_t recommendedImageRectHeight;
+    uint32_t maxImageRectHeight;
+    uint32_t recommendedSwapchainSampleCount;
+    uint32_t maxSwapchainSampleCount;
+} XrViewConfigurationView;
+
+typedef struct XrViewConfigurationViewFovEPIC
 {
     XrStructureType type;
     const void *next;
     XrFovf recommendedFov;
     XrFovf maxMutableFov;
-};
+} XrViewConfigurationViewFovEPIC;
 
-struct XrVirtualKeyboardLocationInfoMETA
+typedef struct XrViewLocateFoveatedRenderingVARJO
 {
     XrStructureType type;
     const void *next;
-    XrVirtualKeyboardLocationTypeMETA locationType;
-    XrSpace space;
-    XrPosef poseInSpace;
-    float scale;
-};
+    XrBool32 foveatedRenderingActive;
+} XrViewLocateFoveatedRenderingVARJO;
 
-struct XrVirtualKeyboardTextureDataMETA
+typedef struct XrViewLocateInfo
+{
+    XrStructureType type;
+    const void *next;
+    XrViewConfigurationType viewConfigurationType;
+    XrTime displayTime;
+    XrSpace space;
+} XrViewLocateInfo;
+
+typedef struct XrViewState
+{
+    XrStructureType type;
+    void *next;
+    XrViewStateFlags WINE_XR_ALIGN(8) viewStateFlags;
+} XrViewState;
+
+typedef struct XrVirtualKeyboardAnimationStateMETA
+{
+    XrStructureType type;
+    void *next;
+    int32_t animationIndex;
+    float fraction;
+} XrVirtualKeyboardAnimationStateMETA;
+
+typedef struct XrVirtualKeyboardCreateInfoMETA
+{
+    XrStructureType type;
+    const void *next;
+} XrVirtualKeyboardCreateInfoMETA;
+
+typedef struct XrVirtualKeyboardModelAnimationStatesMETA
+{
+    XrStructureType type;
+    void *next;
+    uint32_t stateCapacityInput;
+    uint32_t stateCountOutput;
+    XrVirtualKeyboardAnimationStateMETA *states;
+} XrVirtualKeyboardModelAnimationStatesMETA;
+
+typedef struct XrVirtualKeyboardModelVisibilitySetInfoMETA
+{
+    XrStructureType type;
+    const void *next;
+    XrBool32 visible;
+} XrVirtualKeyboardModelVisibilitySetInfoMETA;
+
+typedef struct XrVirtualKeyboardTextContextChangeInfoMETA
+{
+    XrStructureType type;
+    const void *next;
+    const char *textContext;
+} XrVirtualKeyboardTextContextChangeInfoMETA;
+
+typedef struct XrVirtualKeyboardTextureDataMETA
 {
     XrStructureType type;
     void *next;
@@ -5223,36 +4622,682 @@ struct XrVirtualKeyboardTextureDataMETA
     uint32_t bufferCapacityInput;
     uint32_t bufferCountOutput;
     uint8_t *buffer;
-};
+} XrVirtualKeyboardTextureDataMETA;
 
-struct XrVulkanGraphicsDeviceGetInfoKHR
+typedef struct XrVisibilityMaskKHR
+{
+    XrStructureType type;
+    void *next;
+    uint32_t vertexCapacityInput;
+    uint32_t vertexCountOutput;
+    XrVector2f *vertices;
+    uint32_t indexCapacityInput;
+    uint32_t indexCountOutput;
+    uint32_t *indices;
+} XrVisibilityMaskKHR;
+
+typedef struct XrVisualMeshComputeLodInfoMSFT
+{
+    XrStructureType type;
+    const void *next;
+    XrMeshComputeLodMSFT lod;
+} XrVisualMeshComputeLodInfoMSFT;
+
+typedef struct XrViveTrackerPathsHTCX
+{
+    XrStructureType type;
+    void *next;
+    XrPath persistentPath;
+    XrPath rolePath;
+} XrViveTrackerPathsHTCX;
+
+typedef struct XrVulkanDeviceCreateInfoKHR
+{
+    XrStructureType type;
+    const void *next;
+    XrSystemId systemId;
+    XrVulkanDeviceCreateFlagsKHR WINE_XR_ALIGN(8) createFlags;
+    PFN_vkGetInstanceProcAddr pfnGetInstanceProcAddr;
+    VkPhysicalDevice vulkanPhysicalDevice;
+    const VkDeviceCreateInfo *vulkanCreateInfo;
+    const VkAllocationCallbacks *vulkanAllocator;
+} XrVulkanDeviceCreateInfoKHR;
+
+typedef struct XrVulkanGraphicsDeviceGetInfoKHR
 {
     XrStructureType type;
     const void *next;
     XrSystemId systemId;
     VkInstance vulkanInstance;
-};
+} XrVulkanGraphicsDeviceGetInfoKHR;
 
-struct XrActionSpaceCreateInfo
+typedef struct XrVulkanInstanceCreateInfoKHR
+{
+    XrStructureType type;
+    const void *next;
+    XrSystemId systemId;
+    XrVulkanInstanceCreateFlagsKHR WINE_XR_ALIGN(8) createFlags;
+    PFN_vkGetInstanceProcAddr pfnGetInstanceProcAddr;
+    const VkInstanceCreateInfo *vulkanCreateInfo;
+    const VkAllocationCallbacks *vulkanAllocator;
+} XrVulkanInstanceCreateInfoKHR;
+
+typedef struct XrVulkanSwapchainCreateInfoMETA
+{
+    XrStructureType type;
+    const void *next;
+    VkImageCreateFlags additionalCreateFlags;
+    VkImageUsageFlags additionalUsageFlags;
+} XrVulkanSwapchainCreateInfoMETA;
+
+typedef struct XrVulkanSwapchainFormatListCreateInfoKHR
+{
+    XrStructureType type;
+    const void *next;
+    uint32_t viewFormatCount;
+    const VkFormat *viewFormats;
+} XrVulkanSwapchainFormatListCreateInfoKHR;
+
+typedef struct XrActionStateVector2f
+{
+    XrStructureType type;
+    void *next;
+    XrVector2f currentState;
+    XrBool32 changedSinceLastSync;
+    XrTime lastChangeTime;
+    XrBool32 isActive;
+} XrActionStateVector2f;
+
+typedef struct XrActionsSyncInfo
+{
+    XrStructureType type;
+    const void *next;
+    uint32_t countActiveActionSets;
+    const XrActiveActionSet *activeActionSets;
+} XrActionsSyncInfo;
+
+typedef struct XrActiveActionSetPrioritiesEXT
+{
+    XrStructureType type;
+    const void *next;
+    uint32_t actionSetPriorityCount;
+    const XrActiveActionSetPriorityEXT *actionSetPriorities;
+} XrActiveActionSetPrioritiesEXT;
+
+typedef struct XrApiLayerCreateInfo
+{
+    XrLoaderInterfaceStructs structType;
+    uint32_t structVersion;
+    size_t structSize;
+    void *loaderInstance;
+    char settings_file_location[XR_API_LAYER_MAX_SETTINGS_PATH_SIZE];
+    XrApiLayerNextInfo *nextInfo;
+} XrApiLayerCreateInfo;
+
+typedef struct XrBoundary2DFB
+{
+    XrStructureType type;
+    const void *next;
+    uint32_t vertexCapacityInput;
+    uint32_t vertexCountOutput;
+    XrVector2f *vertices;
+} XrBoundary2DFB;
+
+typedef struct XrCompositionLayerCubeKHR
+{
+    XrStructureType type;
+    const void *next;
+    XrCompositionLayerFlags WINE_XR_ALIGN(8) layerFlags;
+    XrSpace space;
+    XrEyeVisibility eyeVisibility;
+    XrSwapchain swapchain;
+    uint32_t imageArrayIndex;
+    XrQuaternionf orientation;
+} XrCompositionLayerCubeKHR;
+
+typedef struct XrCompositionLayerDepthInfoKHR
+{
+    XrStructureType type;
+    const void *next;
+    XrSwapchainSubImage subImage;
+    float minDepth;
+    float maxDepth;
+    float nearZ;
+    float farZ;
+} XrCompositionLayerDepthInfoKHR;
+
+typedef struct XrCompositionLayerPassthroughHTC
+{
+    XrStructureType type;
+    const void *next;
+    XrCompositionLayerFlags WINE_XR_ALIGN(8) layerFlags;
+    XrSpace space;
+    XrPassthroughHTC passthrough;
+    XrPassthroughColorHTC color;
+} XrCompositionLayerPassthroughHTC;
+
+typedef struct XrCompositionLayerReprojectionPlaneOverrideMSFT
+{
+    XrStructureType type;
+    const void *next;
+    XrVector3f position;
+    XrVector3f normal;
+    XrVector3f velocity;
+} XrCompositionLayerReprojectionPlaneOverrideMSFT;
+
+typedef struct XrEventDataSpaceEraseCompleteFB
+{
+    XrStructureType type;
+    const void *next;
+    XrAsyncRequestIdFB requestId;
+    XrResult result;
+    XrSpace space;
+    XrUuidEXT uuid;
+    XrSpaceStorageLocationFB location;
+} XrEventDataSpaceEraseCompleteFB;
+
+typedef struct XrEventDataSpaceSaveCompleteFB
+{
+    XrStructureType type;
+    const void *next;
+    XrAsyncRequestIdFB requestId;
+    XrResult result;
+    XrSpace space;
+    XrUuidEXT uuid;
+    XrSpaceStorageLocationFB location;
+} XrEventDataSpaceSaveCompleteFB;
+
+typedef struct XrEventDataSpaceSetStatusCompleteFB
+{
+    XrStructureType type;
+    const void *next;
+    XrAsyncRequestIdFB requestId;
+    XrResult result;
+    XrSpace space;
+    XrUuidEXT uuid;
+    XrSpaceComponentTypeFB componentType;
+    XrBool32 enabled;
+} XrEventDataSpaceSetStatusCompleteFB;
+
+typedef struct XrEventDataSpatialAnchorCreateCompleteFB
+{
+    XrStructureType type;
+    const void *next;
+    XrAsyncRequestIdFB requestId;
+    XrResult result;
+    XrSpace space;
+    XrUuidEXT uuid;
+} XrEventDataSpatialAnchorCreateCompleteFB;
+
+typedef struct XrEventDataViveTrackerConnectedHTCX
+{
+    XrStructureType type;
+    const void *next;
+    XrViveTrackerPathsHTCX *paths;
+} XrEventDataViveTrackerConnectedHTCX;
+
+typedef struct XrExternalCameraIntrinsicsOCULUS
+{
+    XrTime lastChangeTime;
+    XrFovf fov;
+    float virtualNearPlaneDistance;
+    float virtualFarPlaneDistance;
+    XrExtent2Di imageSensorPixelResolution;
+} XrExternalCameraIntrinsicsOCULUS;
+
+typedef struct XrFoveationEyeTrackedStateMETA
+{
+    XrStructureType type;
+    void *next;
+    XrVector2f foveationCenter[XR_FOVEATION_CENTER_SIZE_META];
+    XrFoveationEyeTrackedStateFlagsMETA WINE_XR_ALIGN(8) flags;
+} XrFoveationEyeTrackedStateMETA;
+
+typedef struct XrHandCapsuleFB
+{
+    XrVector3f points[XR_HAND_TRACKING_CAPSULE_POINT_COUNT_FB];
+    float radius;
+    XrHandJointEXT joint;
+} XrHandCapsuleFB;
+
+typedef struct XrHandJointVelocityEXT
+{
+    XrSpaceVelocityFlags WINE_XR_ALIGN(8) velocityFlags;
+    XrVector3f linearVelocity;
+    XrVector3f angularVelocity;
+} XrHandJointVelocityEXT;
+
+typedef struct XrHandMeshVertexMSFT
+{
+    XrVector3f position;
+    XrVector3f normal;
+} XrHandMeshVertexMSFT;
+
+typedef struct XrHandTrackingCapsulesStateFB
+{
+    XrStructureType type;
+    void *next;
+    XrHandCapsuleFB capsules[XR_HAND_TRACKING_CAPSULE_COUNT_FB];
+} XrHandTrackingCapsulesStateFB;
+
+typedef struct XrKeyboardTrackingDescriptionFB
+{
+    uint64_t WINE_XR_ALIGN(8) trackedKeyboardId;
+    XrVector3f size;
+    XrKeyboardTrackingFlagsFB WINE_XR_ALIGN(8) flags;
+    char name[XR_MAX_KEYBOARD_TRACKING_NAME_SIZE_FB];
+} XrKeyboardTrackingDescriptionFB;
+
+typedef struct XrLocalizationMapML
+{
+    XrStructureType type;
+    void *next;
+    char name[XR_MAX_LOCALIZATION_MAP_NAME_LENGTH_ML];
+    XrUuidEXT mapUuid;
+    XrLocalizationMapTypeML mapType;
+} XrLocalizationMapML;
+
+typedef struct XrMapLocalizationRequestInfoML
+{
+    XrStructureType type;
+    const void *next;
+    XrUuidEXT mapUuid;
+} XrMapLocalizationRequestInfoML;
+
+typedef struct XrPassthroughColorLutCreateInfoMETA
+{
+    XrStructureType type;
+    const void *next;
+    XrPassthroughColorLutChannelsMETA channels;
+    uint32_t resolution;
+    XrPassthroughColorLutDataMETA data;
+} XrPassthroughColorLutCreateInfoMETA;
+
+typedef struct XrPlaneDetectorPolygonBufferEXT
+{
+    XrStructureType type;
+    void *next;
+    uint32_t vertexCapacityInput;
+    uint32_t vertexCountOutput;
+    XrVector2f *vertices;
+} XrPlaneDetectorPolygonBufferEXT;
+
+typedef struct XrPosef
+{
+    XrQuaternionf orientation;
+    XrVector3f position;
+} XrPosef;
+
+typedef struct XrReferenceSpaceCreateInfo
+{
+    XrStructureType type;
+    const void *next;
+    XrReferenceSpaceType referenceSpaceType;
+    XrPosef poseInReferenceSpace;
+} XrReferenceSpaceCreateInfo;
+
+typedef struct XrRoomLayoutFB
+{
+    XrStructureType type;
+    const void *next;
+    XrUuidEXT floorUuid;
+    XrUuidEXT ceilingUuid;
+    uint32_t wallUuidCapacityInput;
+    uint32_t wallUuidCountOutput;
+    XrUuidEXT *wallUuids;
+} XrRoomLayoutFB;
+
+typedef struct XrSceneComponentLocationMSFT
+{
+    XrSpaceLocationFlags WINE_XR_ALIGN(8) flags;
+    XrPosef pose;
+} XrSceneComponentLocationMSFT;
+
+typedef struct XrSceneComponentLocationsMSFT
+{
+    XrStructureType type;
+    void *next;
+    uint32_t locationCount;
+    XrSceneComponentLocationMSFT *locations;
+} XrSceneComponentLocationsMSFT;
+
+typedef struct XrSceneComponentMSFT
+{
+    XrSceneComponentTypeMSFT componentType;
+    XrUuidMSFT id;
+    XrUuidMSFT parentId;
+    XrTime updateTime;
+} XrSceneComponentMSFT;
+
+typedef struct XrSceneComponentParentFilterInfoMSFT
+{
+    XrStructureType type;
+    const void *next;
+    XrUuidMSFT parentId;
+} XrSceneComponentParentFilterInfoMSFT;
+
+typedef struct XrSceneComponentsLocateInfoMSFT
+{
+    XrStructureType type;
+    const void *next;
+    XrSpace baseSpace;
+    XrTime time;
+    uint32_t componentIdCount;
+    const XrUuidMSFT *componentIds;
+} XrSceneComponentsLocateInfoMSFT;
+
+typedef struct XrSceneComponentsMSFT
+{
+    XrStructureType type;
+    void *next;
+    uint32_t componentCapacityInput;
+    uint32_t componentCountOutput;
+    XrSceneComponentMSFT *components;
+} XrSceneComponentsMSFT;
+
+typedef struct XrSceneFrustumBoundMSFT
+{
+    XrPosef pose;
+    XrFovf fov;
+    float farDistance;
+} XrSceneFrustumBoundMSFT;
+
+typedef struct XrSceneMeshVertexBufferMSFT
+{
+    XrStructureType type;
+    void *next;
+    uint32_t vertexCapacityInput;
+    uint32_t vertexCountOutput;
+    XrVector3f *vertices;
+} XrSceneMeshVertexBufferMSFT;
+
+typedef struct XrSceneOrientedBoxBoundMSFT
+{
+    XrPosef pose;
+    XrVector3f extents;
+} XrSceneOrientedBoxBoundMSFT;
+
+typedef struct XrSceneSphereBoundMSFT
+{
+    XrVector3f center;
+    float radius;
+} XrSceneSphereBoundMSFT;
+
+typedef struct XrSecondaryViewConfigurationFrameEndInfoMSFT
+{
+    XrStructureType type;
+    const void *next;
+    uint32_t viewConfigurationCount;
+    const XrSecondaryViewConfigurationLayerInfoMSFT *viewConfigurationLayersInfo;
+} XrSecondaryViewConfigurationFrameEndInfoMSFT;
+
+typedef struct XrSecondaryViewConfigurationFrameStateMSFT
+{
+    XrStructureType type;
+    void *next;
+    uint32_t viewConfigurationCount;
+    XrSecondaryViewConfigurationStateMSFT *viewConfigurationStates;
+} XrSecondaryViewConfigurationFrameStateMSFT;
+
+typedef struct XrSerializedSceneFragmentDataGetInfoMSFT
+{
+    XrStructureType type;
+    const void *next;
+    XrUuidMSFT sceneFragmentId;
+} XrSerializedSceneFragmentDataGetInfoMSFT;
+
+typedef struct XrSpaceContainerFB
+{
+    XrStructureType type;
+    const void *next;
+    uint32_t uuidCapacityInput;
+    uint32_t uuidCountOutput;
+    XrUuidEXT *uuids;
+} XrSpaceContainerFB;
+
+typedef struct XrSpaceLocation
+{
+    XrStructureType type;
+    void *next;
+    XrSpaceLocationFlags WINE_XR_ALIGN(8) locationFlags;
+    XrPosef pose;
+} XrSpaceLocation;
+
+typedef struct XrSpaceLocationData
+{
+    XrSpaceLocationFlags WINE_XR_ALIGN(8) locationFlags;
+    XrPosef pose;
+} XrSpaceLocationData;
+typedef XrSpaceLocationData XrSpaceLocationDataKHR;
+
+typedef struct XrSpaceLocations
+{
+    XrStructureType type;
+    void *next;
+    uint32_t locationCount;
+    XrSpaceLocationData *locations;
+} XrSpaceLocations;
+typedef XrSpaceLocations XrSpaceLocationsKHR;
+
+typedef struct XrSpaceQueryResultFB
+{
+    XrSpace space;
+    XrUuidEXT uuid;
+} XrSpaceQueryResultFB;
+
+typedef struct XrSpaceQueryResultsFB
+{
+    XrStructureType type;
+    void *next;
+    uint32_t resultCapacityInput;
+    uint32_t resultCountOutput;
+    XrSpaceQueryResultFB *results;
+} XrSpaceQueryResultsFB;
+
+typedef struct XrSpaceTriangleMeshMETA
+{
+    XrStructureType type;
+    void *next;
+    uint32_t vertexCapacityInput;
+    uint32_t vertexCountOutput;
+    XrVector3f *vertices;
+    uint32_t indexCapacityInput;
+    uint32_t indexCountOutput;
+    uint32_t *indices;
+} XrSpaceTriangleMeshMETA;
+
+typedef struct XrSpaceUuidFilterInfoFB
+{
+    XrStructureType type;
+    const void *next;
+    uint32_t uuidCount;
+    XrUuidEXT *uuids;
+} XrSpaceUuidFilterInfoFB;
+
+typedef struct XrSpaceVelocity
+{
+    XrStructureType type;
+    void *next;
+    XrSpaceVelocityFlags WINE_XR_ALIGN(8) velocityFlags;
+    XrVector3f linearVelocity;
+    XrVector3f angularVelocity;
+} XrSpaceVelocity;
+
+typedef struct XrSpaceVelocityData
+{
+    XrSpaceVelocityFlags WINE_XR_ALIGN(8) velocityFlags;
+    XrVector3f linearVelocity;
+    XrVector3f angularVelocity;
+} XrSpaceVelocityData;
+typedef XrSpaceVelocityData XrSpaceVelocityDataKHR;
+
+typedef struct XrSpatialAnchorCreateInfoFB
+{
+    XrStructureType type;
+    const void *next;
+    XrSpace space;
+    XrPosef poseInSpace;
+    XrTime time;
+} XrSpatialAnchorCreateInfoFB;
+
+typedef struct XrSpatialAnchorCreateInfoHTC
+{
+    XrStructureType type;
+    const void *next;
+    XrSpace space;
+    XrPosef poseInSpace;
+    XrSpatialAnchorNameHTC name;
+} XrSpatialAnchorCreateInfoHTC;
+
+typedef struct XrSpatialAnchorCreateInfoMSFT
+{
+    XrStructureType type;
+    const void *next;
+    XrSpace space;
+    XrPosef pose;
+    XrTime time;
+} XrSpatialAnchorCreateInfoMSFT;
+
+typedef struct XrSpatialAnchorFromPersistedAnchorCreateInfoMSFT
+{
+    XrStructureType type;
+    const void *next;
+    XrSpatialAnchorStoreConnectionMSFT spatialAnchorStore;
+    XrSpatialAnchorPersistenceNameMSFT spatialAnchorPersistenceName;
+} XrSpatialAnchorFromPersistedAnchorCreateInfoMSFT;
+
+typedef struct XrSpatialAnchorPersistenceInfoMSFT
+{
+    XrStructureType type;
+    const void *next;
+    XrSpatialAnchorPersistenceNameMSFT spatialAnchorPersistenceName;
+    XrSpatialAnchorMSFT spatialAnchor;
+} XrSpatialAnchorPersistenceInfoMSFT;
+
+typedef struct XrSpatialAnchorSpaceCreateInfoMSFT
+{
+    XrStructureType type;
+    const void *next;
+    XrSpatialAnchorMSFT anchor;
+    XrPosef poseInAnchorSpace;
+} XrSpatialAnchorSpaceCreateInfoMSFT;
+
+typedef struct XrSpatialGraphNodeBindingPropertiesMSFT
+{
+    XrStructureType type;
+    void *next;
+    uint8_t nodeId[XR_GUID_SIZE_MSFT];
+    XrPosef poseInNodeSpace;
+} XrSpatialGraphNodeBindingPropertiesMSFT;
+
+typedef struct XrSpatialGraphNodeSpaceCreateInfoMSFT
+{
+    XrStructureType type;
+    const void *next;
+    XrSpatialGraphNodeTypeMSFT nodeType;
+    uint8_t nodeId[XR_GUID_SIZE_MSFT];
+    XrPosef pose;
+} XrSpatialGraphNodeSpaceCreateInfoMSFT;
+
+typedef struct XrSpatialGraphStaticNodeBindingCreateInfoMSFT
+{
+    XrStructureType type;
+    const void *next;
+    XrSpace space;
+    XrPosef poseInSpace;
+    XrTime time;
+} XrSpatialGraphStaticNodeBindingCreateInfoMSFT;
+
+typedef struct XrSpheref
+{
+    XrPosef center;
+    float radius;
+} XrSpheref;
+typedef XrSpheref XrSpherefKHR;
+
+typedef struct XrSystemHeadsetIdPropertiesMETA
+{
+    XrStructureType type;
+    void *next;
+    XrUuidEXT id;
+} XrSystemHeadsetIdPropertiesMETA;
+
+typedef struct XrSystemProperties
+{
+    XrStructureType type;
+    void *next;
+    XrSystemId systemId;
+    uint32_t vendorId;
+    char systemName[XR_MAX_SYSTEM_NAME_SIZE];
+    XrSystemGraphicsProperties graphicsProperties;
+    XrSystemTrackingProperties trackingProperties;
+} XrSystemProperties;
+
+typedef struct XrTriangleMeshCreateInfoFB
+{
+    XrStructureType type;
+    const void *next;
+    XrTriangleMeshFlagsFB WINE_XR_ALIGN(8) flags;
+    XrWindingOrderFB windingOrder;
+    uint32_t vertexCount;
+    const XrVector3f *vertexBuffer;
+    uint32_t triangleCount;
+    const uint32_t *indexBuffer;
+} XrTriangleMeshCreateInfoFB;
+
+typedef struct XrView
+{
+    XrStructureType type;
+    void *next;
+    XrPosef pose;
+    XrFovf fov;
+} XrView;
+
+typedef struct XrVirtualKeyboardInputInfoMETA
+{
+    XrStructureType type;
+    const void *next;
+    XrVirtualKeyboardInputSourceMETA inputSource;
+    XrSpace inputSpace;
+    XrPosef inputPoseInSpace;
+    XrVirtualKeyboardInputStateFlagsMETA WINE_XR_ALIGN(8) inputState;
+} XrVirtualKeyboardInputInfoMETA;
+
+typedef struct XrVirtualKeyboardLocationInfoMETA
+{
+    XrStructureType type;
+    const void *next;
+    XrVirtualKeyboardLocationTypeMETA locationType;
+    XrSpace space;
+    XrPosef poseInSpace;
+    float scale;
+} XrVirtualKeyboardLocationInfoMETA;
+
+typedef struct XrVirtualKeyboardSpaceCreateInfoMETA
+{
+    XrStructureType type;
+    const void *next;
+    XrVirtualKeyboardLocationTypeMETA locationType;
+    XrSpace space;
+    XrPosef poseInSpace;
+} XrVirtualKeyboardSpaceCreateInfoMETA;
+
+typedef struct XrActionSpaceCreateInfo
 {
     XrStructureType type;
     const void *next;
     XrAction action;
     XrPath subactionPath;
     XrPosef poseInActionSpace;
-};
+} XrActionSpaceCreateInfo;
 
-struct XrApiLayerProperties
+typedef struct XrBodyJointLocationFB
 {
-    XrStructureType type;
-    void *next;
-    char layerName[XR_MAX_API_LAYER_NAME_SIZE];
-    XrVersion specVersion;
-    uint32_t layerVersion;
-    char description[XR_MAX_API_LAYER_DESCRIPTION_SIZE];
-};
+    XrSpaceLocationFlags WINE_XR_ALIGN(8) locationFlags;
+    XrPosef pose;
+} XrBodyJointLocationFB;
 
-struct XrBodyJointLocationsFB
+typedef struct XrBodyJointLocationsFB
 {
     XrStructureType type;
     void *next;
@@ -5262,37 +5307,125 @@ struct XrBodyJointLocationsFB
     XrBodyJointLocationFB *jointLocations;
     uint32_t skeletonChangedCount;
     XrTime time;
-};
+} XrBodyJointLocationsFB;
 
-struct XrBoundary2DFB
+typedef struct XrBodySkeletonJointFB
+{
+    int32_t joint;
+    int32_t parentJoint;
+    XrPosef pose;
+} XrBodySkeletonJointFB;
+
+typedef struct XrBoxf
+{
+    XrPosef center;
+    XrExtent3Df extents;
+} XrBoxf;
+typedef XrBoxf XrBoxfKHR;
+
+typedef struct XrCompositionLayerCylinderKHR
 {
     XrStructureType type;
     const void *next;
-    uint32_t vertexCapacityInput;
-    uint32_t vertexCountOutput;
-    XrVector2f *vertices;
-};
+    XrCompositionLayerFlags WINE_XR_ALIGN(8) layerFlags;
+    XrSpace space;
+    XrEyeVisibility eyeVisibility;
+    XrSwapchainSubImage subImage;
+    XrPosef pose;
+    float radius;
+    float centralAngle;
+    float aspectRatio;
+} XrCompositionLayerCylinderKHR;
 
-struct XrControllerModelStateMSFT
+typedef struct XrCompositionLayerEquirect2KHR
+{
+    XrStructureType type;
+    const void *next;
+    XrCompositionLayerFlags WINE_XR_ALIGN(8) layerFlags;
+    XrSpace space;
+    XrEyeVisibility eyeVisibility;
+    XrSwapchainSubImage subImage;
+    XrPosef pose;
+    float radius;
+    float centralHorizontalAngle;
+    float upperVerticalAngle;
+    float lowerVerticalAngle;
+} XrCompositionLayerEquirect2KHR;
+
+typedef struct XrCompositionLayerEquirectKHR
+{
+    XrStructureType type;
+    const void *next;
+    XrCompositionLayerFlags WINE_XR_ALIGN(8) layerFlags;
+    XrSpace space;
+    XrEyeVisibility eyeVisibility;
+    XrSwapchainSubImage subImage;
+    XrPosef pose;
+    float radius;
+    XrVector2f scale;
+    XrVector2f bias;
+} XrCompositionLayerEquirectKHR;
+
+typedef struct XrCompositionLayerProjectionView
+{
+    XrStructureType type;
+    const void *next;
+    XrPosef pose;
+    XrFovf fov;
+    XrSwapchainSubImage subImage;
+} XrCompositionLayerProjectionView;
+
+typedef struct XrCompositionLayerQuad
+{
+    XrStructureType type;
+    const void *next;
+    XrCompositionLayerFlags WINE_XR_ALIGN(8) layerFlags;
+    XrSpace space;
+    XrEyeVisibility eyeVisibility;
+    XrSwapchainSubImage subImage;
+    XrPosef pose;
+    XrExtent2Df size;
+} XrCompositionLayerQuad;
+
+typedef struct XrCompositionLayerSpaceWarpInfoFB
+{
+    XrStructureType type;
+    const void *next;
+    XrCompositionLayerSpaceWarpInfoFlagsFB WINE_XR_ALIGN(8) layerFlags;
+    XrSwapchainSubImage motionVectorSubImage;
+    XrPosef appSpaceDeltaPose;
+    XrSwapchainSubImage depthSubImage;
+    float minDepth;
+    float maxDepth;
+    float nearZ;
+    float farZ;
+} XrCompositionLayerSpaceWarpInfoFB;
+
+typedef struct XrControllerModelNodeStateMSFT
+{
+    XrStructureType type;
+    void *next;
+    XrPosef nodePose;
+} XrControllerModelNodeStateMSFT;
+
+typedef struct XrControllerModelStateMSFT
 {
     XrStructureType type;
     void *next;
     uint32_t nodeCapacityInput;
     uint32_t nodeCountOutput;
     XrControllerModelNodeStateMSFT *nodeStates;
-};
+} XrControllerModelStateMSFT;
 
-struct XrEnvironmentDepthImageMETA
+typedef struct XrEnvironmentDepthImageViewMETA
 {
     XrStructureType type;
     const void *next;
-    uint32_t swapchainIndex;
-    float nearZ;
-    float farZ;
-    XrEnvironmentDepthImageViewMETA views[2];
-};
+    XrFovf fov;
+    XrPosef pose;
+} XrEnvironmentDepthImageViewMETA;
 
-struct XrEventDataLocalizationChangedML
+typedef struct XrEventDataLocalizationChangedML
 {
     XrStructureType type;
     const void *next;
@@ -5300,89 +5433,135 @@ struct XrEventDataLocalizationChangedML
     XrLocalizationMapStateML state;
     XrLocalizationMapML map;
     XrLocalizationMapConfidenceML confidence;
-    XrLocalizationMapErrorFlagsML errorFlags;
-};
+    XrLocalizationMapErrorFlagsML WINE_XR_ALIGN(8) errorFlags;
+} XrEventDataLocalizationChangedML;
 
-struct XrEventDataSpaceSaveCompleteFB
+typedef struct XrEventDataReferenceSpaceChangePending
 {
     XrStructureType type;
     const void *next;
-    XrAsyncRequestIdFB requestId;
-    XrResult result;
-    XrSpace space;
-    XrUuidEXT uuid;
-    XrSpaceStorageLocationFB location;
-};
+    XrSession session;
+    XrReferenceSpaceType referenceSpaceType;
+    XrTime changeTime;
+    XrBool32 poseValid;
+    XrPosef poseInPreviousSpace;
+} XrEventDataReferenceSpaceChangePending;
 
-struct XrEventDataViveTrackerConnectedHTCX
+typedef struct XrExternalCameraExtrinsicsOCULUS
+{
+    XrTime lastChangeTime;
+    XrExternalCameraStatusFlagsOCULUS WINE_XR_ALIGN(8) cameraStatusFlags;
+    XrExternalCameraAttachedToDeviceOCULUS attachedToDevice;
+    XrPosef relativePose;
+} XrExternalCameraExtrinsicsOCULUS;
+
+typedef struct XrExternalCameraOCULUS
 {
     XrStructureType type;
     const void *next;
-    XrViveTrackerPathsHTCX *paths;
-};
+    char name[XR_MAX_EXTERNAL_CAMERA_NAME_SIZE_OCULUS];
+    XrExternalCameraIntrinsicsOCULUS intrinsics;
+    XrExternalCameraExtrinsicsOCULUS WINE_XR_ALIGN(8) extrinsics;
+} XrExternalCameraOCULUS;
 
-struct XrEyeGazesFB
+typedef struct XrEyeGazeFB
+{
+    XrBool32 isValid;
+    XrPosef gazePose;
+    float gazeConfidence;
+} XrEyeGazeFB;
+
+typedef struct XrEyeGazesFB
 {
     XrStructureType type;
     void *next;
     XrEyeGazeFB gaze[XR_EYE_POSITION_COUNT_FB];
     XrTime time;
-};
+} XrEyeGazesFB;
 
-struct XrForceFeedbackCurlApplyLocationsMNDX
+typedef struct XrFrustumf
+{
+    XrPosef pose;
+    XrFovf fov;
+    float nearZ;
+    float farZ;
+} XrFrustumf;
+typedef XrFrustumf XrFrustumfKHR;
+
+typedef struct XrGeometryInstanceCreateInfoFB
 {
     XrStructureType type;
     const void *next;
-    uint32_t locationCount;
-    XrForceFeedbackCurlApplyLocationMNDX *locations;
-};
+    XrPassthroughLayerFB layer;
+    XrTriangleMeshFB mesh;
+    XrSpace baseSpace;
+    XrPosef pose;
+    XrVector3f scale;
+} XrGeometryInstanceCreateInfoFB;
 
-struct XrFoveationConfigurationHTC
-{
-    XrFoveationLevelHTC level;
-    float clearFovDegree;
-    XrVector2f focalCenterOffset;
-};
-
-struct XrFoveationEyeTrackedStateMETA
-{
-    XrStructureType type;
-    void *next;
-    XrVector2f foveationCenter[XR_FOVEATION_CENTER_SIZE_META];
-    XrFoveationEyeTrackedStateFlagsMETA flags;
-};
-
-struct XrFutureCompletionEXT
-{
-    XrStructureType type;
-    void *next;
-    XrResult futureResult;
-};
-
-struct XrGraphicsRequirementsD3D11KHR
-{
-    XrStructureType type;
-    void *next;
-    LUID adapterLuid;
-    D3D_FEATURE_LEVEL minFeatureLevel;
-};
-
-struct XrHandJointsMotionRangeInfoEXT
+typedef struct XrGeometryInstanceTransformFB
 {
     XrStructureType type;
     const void *next;
-    XrHandJointsMotionRangeEXT handJointsMotionRange;
-};
+    XrSpace baseSpace;
+    XrTime time;
+    XrPosef pose;
+    XrVector3f scale;
+} XrGeometryInstanceTransformFB;
 
-struct XrHandMeshVertexBufferMSFT
+typedef struct XrHandJointLocationEXT
+{
+    XrSpaceLocationFlags WINE_XR_ALIGN(8) locationFlags;
+    XrPosef pose;
+    float radius;
+} XrHandJointLocationEXT;
+
+typedef struct XrHandJointLocationsEXT
+{
+    XrStructureType type;
+    void *next;
+    XrBool32 isActive;
+    uint32_t jointCount;
+    XrHandJointLocationEXT *jointLocations;
+} XrHandJointLocationsEXT;
+
+typedef struct XrHandJointVelocitiesEXT
+{
+    XrStructureType type;
+    void *next;
+    uint32_t jointCount;
+    XrHandJointVelocityEXT *jointVelocities;
+} XrHandJointVelocitiesEXT;
+
+typedef struct XrHandMeshSpaceCreateInfoMSFT
+{
+    XrStructureType type;
+    const void *next;
+    XrHandPoseTypeMSFT handPoseType;
+    XrPosef poseInHandMeshSpace;
+} XrHandMeshSpaceCreateInfoMSFT;
+
+typedef struct XrHandMeshVertexBufferMSFT
 {
     XrTime vertexUpdateTime;
     uint32_t vertexCapacityInput;
     uint32_t vertexCountOutput;
     XrHandMeshVertexMSFT *vertices;
-};
+} XrHandMeshVertexBufferMSFT;
 
-struct XrHandTrackingMeshFB
+typedef struct XrHandTrackingAimStateFB
+{
+    XrStructureType type;
+    void *next;
+    XrHandTrackingAimFlagsFB WINE_XR_ALIGN(8) status;
+    XrPosef aimPose;
+    float pinchStrengthIndex;
+    float pinchStrengthMiddle;
+    float pinchStrengthRing;
+    float pinchStrengthLittle;
+} XrHandTrackingAimStateFB;
+
+typedef struct XrHandTrackingMeshFB
 {
     XrStructureType type;
     void *next;
@@ -5401,38 +5580,26 @@ struct XrHandTrackingMeshFB
     uint32_t indexCapacityInput;
     uint32_t indexCountOutput;
     int16_t *indices;
-};
+} XrHandTrackingMeshFB;
 
-struct XrInteractionProfileDpadBindingEXT
+typedef struct XrMarkerSpaceCreateInfoML
 {
     XrStructureType type;
     const void *next;
-    XrPath binding;
-    XrActionSet actionSet;
-    float forceThreshold;
-    float forceThresholdReleased;
-    float centerRegion;
-    float wedgeAngle;
-    XrBool32 isSticky;
-    const XrHapticBaseHeader *onHaptic;
-    const XrHapticBaseHeader *offHaptic;
-};
+    XrMarkerDetectorML markerDetector;
+    XrMarkerML marker;
+    XrPosef poseInMarkerSpace;
+} XrMarkerSpaceCreateInfoML;
 
-struct XrMapLocalizationRequestInfoML
+typedef struct XrMarkerSpaceCreateInfoVARJO
 {
     XrStructureType type;
     const void *next;
-    XrUuidEXT mapUuid;
-};
+    uint64_t WINE_XR_ALIGN(8) markerId;
+    XrPosef poseInMarkerSpace;
+} XrMarkerSpaceCreateInfoVARJO;
 
-struct XrPassthroughColorLutUpdateInfoMETA
-{
-    XrStructureType type;
-    const void *next;
-    XrPassthroughColorLutDataMETA data;
-};
-
-struct XrPassthroughMeshTransformInfoHTC
+typedef struct XrPassthroughMeshTransformInfoHTC
 {
     XrStructureType type;
     const void *next;
@@ -5444,475 +5611,47 @@ struct XrPassthroughMeshTransformInfoHTC
     XrTime time;
     XrPosef pose;
     XrVector3f scale;
-};
+} XrPassthroughMeshTransformInfoHTC;
 
-struct XrPlaneDetectorLocationEXT
-{
-    XrStructureType type;
-    void *next;
-    uint64_t WINE_XR_ALIGN(8) planeId;
-    XrSpaceLocationFlags locationFlags;
-    XrPosef pose;
-    XrExtent2Df extents;
-    XrPlaneDetectorOrientationEXT orientation;
-    XrPlaneDetectorSemanticTypeEXT semanticType;
-    uint32_t polygonBufferCount;
-};
-
-struct XrPlaneDetectorPolygonBufferEXT
-{
-    XrStructureType type;
-    void *next;
-    uint32_t vertexCapacityInput;
-    uint32_t vertexCountOutput;
-    XrVector2f *vertices;
-};
-
-struct XrRoomLayoutFB
-{
-    XrStructureType type;
-    const void *next;
-    XrUuidEXT floorUuid;
-    XrUuidEXT ceilingUuid;
-    uint32_t wallUuidCapacityInput;
-    uint32_t wallUuidCountOutput;
-    XrUuidEXT *wallUuids;
-};
-
-struct XrSceneComponentParentFilterInfoMSFT
-{
-    XrStructureType type;
-    const void *next;
-    XrUuidMSFT parentId;
-};
-
-struct XrSceneMeshBuffersMSFT
-{
-    XrStructureType type;
-    void *next;
-};
-
-struct XrScenePlanesMSFT
-{
-    XrStructureType type;
-    void *next;
-    uint32_t scenePlaneCount;
-    XrScenePlaneMSFT *scenePlanes;
-};
-
-struct XrSerializedSceneFragmentDataGetInfoMSFT
-{
-    XrStructureType type;
-    const void *next;
-    XrUuidMSFT sceneFragmentId;
-};
-
-struct XrSpaceLocations
-{
-    XrStructureType type;
-    void *next;
-    uint32_t locationCount;
-    XrSpaceLocationData *locations;
-};
-
-struct XrSpaceUuidFilterInfoFB
-{
-    XrStructureType type;
-    const void *next;
-    uint32_t uuidCount;
-    XrUuidEXT *uuids;
-};
-
-struct XrSpatialAnchorCreateInfoFB
-{
-    XrStructureType type;
-    const void *next;
-    XrSpace space;
-    XrPosef poseInSpace;
-    XrTime time;
-};
-
-struct XrSpatialGraphStaticNodeBindingCreateInfoMSFT
-{
-    XrStructureType type;
-    const void *next;
-    XrSpace space;
-    XrPosef poseInSpace;
-    XrTime time;
-};
-
-struct XrSwapchainImageWaitInfo
-{
-    XrStructureType type;
-    const void *next;
-    XrDuration timeout;
-};
-
-struct XrSystemFaceTrackingPropertiesFB
-{
-    XrStructureType type;
-    void *next;
-    XrBool32 supportsFaceTracking;
-};
-
-struct XrSystemPassthroughColorLutPropertiesMETA
-{
-    XrStructureType type;
-    const void *next;
-    uint32_t maxColorLutResolution;
-};
-
-struct XrTriangleMeshCreateInfoFB
-{
-    XrStructureType type;
-    const void *next;
-    XrTriangleMeshFlagsFB flags;
-    XrWindingOrderFB windingOrder;
-    uint32_t vertexCount;
-    const XrVector3f *vertexBuffer;
-    uint32_t triangleCount;
-    const uint32_t *indexBuffer;
-};
-
-struct XrVirtualKeyboardAnimationStateMETA
-{
-    XrStructureType type;
-    void *next;
-    int32_t animationIndex;
-    float fraction;
-};
-
-struct XrVisibilityMaskKHR
-{
-    XrStructureType type;
-    void *next;
-    uint32_t vertexCapacityInput;
-    uint32_t vertexCountOutput;
-    XrVector2f *vertices;
-    uint32_t indexCapacityInput;
-    uint32_t indexCountOutput;
-    uint32_t *indices;
-};
-
-struct XrActionStateVector2f
-{
-    XrStructureType type;
-    void *next;
-    XrVector2f currentState;
-    XrBool32 changedSinceLastSync;
-    XrTime lastChangeTime;
-    XrBool32 isActive;
-};
-
-struct XrBodySkeletonFB
-{
-    XrStructureType type;
-    void *next;
-    uint32_t jointCount;
-    XrBodySkeletonJointFB *joints;
-};
-
-struct XrEventDataReferenceSpaceChangePending
-{
-    XrStructureType type;
-    const void *next;
-    XrSession session;
-    XrReferenceSpaceType referenceSpaceType;
-    XrTime changeTime;
-    XrBool32 poseValid;
-    XrPosef poseInPreviousSpace;
-};
-
-struct XrExternalCameraExtrinsicsOCULUS
-{
-    XrTime lastChangeTime;
-    XrExternalCameraStatusFlagsOCULUS cameraStatusFlags;
-    XrExternalCameraAttachedToDeviceOCULUS attachedToDevice;
-    XrPosef relativePose;
-};
-
-struct XrFaceTrackerCreateInfo2FB
-{
-    XrStructureType type;
-    const void *next;
-    XrFaceExpressionSet2FB faceExpressionSet;
-    uint32_t requestedDataSourceCount;
-    XrFaceTrackingDataSource2FB *requestedDataSources;
-};
-
-struct XrFoveationCustomModeInfoHTC
-{
-    XrStructureType type;
-    const void *next;
-    uint32_t configCount;
-    const XrFoveationConfigurationHTC *configs;
-};
-
-struct XrGeometryInstanceTransformFB
+typedef struct XrPlaneDetectorBeginInfoEXT
 {
     XrStructureType type;
     const void *next;
     XrSpace baseSpace;
     XrTime time;
-    XrPosef pose;
-    XrVector3f scale;
-};
+    uint32_t orientationCount;
+    const XrPlaneDetectorOrientationEXT *orientations;
+    uint32_t semanticTypeCount;
+    const XrPlaneDetectorSemanticTypeEXT *semanticTypes;
+    uint32_t maxPlanes;
+    float minArea;
+    XrPosef boundingBoxPose;
+    XrExtent3DfEXT boundingBoxExtent;
+} XrPlaneDetectorBeginInfoEXT;
 
-struct XrHandMeshMSFT
+typedef struct XrPlaneDetectorLocationEXT
 {
     XrStructureType type;
     void *next;
-    XrBool32 isActive;
-    XrBool32 indexBufferChanged;
-    XrBool32 vertexBufferChanged;
-    XrHandMeshIndexBufferMSFT indexBuffer;
-    XrHandMeshVertexBufferMSFT vertexBuffer;
-};
+    uint64_t WINE_XR_ALIGN(8) planeId;
+    XrSpaceLocationFlags WINE_XR_ALIGN(8) locationFlags;
+    XrPosef pose;
+    XrExtent2Df extents;
+    XrPlaneDetectorOrientationEXT orientation;
+    XrPlaneDetectorSemanticTypeEXT semanticType;
+    uint32_t polygonBufferCount;
+} XrPlaneDetectorLocationEXT;
 
-struct XrInputSourceLocalizedNameGetInfo
-{
-    XrStructureType type;
-    const void *next;
-    XrPath sourcePath;
-    XrInputSourceLocalizedNameFlags whichComponents;
-};
-
-struct XrMarkerSpaceCreateInfoML
-{
-    XrStructureType type;
-    const void *next;
-    XrMarkerDetectorML markerDetector;
-    XrMarkerML marker;
-    XrPosef poseInMarkerSpace;
-};
-
-struct XrPlaneDetectorLocationsEXT
+typedef struct XrPlaneDetectorLocationsEXT
 {
     XrStructureType type;
     void *next;
     uint32_t planeLocationCapacityInput;
     uint32_t planeLocationCountOutput;
     XrPlaneDetectorLocationEXT *planeLocations;
-};
+} XrPlaneDetectorLocationsEXT;
 
-struct XrSceneFrustumBoundMSFT
-{
-    XrPosef pose;
-    XrFovf fov;
-    float farDistance;
-};
-
-struct XrSecondaryViewConfigurationFrameStateMSFT
-{
-    XrStructureType type;
-    void *next;
-    uint32_t viewConfigurationCount;
-    XrSecondaryViewConfigurationStateMSFT *viewConfigurationStates;
-};
-
-struct XrSpaceQueryResultFB
-{
-    XrSpace space;
-    XrUuidEXT uuid;
-};
-
-struct XrSpaceVelocities
-{
-    XrStructureType type;
-    void *next;
-    uint32_t velocityCount;
-    XrSpaceVelocityData *velocities;
-};
-
-struct XrSwapchainImageD3D11KHR
-{
-    XrStructureType type;
-    void *next;
-    ID3D11Texture2D *texture;
-};
-
-struct XrSystemHandTrackingPropertiesEXT
-{
-    XrStructureType type;
-    void *next;
-    XrBool32 supportsHandTracking;
-};
-
-struct XrView
-{
-    XrStructureType type;
-    void *next;
-    XrPosef pose;
-    XrFovf fov;
-};
-
-struct XrBindingModificationsKHR
-{
-    XrStructureType type;
-    const void *next;
-    uint32_t bindingModificationCount;
-    const XrBindingModificationBaseHeaderKHR * const*bindingModifications;
-};
-
-struct XrEventDataBaseHeader
-{
-    XrStructureType type;
-    const void *next;
-};
-
-struct XrExternalCameraOCULUS
-{
-    XrStructureType type;
-    const void *next;
-    char name[XR_MAX_EXTERNAL_CAMERA_NAME_SIZE_OCULUS];
-    XrExternalCameraIntrinsicsOCULUS intrinsics;
-    XrExternalCameraExtrinsicsOCULUS extrinsics;
-};
-
-struct XrFrameState
-{
-    XrStructureType type;
-    void *next;
-    XrTime predictedDisplayTime;
-    XrDuration predictedDisplayPeriod;
-    XrBool32 shouldRender;
-};
-
-struct XrHandTrackingAimStateFB
-{
-    XrStructureType type;
-    void *next;
-    XrHandTrackingAimFlagsFB status;
-    XrPosef aimPose;
-    float pinchStrengthIndex;
-    float pinchStrengthMiddle;
-    float pinchStrengthRing;
-    float pinchStrengthLittle;
-};
-
-struct XrRect2Di
-{
-    XrOffset2Di offset;
-    XrExtent2Di extent;
-};
-
-struct XrSceneObjectsMSFT
-{
-    XrStructureType type;
-    void *next;
-    uint32_t sceneObjectCount;
-    XrSceneObjectMSFT *sceneObjects;
-};
-
-struct XrSpaceQueryResultsFB
-{
-    XrStructureType type;
-    void *next;
-    uint32_t resultCapacityInput;
-    uint32_t resultCountOutput;
-    XrSpaceQueryResultFB *results;
-};
-
-struct XrSwapchainSubImage
-{
-    XrSwapchain swapchain;
-    XrRect2Di imageRect;
-    uint32_t imageArrayIndex;
-};
-
-struct XrVirtualKeyboardModelAnimationStatesMETA
-{
-    XrStructureType type;
-    void *next;
-    uint32_t stateCapacityInput;
-    uint32_t stateCountOutput;
-    XrVirtualKeyboardAnimationStateMETA *states;
-};
-
-struct XrColor4f
-{
-    float r;
-    float g;
-    float b;
-    float a;
-};
-
-struct XrCompositionLayerCylinderKHR
-{
-    XrStructureType type;
-    const void *next;
-    XrCompositionLayerFlags layerFlags;
-    XrSpace space;
-    XrEyeVisibility eyeVisibility;
-    XrSwapchainSubImage subImage;
-    XrPosef pose;
-    float radius;
-    float centralAngle;
-    float aspectRatio;
-};
-
-struct XrCompositionLayerEquirect2KHR
-{
-    XrStructureType type;
-    const void *next;
-    XrCompositionLayerFlags layerFlags;
-    XrSpace space;
-    XrEyeVisibility eyeVisibility;
-    XrSwapchainSubImage subImage;
-    XrPosef pose;
-    float radius;
-    float centralHorizontalAngle;
-    float upperVerticalAngle;
-    float lowerVerticalAngle;
-};
-
-struct XrCompositionLayerProjectionView
-{
-    XrStructureType type;
-    const void *next;
-    XrPosef pose;
-    XrFovf fov;
-    XrSwapchainSubImage subImage;
-};
-
-struct XrCompositionLayerSpaceWarpInfoFB
-{
-    XrStructureType type;
-    const void *next;
-    XrCompositionLayerSpaceWarpInfoFlagsFB layerFlags;
-    XrSwapchainSubImage motionVectorSubImage;
-    XrPosef appSpaceDeltaPose;
-    XrSwapchainSubImage depthSubImage;
-    float minDepth;
-    float maxDepth;
-    float nearZ;
-    float farZ;
-};
-
-struct XrFoveationApplyInfoHTC
-{
-    XrStructureType type;
-    const void *next;
-    XrFoveationModeHTC mode;
-    uint32_t subImageCount;
-    XrSwapchainSubImage *subImages;
-};
-
-struct XrLocalDimmingFrameEndInfoMETA
-{
-    XrStructureType type;
-    const void *next;
-    XrLocalDimmingModeMETA localDimmingMode;
-};
-
-struct XrPassthroughColorMapMonoToRgbaFB
-{
-    XrStructureType type;
-    const void *next;
-    XrColor4f textureColorMap[XR_PASSTHROUGH_COLOR_MAP_MONO_SIZE_FB];
-};
-
-struct XrSceneBoundsMSFT
+typedef struct XrSceneBoundsMSFT
 {
     XrSpace space;
     XrTime time;
@@ -5922,69 +5661,57 @@ struct XrSceneBoundsMSFT
     const XrSceneOrientedBoxBoundMSFT *boxes;
     uint32_t frustumCount;
     const XrSceneFrustumBoundMSFT *frustums;
-};
+} XrSceneBoundsMSFT;
 
-struct XrSpatialAnchorPersistenceInfoMSFT
-{
-    XrStructureType type;
-    const void *next;
-    XrSpatialAnchorPersistenceNameMSFT spatialAnchorPersistenceName;
-    XrSpatialAnchorMSFT spatialAnchor;
-};
-
-struct XrSystemProperties
+typedef struct XrSpaceVelocities
 {
     XrStructureType type;
     void *next;
-    XrSystemId systemId;
-    uint32_t vendorId;
-    char systemName[XR_MAX_SYSTEM_NAME_SIZE];
-    XrSystemGraphicsProperties graphicsProperties;
-    XrSystemTrackingProperties trackingProperties;
-};
+    uint32_t velocityCount;
+    XrSpaceVelocityData *velocities;
+} XrSpaceVelocities;
+typedef XrSpaceVelocities XrSpaceVelocitiesKHR;
 
-struct XrCompositionLayerColorScaleBiasKHR
+typedef struct XrBodySkeletonFB
+{
+    XrStructureType type;
+    void *next;
+    uint32_t jointCount;
+    XrBodySkeletonJointFB *joints;
+} XrBodySkeletonFB;
+
+typedef struct XrCompositionLayerProjection
 {
     XrStructureType type;
     const void *next;
-    XrColor4f colorScale;
-    XrColor4f colorBias;
-};
-
-struct XrCompositionLayerEquirectKHR
-{
-    XrStructureType type;
-    const void *next;
-    XrCompositionLayerFlags layerFlags;
+    XrCompositionLayerFlags WINE_XR_ALIGN(8) layerFlags;
     XrSpace space;
-    XrEyeVisibility eyeVisibility;
-    XrSwapchainSubImage subImage;
-    XrPosef pose;
-    float radius;
-    XrVector2f scale;
-    XrVector2f bias;
-};
+    uint32_t viewCount;
+    const XrCompositionLayerProjectionView *views;
+} XrCompositionLayerProjection;
 
-struct XrCompositionLayerQuad
+typedef struct XrEnvironmentDepthImageMETA
 {
     XrStructureType type;
     const void *next;
-    XrCompositionLayerFlags layerFlags;
-    XrSpace space;
-    XrEyeVisibility eyeVisibility;
-    XrSwapchainSubImage subImage;
-    XrPosef pose;
-    XrExtent2Df size;
-};
+    uint32_t swapchainIndex;
+    float nearZ;
+    float farZ;
+    XrEnvironmentDepthImageViewMETA views[2];
+} XrEnvironmentDepthImageMETA;
 
-struct XrHandJointLocationEXT
+typedef struct XrHandMeshMSFT
 {
-    XrSpaceLocationFlags locationFlags;
-    XrPosef pose;
-    float radius;
-};
+    XrStructureType type;
+    void *next;
+    XrBool32 isActive;
+    XrBool32 indexBufferChanged;
+    XrBool32 vertexBufferChanged;
+    XrHandMeshIndexBufferMSFT indexBuffer;
+    XrHandMeshVertexBufferMSFT vertexBuffer;
+} XrHandMeshMSFT;
 
-struct XrNewSceneComputeInfoMSFT
+typedef struct XrNewSceneComputeInfoMSFT
 {
     XrStructureType type;
     const void *next;
@@ -5992,86 +5719,11 @@ struct XrNewSceneComputeInfoMSFT
     const XrSceneComputeFeatureMSFT *requestedFeatures;
     XrSceneComputeConsistencyMSFT consistency;
     XrSceneBoundsMSFT bounds;
-};
-
-struct XrSpaceContainerFB
-{
-    XrStructureType type;
-    const void *next;
-    uint32_t uuidCapacityInput;
-    uint32_t uuidCountOutput;
-    XrUuidEXT *uuids;
-};
-
-struct XrCompositionLayerDepthInfoKHR
-{
-    XrStructureType type;
-    const void *next;
-    XrSwapchainSubImage subImage;
-    float minDepth;
-    float maxDepth;
-    float nearZ;
-    float farZ;
-};
-
-struct XrEventDataSpatialAnchorCreateCompleteFB
-{
-    XrStructureType type;
-    const void *next;
-    XrAsyncRequestIdFB requestId;
-    XrResult result;
-    XrSpace space;
-    XrUuidEXT uuid;
-};
-
-struct XrPassthroughStyleFB
-{
-    XrStructureType type;
-    const void *next;
-    float textureOpacityFactor;
-    XrColor4f edgeColor;
-};
-
-struct XrCompositionLayerProjection
-{
-    XrStructureType type;
-    const void *next;
-    XrCompositionLayerFlags layerFlags;
-    XrSpace space;
-    uint32_t viewCount;
-    const XrCompositionLayerProjectionView *views;
-};
-
-struct XrSwapchainStateSamplerVulkanFB
-{
-    XrStructureType type;
-    void *next;
-    VkFilter minFilter;
-    VkFilter magFilter;
-    VkSamplerMipmapMode mipmapMode;
-    VkSamplerAddressMode wrapModeS;
-    VkSamplerAddressMode wrapModeT;
-    VkComponentSwizzle swizzleRed;
-    VkComponentSwizzle swizzleGreen;
-    VkComponentSwizzle swizzleBlue;
-    VkComponentSwizzle swizzleAlpha;
-    float maxAnisotropy;
-    XrColor4f borderColor;
-};
-
-struct XrHandJointLocationsEXT
-{
-    XrStructureType type;
-    void *next;
-    XrBool32 isActive;
-    uint32_t jointCount;
-    XrHandJointLocationEXT *jointLocations;
-};
+} XrNewSceneComputeInfoMSFT;
 
 typedef XrResult (XRAPI_PTR *PFN_xrAcquireEnvironmentDepthImageMETA)(XrEnvironmentDepthProviderMETA, const XrEnvironmentDepthImageAcquireInfoMETA *, XrEnvironmentDepthImageMETA *);
 typedef XrResult (XRAPI_PTR *PFN_xrAcquireSwapchainImage)(XrSwapchain, const XrSwapchainImageAcquireInfo *, uint32_t *);
 typedef XrResult (XRAPI_PTR *PFN_xrApplyForceFeedbackCurlMNDX)(XrHandTrackerEXT, const XrForceFeedbackCurlApplyLocationsMNDX *);
-typedef XrResult (XRAPI_PTR *PFN_xrApplyFoveationHTC)(XrSession, const XrFoveationApplyInfoHTC *);
 typedef XrResult (XRAPI_PTR *PFN_xrApplyHapticFeedback)(XrSession, const XrHapticActionInfo *, const XrHapticBaseHeader *);
 typedef XrResult (XRAPI_PTR *PFN_xrAttachSessionActionSets)(XrSession, const XrSessionActionSetsAttachInfo *);
 typedef XrResult (XRAPI_PTR *PFN_xrBeginFrame)(XrSession, const XrFrameBeginInfo *);
@@ -6343,7 +5995,6 @@ typedef XrResult (XRAPI_PTR *PFN_xrWaitSwapchainImage)(XrSwapchain, const XrSwap
 XrResult XRAPI_CALL xrAcquireEnvironmentDepthImageMETA(XrEnvironmentDepthProviderMETA environmentDepthProvider, const XrEnvironmentDepthImageAcquireInfoMETA *acquireInfo, XrEnvironmentDepthImageMETA *environmentDepthImage);
 XrResult XRAPI_CALL xrAcquireSwapchainImage(XrSwapchain swapchain, const XrSwapchainImageAcquireInfo *acquireInfo, uint32_t *index);
 XrResult XRAPI_CALL xrApplyForceFeedbackCurlMNDX(XrHandTrackerEXT handTracker, const XrForceFeedbackCurlApplyLocationsMNDX *locations);
-XrResult XRAPI_CALL xrApplyFoveationHTC(XrSession session, const XrFoveationApplyInfoHTC *applyInfo);
 XrResult XRAPI_CALL xrApplyHapticFeedback(XrSession session, const XrHapticActionInfo *hapticActionInfo, const XrHapticBaseHeader *hapticFeedback);
 XrResult XRAPI_CALL xrAttachSessionActionSets(XrSession session, const XrSessionActionSetsAttachInfo *attachInfo);
 XrResult XRAPI_CALL xrBeginFrame(XrSession session, const XrFrameBeginInfo *frameBeginInfo);

@@ -1,6 +1,6 @@
-/* Automatically generated from OpenXR xr.xml; DO NOT EDIT!
+/* Automatically generated from Vulkan xr.xml; DO NOT EDIT!
  *
- * This file is generated from OpenXR xr.xml file covered
+ * This file is generated from Vulkan xr.xml file covered
  * by the following copyright and permission notice:
  *
  * Copyright (c) 2017-2024, The Khronos Group Inc.
@@ -25,99 +25,14 @@
 #define WINE_XR_VERSION XR_API_VERSION_1_1
 
 /* Functions for which we have custom implementations outside of the thunks. */
-XrResult WINAPI wine_xrAcquireSwapchainImage(XrSwapchain swapchain, const XrSwapchainImageAcquireInfo *acquireInfo, uint32_t *index);
-XrResult WINAPI wine_xrBeginFrame(XrSession session, const XrFrameBeginInfo *frameBeginInfo);
-XrResult WINAPI wine_xrConvertTimeToWin32PerformanceCounterKHR(XrInstance instance, XrTime time, LARGE_INTEGER *performanceCounter);
-XrResult WINAPI wine_xrConvertWin32PerformanceCounterToTimeKHR(XrInstance instance, const LARGE_INTEGER *performanceCounter, XrTime *time);
-XrResult WINAPI wine_xrCreateApiLayerInstance(const XrInstanceCreateInfo *info, const XrApiLayerCreateInfo *layerInfo, XrInstance *instance);
-XrResult WINAPI wine_xrCreateInstance(const XrInstanceCreateInfo *createInfo, XrInstance *instance);
-XrResult WINAPI wine_xrCreateSession(XrInstance instance, const XrSessionCreateInfo *createInfo, XrSession *session);
-XrResult WINAPI wine_xrCreateSwapchain(XrSession session, const XrSwapchainCreateInfo *createInfo, XrSwapchain *swapchain);
-XrResult WINAPI wine_xrCreateVulkanDeviceKHR(XrInstance instance, const XrVulkanDeviceCreateInfoKHR *createInfo, VkDevice *vulkanDevice, VkResult *vulkanResult);
-XrResult WINAPI wine_xrCreateVulkanInstanceKHR(XrInstance instance, const XrVulkanInstanceCreateInfoKHR *createInfo, VkInstance *vulkanInstance, VkResult *vulkanResult);
-XrResult WINAPI wine_xrDestroyInstance(XrInstance instance);
-XrResult WINAPI wine_xrDestroySession(XrSession session);
-XrResult WINAPI wine_xrDestroySwapchain(XrSwapchain swapchain);
-XrResult WINAPI wine_xrEndFrame(XrSession session, const XrFrameEndInfo *frameEndInfo);
-XrResult WINAPI wine_xrEnumerateInstanceExtensionProperties(const char *layerName, uint32_t propertyCapacityInput, uint32_t *propertyCountOutput, XrExtensionProperties *properties);
-XrResult WINAPI wine_xrEnumerateSwapchainFormats(XrSession session, uint32_t formatCapacityInput, uint32_t *formatCountOutput, int64_t *formats);
-XrResult WINAPI wine_xrEnumerateSwapchainImages(XrSwapchain swapchain, uint32_t imageCapacityInput, uint32_t *imageCountOutput, XrSwapchainImageBaseHeader *images);
-XrResult WINAPI wine_xrGetD3D11GraphicsRequirementsKHR(XrInstance instance, XrSystemId systemId, XrGraphicsRequirementsD3D11KHR *graphicsRequirements);
-XrResult WINAPI wine_xrGetD3D12GraphicsRequirementsKHR(XrInstance instance, XrSystemId systemId, XrGraphicsRequirementsD3D12KHR *graphicsRequirements);
-XrResult WINAPI wine_xrGetInstanceProcAddr(XrInstance instance, const char *name, PFN_xrVoidFunction *function);
-XrResult WINAPI wine_xrGetSystem(XrInstance instance, const XrSystemGetInfo *getInfo, XrSystemId *systemId);
-XrResult WINAPI wine_xrGetVulkanDeviceExtensionsKHR(XrInstance instance, XrSystemId systemId, uint32_t bufferCapacityInput, uint32_t *bufferCountOutput, char *buffer);
-XrResult WINAPI wine_xrGetVulkanGraphicsDevice2KHR(XrInstance instance, const XrVulkanGraphicsDeviceGetInfoKHR *getInfo, VkPhysicalDevice *vulkanPhysicalDevice);
-XrResult WINAPI wine_xrGetVulkanGraphicsDeviceKHR(XrInstance instance, XrSystemId systemId, VkInstance vkInstance, VkPhysicalDevice *vkPhysicalDevice);
-XrResult WINAPI wine_xrGetVulkanInstanceExtensionsKHR(XrInstance instance, XrSystemId systemId, uint32_t bufferCapacityInput, uint32_t *bufferCountOutput, char *buffer);
-XrResult WINAPI wine_xrNegotiateLoaderApiLayerInterface(const XrNegotiateLoaderInfo *loaderInfo, const char *layerName, XrNegotiateApiLayerRequest *apiLayerRequest);
-XrResult WINAPI wine_xrNegotiateLoaderRuntimeInterface(const XrNegotiateLoaderInfo *loaderInfo, XrNegotiateRuntimeRequest *runtimeRequest);
-XrResult WINAPI wine_xrPollEvent(XrInstance instance, XrEventDataBuffer *eventData);
-XrResult WINAPI wine_xrReleaseSwapchainImage(XrSwapchain swapchain, const XrSwapchainImageReleaseInfo *releaseInfo);
-
-/* Private thunks */
-
-typedef struct XrKeyboardSpaceCreateInfoFB_host
-{
-    XrStructureType type;
-    void *next;
-    uint64_t trackedKeyboardId;
-} XrKeyboardSpaceCreateInfoFB_host;
-
-
-typedef struct XrMarkerSpaceCreateInfoVARJO_host
-{
-    XrStructureType type;
-    const void *next;
-    uint64_t markerId;
-    XrPosef poseInMarkerSpace;
-} XrMarkerSpaceCreateInfoVARJO_host;
-
-
-typedef struct XrPlaneDetectorLocationEXT_host
-{
-    XrStructureType type;
-    void *next;
-    uint64_t planeId;
-    XrSpaceLocationFlags locationFlags;
-    XrPosef pose;
-    XrExtent2Df extents;
-    XrPlaneDetectorOrientationEXT orientation;
-    XrPlaneDetectorSemanticTypeEXT semanticType;
-    uint32_t polygonBufferCount;
-} XrPlaneDetectorLocationEXT_host;
-
-
-typedef struct XrPlaneDetectorLocationsEXT_host
-{
-    XrStructureType type;
-    void *next;
-    uint32_t planeLocationCapacityInput;
-    uint32_t planeLocationCountOutput;
-    XrPlaneDetectorLocationEXT_host *planeLocations;
-} XrPlaneDetectorLocationsEXT_host;
-
-
-typedef struct XrSceneMeshBuffersGetInfoMSFT_host
-{
-    XrStructureType type;
-    const void *next;
-    uint64_t meshBufferId;
-} XrSceneMeshBuffersGetInfoMSFT_host;
-
-
-typedef struct XrKeyboardTrackingDescriptionFB_host
-{
-    uint64_t trackedKeyboardId;
-    XrVector3f size;
-    XrKeyboardTrackingFlagsFB flags;
-    char name[XR_MAX_KEYBOARD_TRACKING_NAME_SIZE_FB];
-} XrKeyboardTrackingDescriptionFB_host;
-
-
-
-XrResult convert_XrInstanceCreateInfo_struct_chain(const void *next, XrInstanceCreateInfo *out_struct);
-void free_XrInstanceCreateInfo_struct_chain(XrInstanceCreateInfo *s);
+XrResult wine_xrCreateInstance(const XrInstanceCreateInfo *createInfo, XrInstance *instance);
+XrResult wine_xrCreateSession(XrInstance instance, const XrSessionCreateInfo *createInfo, XrSession *session);
+XrResult wine_xrCreateSwapchain(XrSession session, const XrSwapchainCreateInfo *createInfo, XrSwapchain *swapchain);
+XrResult wine_xrEnumerateInstanceExtensionProperties(const char *layerName, uint32_t propertyCapacityInput, uint32_t *propertyCountOutput, XrExtensionProperties *properties);
+XrResult wine_xrGetVulkanDeviceExtensionsKHR(XrInstance instance, XrSystemId systemId, uint32_t bufferCapacityInput, uint32_t *bufferCountOutput, char *buffer);
+XrResult wine_xrGetVulkanGraphicsDevice2KHR(XrInstance instance, const XrVulkanGraphicsDeviceGetInfoKHR *getInfo, VkPhysicalDevice *vulkanPhysicalDevice);
+XrResult wine_xrGetVulkanGraphicsDeviceKHR(XrInstance instance, XrSystemId systemId, VkInstance vkInstance, VkPhysicalDevice *vkPhysicalDevice);
+XrResult wine_xrGetVulkanInstanceExtensionsKHR(XrInstance instance, XrSystemId systemId, uint32_t bufferCapacityInput, uint32_t *bufferCountOutput, char *buffer);
 
 /* For use by xrInstance and children */
 struct openxr_instance_funcs
@@ -125,7 +40,6 @@ struct openxr_instance_funcs
     XrResult (*p_xrAcquireEnvironmentDepthImageMETA)(XrEnvironmentDepthProviderMETA, const XrEnvironmentDepthImageAcquireInfoMETA *, XrEnvironmentDepthImageMETA *);
     XrResult (*p_xrAcquireSwapchainImage)(XrSwapchain, const XrSwapchainImageAcquireInfo *, uint32_t *);
     XrResult (*p_xrApplyForceFeedbackCurlMNDX)(XrHandTrackerEXT, const XrForceFeedbackCurlApplyLocationsMNDX *);
-    XrResult (*p_xrApplyFoveationHTC)(XrSession, const XrFoveationApplyInfoHTC *);
     XrResult (*p_xrApplyHapticFeedback)(XrSession, const XrHapticActionInfo *, const XrHapticBaseHeader *);
     XrResult (*p_xrAttachSessionActionSets)(XrSession, const XrSessionActionSetsAttachInfo *);
     XrResult (*p_xrBeginFrame)(XrSession, const XrFrameBeginInfo *);
@@ -138,6 +52,7 @@ struct openxr_instance_funcs
     XrResult (*p_xrCreateAction)(XrActionSet, const XrActionCreateInfo *, XrAction *);
     XrResult (*p_xrCreateActionSet)(XrInstance, const XrActionSetCreateInfo *, XrActionSet *);
     XrResult (*p_xrCreateActionSpace)(XrSession, const XrActionSpaceCreateInfo *, XrSpace *);
+    XrResult (*p_xrCreateApiLayerInstance)(const XrInstanceCreateInfo *, const XrApiLayerCreateInfo *, XrInstance *);
     XrResult (*p_xrCreateBodyTrackerFB)(XrSession, const XrBodyTrackerCreateInfoFB *, XrBodyTrackerFB *);
     XrResult (*p_xrCreateEnvironmentDepthProviderMETA)(XrSession, const XrEnvironmentDepthProviderCreateInfoMETA *, XrEnvironmentDepthProviderMETA *);
     XrResult (*p_xrCreateEnvironmentDepthSwapchainMETA)(XrEnvironmentDepthProviderMETA, const XrEnvironmentDepthSwapchainCreateInfoMETA *, XrEnvironmentDepthSwapchainMETA *);
@@ -150,18 +65,10 @@ struct openxr_instance_funcs
     XrResult (*p_xrCreateGeometryInstanceFB)(XrSession, const XrGeometryInstanceCreateInfoFB *, XrGeometryInstanceFB *);
     XrResult (*p_xrCreateHandMeshSpaceMSFT)(XrHandTrackerEXT, const XrHandMeshSpaceCreateInfoMSFT *, XrSpace *);
     XrResult (*p_xrCreateHandTrackerEXT)(XrSession, const XrHandTrackerCreateInfoEXT *, XrHandTrackerEXT *);
-#if defined(USE_STRUCT_CONVERSION)
-    XrResult (*p_xrCreateKeyboardSpaceFB)(XrSession, const XrKeyboardSpaceCreateInfoFB_host *, XrSpace *);
-#else
     XrResult (*p_xrCreateKeyboardSpaceFB)(XrSession, const XrKeyboardSpaceCreateInfoFB *, XrSpace *);
-#endif
     XrResult (*p_xrCreateMarkerDetectorML)(XrSession, const XrMarkerDetectorCreateInfoML *, XrMarkerDetectorML *);
     XrResult (*p_xrCreateMarkerSpaceML)(XrSession, const XrMarkerSpaceCreateInfoML *, XrSpace *);
-#if defined(USE_STRUCT_CONVERSION)
-    XrResult (*p_xrCreateMarkerSpaceVARJO)(XrSession, const XrMarkerSpaceCreateInfoVARJO_host *, XrSpace *);
-#else
     XrResult (*p_xrCreateMarkerSpaceVARJO)(XrSession, const XrMarkerSpaceCreateInfoVARJO *, XrSpace *);
-#endif
     XrResult (*p_xrCreatePassthroughColorLutMETA)(XrPassthroughFB, const XrPassthroughColorLutCreateInfoMETA *, XrPassthroughColorLutMETA *);
     XrResult (*p_xrCreatePassthroughFB)(XrSession, const XrPassthroughCreateInfoFB *, XrPassthroughFB *);
     XrResult (*p_xrCreatePassthroughHTC)(XrSession, const XrPassthroughCreateInfoHTC *, XrPassthroughHTC *);
@@ -199,6 +106,7 @@ struct openxr_instance_funcs
     XrResult (*p_xrDestroyFoveationProfileFB)(XrFoveationProfileFB);
     XrResult (*p_xrDestroyGeometryInstanceFB)(XrGeometryInstanceFB);
     XrResult (*p_xrDestroyHandTrackerEXT)(XrHandTrackerEXT);
+    XrResult (*p_xrDestroyInstance)(XrInstance);
     XrResult (*p_xrDestroyMarkerDetectorML)(XrMarkerDetectorML);
     XrResult (*p_xrDestroyPassthroughColorLutMETA)(XrPassthroughColorLutMETA);
     XrResult (*p_xrDestroyPassthroughFB)(XrPassthroughFB);
@@ -275,11 +183,7 @@ struct openxr_instance_funcs
     XrResult (*p_xrGetPassthroughPreferencesMETA)(XrSession, XrPassthroughPreferencesMETA *);
     XrResult (*p_xrGetPerformanceMetricsStateMETA)(XrSession, XrPerformanceMetricsStateMETA *);
     XrResult (*p_xrGetPlaneDetectionStateEXT)(XrPlaneDetectorEXT, XrPlaneDetectionStateEXT *);
-#if defined(USE_STRUCT_CONVERSION)
-    XrResult (*p_xrGetPlaneDetectionsEXT)(XrPlaneDetectorEXT, const XrPlaneDetectorGetInfoEXT *, XrPlaneDetectorLocationsEXT_host *);
-#else
     XrResult (*p_xrGetPlaneDetectionsEXT)(XrPlaneDetectorEXT, const XrPlaneDetectorGetInfoEXT *, XrPlaneDetectorLocationsEXT *);
-#endif
     XrResult (*p_xrGetPlanePolygonBufferEXT)(XrPlaneDetectorEXT, uint64_t, uint32_t, XrPlaneDetectorPolygonBufferEXT *);
     XrResult (*p_xrGetRecommendedLayerResolutionMETA)(XrSession, const XrRecommendedLayerResolutionGetInfoMETA *, XrRecommendedLayerResolutionMETA *);
     XrResult (*p_xrGetReferenceSpaceBoundsRect)(XrSession, XrReferenceSpaceType, XrExtent2Df *);
@@ -288,11 +192,7 @@ struct openxr_instance_funcs
     XrResult (*p_xrGetSceneComputeStateMSFT)(XrSceneObserverMSFT, XrSceneComputeStateMSFT *);
     XrResult (*p_xrGetSceneMarkerDecodedStringMSFT)(XrSceneMSFT, const XrUuidMSFT *, uint32_t, uint32_t *, char *);
     XrResult (*p_xrGetSceneMarkerRawDataMSFT)(XrSceneMSFT, const XrUuidMSFT *, uint32_t, uint32_t *, uint8_t *);
-#if defined(USE_STRUCT_CONVERSION)
-    XrResult (*p_xrGetSceneMeshBuffersMSFT)(XrSceneMSFT, const XrSceneMeshBuffersGetInfoMSFT_host *, XrSceneMeshBuffersMSFT *);
-#else
     XrResult (*p_xrGetSceneMeshBuffersMSFT)(XrSceneMSFT, const XrSceneMeshBuffersGetInfoMSFT *, XrSceneMeshBuffersMSFT *);
-#endif
     XrResult (*p_xrGetSerializedSceneFragmentDataMSFT)(XrSceneMSFT, const XrSerializedSceneFragmentDataGetInfoMSFT *, uint32_t, uint32_t *, uint8_t *);
     XrResult (*p_xrGetSpaceBoundary2DFB)(XrSession, XrSpace, XrBoundary2DFB *);
     XrResult (*p_xrGetSpaceBoundingBox2DFB)(XrSession, XrSpace, XrRect2Df *);
@@ -331,6 +231,7 @@ struct openxr_instance_funcs
     XrResult (*p_xrLocateSpaces)(XrSession, const XrSpacesLocateInfo *, XrSpaceLocations *);
     XrResult (*p_xrLocateSpacesKHR)(XrSession, const XrSpacesLocateInfo *, XrSpaceLocations *);
     XrResult (*p_xrLocateViews)(XrSession, const XrViewLocateInfo *, XrViewState *, uint32_t, uint32_t *, XrView *);
+    XrResult (*p_xrNegotiateLoaderRuntimeInterface)(const XrNegotiateLoaderInfo *, XrNegotiateRuntimeRequest *);
     XrResult (*p_xrPassthroughLayerPauseFB)(XrPassthroughLayerFB);
     XrResult (*p_xrPassthroughLayerResumeFB)(XrPassthroughLayerFB);
     XrResult (*p_xrPassthroughLayerSetKeyboardHandsIntensityFB)(XrPassthroughLayerFB, const XrPassthroughKeyboardHandsIntensityFB *);
@@ -345,11 +246,7 @@ struct openxr_instance_funcs
     XrResult (*p_xrQueryLocalizationMapsML)(XrSession, const XrLocalizationMapQueryInfoBaseHeaderML *, uint32_t, uint32_t *, XrLocalizationMapML *);
     XrResult (*p_xrQueryPerformanceMetricsCounterMETA)(XrSession, XrPath, XrPerformanceMetricsCounterMETA *);
     XrResult (*p_xrQuerySpacesFB)(XrSession, const XrSpaceQueryInfoBaseHeaderFB *, XrAsyncRequestIdFB *);
-#if defined(USE_STRUCT_CONVERSION)
-    XrResult (*p_xrQuerySystemTrackedKeyboardFB)(XrSession, const XrKeyboardTrackingQueryFB *, XrKeyboardTrackingDescriptionFB_host *);
-#else
     XrResult (*p_xrQuerySystemTrackedKeyboardFB)(XrSession, const XrKeyboardTrackingQueryFB *, XrKeyboardTrackingDescriptionFB *);
-#endif
     XrResult (*p_xrReleaseSwapchainImage)(XrSwapchain, const XrSwapchainImageReleaseInfo *);
     XrResult (*p_xrRequestDisplayRefreshRateFB)(XrSession, float);
     XrResult (*p_xrRequestExitSession)(XrSession);
@@ -407,7 +304,6 @@ struct openxr_instance_funcs
     USE_XR_FUNC(xrAcquireEnvironmentDepthImageMETA) \
     USE_XR_FUNC(xrAcquireSwapchainImage) \
     USE_XR_FUNC(xrApplyForceFeedbackCurlMNDX) \
-    USE_XR_FUNC(xrApplyFoveationHTC) \
     USE_XR_FUNC(xrApplyHapticFeedback) \
     USE_XR_FUNC(xrAttachSessionActionSets) \
     USE_XR_FUNC(xrBeginFrame) \
@@ -420,6 +316,7 @@ struct openxr_instance_funcs
     USE_XR_FUNC(xrCreateAction) \
     USE_XR_FUNC(xrCreateActionSet) \
     USE_XR_FUNC(xrCreateActionSpace) \
+    USE_XR_FUNC(xrCreateApiLayerInstance) \
     USE_XR_FUNC(xrCreateBodyTrackerFB) \
     USE_XR_FUNC(xrCreateEnvironmentDepthProviderMETA) \
     USE_XR_FUNC(xrCreateEnvironmentDepthSwapchainMETA) \
@@ -473,6 +370,7 @@ struct openxr_instance_funcs
     USE_XR_FUNC(xrDestroyFoveationProfileFB) \
     USE_XR_FUNC(xrDestroyGeometryInstanceFB) \
     USE_XR_FUNC(xrDestroyHandTrackerEXT) \
+    USE_XR_FUNC(xrDestroyInstance) \
     USE_XR_FUNC(xrDestroyMarkerDetectorML) \
     USE_XR_FUNC(xrDestroyPassthroughColorLutMETA) \
     USE_XR_FUNC(xrDestroyPassthroughFB) \
@@ -597,6 +495,7 @@ struct openxr_instance_funcs
     USE_XR_FUNC(xrLocateSpaces) \
     USE_XR_FUNC(xrLocateSpacesKHR) \
     USE_XR_FUNC(xrLocateViews) \
+    USE_XR_FUNC(xrNegotiateLoaderRuntimeInterface) \
     USE_XR_FUNC(xrPassthroughLayerPauseFB) \
     USE_XR_FUNC(xrPassthroughLayerResumeFB) \
     USE_XR_FUNC(xrPassthroughLayerSetKeyboardHandsIntensityFB) \

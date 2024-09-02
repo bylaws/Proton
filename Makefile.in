@@ -389,6 +389,7 @@ $(eval $(call rules-cmake,openxr,A64))
 
 WINEOPENXR_LDFLAGS = -lopenxr_loader
 WINEOPENXR_DEPENDS = wine openxr
+WINEOPENXR_64BIT_ONLY = 1
 
 $(eval $(call rules-source,wineopenxr,$(SRCDIR)/wineopenxr))
 $(eval $(call rules-makedep,wineopenxr,64))
