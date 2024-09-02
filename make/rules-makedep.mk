@@ -6,6 +6,11 @@
 define create-rules-makedep
 $(call create-rules-common,$(1),$(2),$(3))
 
+$(2)_EXTRA_MAKEFILE_SUBST :=
+ifneq ($($(2)_64BIT_ONLY),)
+$(2)_EXTRA_MAKEFILE_SUBST += -e '/^PE_ARCHS/s/i386//'
+endif
+
 $$(OBJ)/.$(1)-configure$(3):
 	@echo ":: configuring $(3)bit $(1)..." >&2
 
@@ -42,6 +47,7 @@ $$(OBJ)/.$(1)-configure$(3):
 	    -e '/^arm64ec_LDFLAGS/c arm64ec_LDFLAGS = $$($(2)_LIBFLAGSA64) $$($(2)_LDFLAGSA64) $$(CROSSLDFLAGS)' \
 	    \
 	    -e '/^PE_ARCHS/s/aarch64//' \
+	    $($(2)_EXTRA_MAKEFILE_SUBST) \
 	    $$(WINE_OBJ$(3))/Makefile > $$($(2)_OBJ$(3))/Makefile
 
 	cd "$$($(2)_OBJ$(3))" && env $$($(2)_ENV$(3)) \
