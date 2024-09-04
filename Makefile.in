@@ -352,8 +352,8 @@ $(eval $(call rules-cmake,spirv-headers,A64,CROSS))
 ##
 
 $(eval $(call rules-source,glslang,$(SRCDIR)/glslang))
-$(eval $(call rules-cmake,glslang,32))
-$(eval $(call rules-cmake,glslang,64))
+#$(eval $(call rules-cmake,glslang,32))
+#$(eval $(call rules-cmake,glslang,64))
 $(eval $(call rules-cmake,glslang,A64))
 
 
@@ -573,7 +573,7 @@ WINE_SOURCE_ARGS = \
   --exclude server/trace.c \
 
 WINE_CONFIGURE_ARGS = \
-  --enable-werror \
+  --disable-werror \
   --disable-tests
 
 ifeq ($(LLVM_TOOLCHAIN),1)
@@ -672,7 +672,7 @@ DXVK_SOURCE_ARGS = \
 DXVK_MESON_ARGS32 = --bindir=$(DXVK_DST32)/$(LIBDIR32)/wine/dxvk/i386-windows
 DXVK_MESON_ARGS64 = --bindir=$(DXVK_DST64)/$(LIBDIR64)/wine/dxvk/x86_64-windows
 DXVK_MESON_ARGSA64 = --bindir=$(DXVK_DSTA64)/$(LIBDIRA64)/wine/dxvk/aarch64-windows
-DXVK_DEPENDS = glslang
+#DXVK_DEPENDS = glslang
 
 $(eval $(call rules-source,dxvk,$(SRCDIR)/dxvk))
 $(eval $(call rules-meson,dxvk,32,CROSS))
@@ -709,9 +709,9 @@ DXVK_NVAPI_MESON_ARGS64 = --bindir=$(DXVK_NVAPI_DST64)/$(LIBDIR64)/wine/nvapi/x8
 DXVK_NVAPI_MESON_ARGSA64 = --bindir=$(DXVK_NVAPI_DSTA64)/$(LIBDIRA64)/wine/nvapi/aarch64-windows
 
 $(eval $(call rules-source,dxvk-nvapi,$(SRCDIR)/dxvk-nvapi))
-$(eval $(call rules-meson,dxvk-nvapi,32,CROSS))
+#$(eval $(call rules-meson,dxvk-nvapi,32,CROSS))
 $(eval $(call rules-meson,dxvk-nvapi,64,CROSS))
-$(eval $(call rules-meson,dxvk-nvapi,A64,CROSS))
+#$(eval $(call rules-meson,dxvk-nvapi,A64,CROSS))
 
 $(OBJ)/.dxvk-nvapi-post-build64:
 	mkdir -p "$(DST_DIR)"/$(LIBDIR64)/wine/nvapi/x86_64-windows
@@ -745,7 +745,7 @@ VKD3D_PROTON_SOURCE_ARGS = \
 VKD3D_PROTON_MESON_ARGS32 = --bindir=$(VKD3D_PROTON_DST32)/$(LIBDIR32)/wine/vkd3d-proton/i386-windows
 VKD3D_PROTON_MESON_ARGS64 = --bindir=$(VKD3D_PROTON_DST64)/$(LIBDIR64)/wine/vkd3d-proton/x86_64-windows
 VKD3D_PROTON_MESON_ARGSA64 = --bindir=$(VKD3D_PROTON_DSTA64)/$(LIBDIRA64)/wine/vkd3d-proton/aarch64-windows
-VKD3D_PROTON_DEPENDS = glslang
+#VKD3D_PROTON_DEPENDS = glslang
 
 ifneq ($(UNSTRIPPED_BUILD),)
 	VKD3D_PROTON_MESON_ARGS = -Denable_trace=true
@@ -1229,7 +1229,7 @@ all-dist: $(DIST_OVR32) $(DIST_OVR64) $(DIST_OVRA64)
 ## default_pfx
 ##
 
-default_pfx: wine gst_good gst_bad gst_libav gst_plugins_rs lsteamclient steamexe vrclient wineopenxr dxvk dxvk-nvapi vkd3d-proton
+default_pfx: wine gst_good gst_bad gst_libav gst_plugins_rs lsteamclient steamexe vrclient wineopenxr dxvk vkd3d-proton fex # dxvk-nvapi
 	find $(DST_LIBDIR32)/wine -type f -execdir chmod a-w '{}' '+'
 	find $(DST_LIBDIR64)/wine -type f -execdir chmod a-w '{}' '+'
 	find $(DST_LIBDIRA64)/wine -type f -execdir chmod a-w '{}' '+'
