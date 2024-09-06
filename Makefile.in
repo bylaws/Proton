@@ -408,7 +408,7 @@ all-dist: $(DIST_WINEOPENXR_JSON64)
 ## steam.exe
 ##
 
-STEAMEXE_CPPFLAGS = \
+STEAMEXE_CXXFLAGS = \
 	-I$(SRC)/lsteamclient/steamworks_sdk_142/ \
 	-I$(SRC)/openvr/headers/ \
 
