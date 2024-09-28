@@ -13,3 +13,11 @@ NTSTATUS ISteamApps_STEAMAPPS_INTERFACE_VERSION001_GetAppData( void *args )
     return 0;
 }
 
+NTSTATUS wow64_ISteamApps_STEAMAPPS_INTERFACE_VERSION001_GetAppData( void *args )
+{
+    struct wow64_ISteamApps_STEAMAPPS_INTERFACE_VERSION001_GetAppData_params *params = (struct wow64_ISteamApps_STEAMAPPS_INTERFACE_VERSION001_GetAppData_params *)args;
+    struct u_ISteamApps_STEAMAPPS_INTERFACE_VERSION001 *iface = (struct u_ISteamApps_STEAMAPPS_INTERFACE_VERSION001 *)params->linux_side;
+    params->_ret = iface->GetAppData( params->nAppID, (const char *)params->pchKey, (char *)params->pchValue, params->cchValueMax );
+    return 0;
+}
+

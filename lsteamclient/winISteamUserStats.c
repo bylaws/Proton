@@ -48,7 +48,7 @@ const char * __thiscall winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION001_G
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION001_GetStatName, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 uint32_t __thiscall winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION001_GetStatType(struct w_steam_iface *_this, CGameID nGameID, const char *pchName)
@@ -87,7 +87,7 @@ const char * __thiscall winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION001_G
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION001_GetAchievementName, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 uint32_t __thiscall winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION001_GetNumGroupAchievements(struct w_steam_iface *_this, CGameID nGameID)
@@ -112,7 +112,7 @@ const char * __thiscall winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION001_G
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION001_GetGroupAchievementName, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 int8_t __thiscall winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION001_RequestCurrentStats(struct w_steam_iface *_this, CGameID nGameID)
@@ -328,7 +328,7 @@ const char * __thiscall winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION001_G
     IsBadStringPtrA(pchName, -1);
     IsBadStringPtrA(pchKey, -1);
     STEAMCLIENT_CALL( ISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION001_GetAchievementDisplayAttribute, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 extern vtable_ptr winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION001_vtable;
@@ -362,7 +362,7 @@ __ASM_BLOCK_BEGIN(winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION001_vtables
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION001(void *u_iface)
+struct w_steam_iface *create_winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION001(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMUSERSTATS_INTERFACE_VERSION001");
     TRACE("-> %p\n", r);
@@ -412,7 +412,7 @@ const char * __thiscall winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION002_G
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION002_GetStatName, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 uint32_t __thiscall winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION002_GetStatType(struct w_steam_iface *_this, CGameID nGameID, const char *pchName)
@@ -451,7 +451,7 @@ const char * __thiscall winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION002_G
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION002_GetAchievementName, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 int8_t __thiscall winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION002_RequestCurrentStats(struct w_steam_iface *_this, CGameID nGameID)
@@ -624,7 +624,7 @@ const char * __thiscall winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION002_G
     IsBadStringPtrA(pchName, -1);
     IsBadStringPtrA(pchKey, -1);
     STEAMCLIENT_CALL( ISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION002_GetAchievementDisplayAttribute, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 int8_t __thiscall winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION002_IndicateAchievementProgress(struct w_steam_iface *_this, CGameID nGameID, const char *pchName, uint32_t nCurProgress, uint32_t nMaxProgress)
@@ -670,7 +670,7 @@ __ASM_BLOCK_BEGIN(winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION002_vtables
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION002(void *u_iface)
+struct w_steam_iface *create_winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION002(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMUSERSTATS_INTERFACE_VERSION002");
     TRACE("-> %p\n", r);
@@ -851,7 +851,7 @@ const char * __thiscall winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION003_G
     IsBadStringPtrA(pchName, -1);
     IsBadStringPtrA(pchKey, -1);
     STEAMCLIENT_CALL( ISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION003_GetAchievementDisplayAttribute, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 int8_t __thiscall winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION003_IndicateAchievementProgress(struct w_steam_iface *_this, const char *pchName, uint32_t nCurProgress, uint32_t nMaxProgress)
@@ -891,7 +891,7 @@ __ASM_BLOCK_BEGIN(winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION003_vtables
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION003(void *u_iface)
+struct w_steam_iface *create_winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION003(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMUSERSTATS_INTERFACE_VERSION003");
     TRACE("-> %p\n", r);
@@ -1076,7 +1076,7 @@ const char * __thiscall winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION004_G
     IsBadStringPtrA(pchName, -1);
     IsBadStringPtrA(pchKey, -1);
     STEAMCLIENT_CALL( ISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION004_GetAchievementDisplayAttribute, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 int8_t __thiscall winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION004_IndicateAchievementProgress(struct w_steam_iface *_this, const char *pchName, uint32_t nCurProgress, uint32_t nMaxProgress)
@@ -1177,7 +1177,7 @@ __ASM_BLOCK_BEGIN(winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION004_vtables
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION004(void *u_iface)
+struct w_steam_iface *create_winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION004(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMUSERSTATS_INTERFACE_VERSION004");
     TRACE("-> %p\n", r);
@@ -1372,7 +1372,7 @@ const char * __thiscall winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION005_G
     IsBadStringPtrA(pchName, -1);
     IsBadStringPtrA(pchKey, -1);
     STEAMCLIENT_CALL( ISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION005_GetAchievementDisplayAttribute, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 int8_t __thiscall winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION005_IndicateAchievementProgress(struct w_steam_iface *_this, const char *pchName, uint32_t nCurProgress, uint32_t nMaxProgress)
@@ -1496,7 +1496,7 @@ const char * __thiscall winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION005_G
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION005_GetLeaderboardName, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 int32_t __thiscall winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION005_GetLeaderboardEntryCount(struct w_steam_iface *_this, uint64_t hSteamLeaderboard)
@@ -1617,7 +1617,7 @@ __ASM_BLOCK_BEGIN(winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION005_vtables
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION005(void *u_iface)
+struct w_steam_iface *create_winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION005(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMUSERSTATS_INTERFACE_VERSION005");
     TRACE("-> %p\n", r);
@@ -1813,7 +1813,7 @@ const char * __thiscall winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION006_G
     IsBadStringPtrA(pchName, -1);
     IsBadStringPtrA(pchKey, -1);
     STEAMCLIENT_CALL( ISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION006_GetAchievementDisplayAttribute, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 int8_t __thiscall winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION006_IndicateAchievementProgress(struct w_steam_iface *_this, const char *pchName, uint32_t nCurProgress, uint32_t nMaxProgress)
@@ -1937,7 +1937,7 @@ const char * __thiscall winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION006_G
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION006_GetLeaderboardName, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 int32_t __thiscall winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION006_GetLeaderboardEntryCount(struct w_steam_iface *_this, uint64_t hSteamLeaderboard)
@@ -2071,7 +2071,7 @@ __ASM_BLOCK_BEGIN(winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION006_vtables
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION006(void *u_iface)
+struct w_steam_iface *create_winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION006(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMUSERSTATS_INTERFACE_VERSION006");
     TRACE("-> %p\n", r);
@@ -2284,7 +2284,7 @@ const char * __thiscall winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION007_G
     IsBadStringPtrA(pchName, -1);
     IsBadStringPtrA(pchKey, -1);
     STEAMCLIENT_CALL( ISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION007_GetAchievementDisplayAttribute, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 int8_t __thiscall winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION007_IndicateAchievementProgress(struct w_steam_iface *_this, const char *pchName, uint32_t nCurProgress, uint32_t nMaxProgress)
@@ -2424,7 +2424,7 @@ const char * __thiscall winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION007_G
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION007_GetLeaderboardName, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 int32_t __thiscall winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION007_GetLeaderboardEntryCount(struct w_steam_iface *_this, uint64_t hSteamLeaderboard)
@@ -2560,7 +2560,7 @@ __ASM_BLOCK_BEGIN(winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION007_vtables
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION007(void *u_iface)
+struct w_steam_iface *create_winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION007(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMUSERSTATS_INTERFACE_VERSION007");
     TRACE("-> %p\n", r);
@@ -2774,7 +2774,7 @@ const char * __thiscall winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION008_G
     IsBadStringPtrA(pchName, -1);
     IsBadStringPtrA(pchKey, -1);
     STEAMCLIENT_CALL( ISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION008_GetAchievementDisplayAttribute, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 int8_t __thiscall winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION008_IndicateAchievementProgress(struct w_steam_iface *_this, const char *pchName, uint32_t nCurProgress, uint32_t nMaxProgress)
@@ -2914,7 +2914,7 @@ const char * __thiscall winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION008_G
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION008_GetLeaderboardName, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 int32_t __thiscall winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION008_GetLeaderboardEntryCount(struct w_steam_iface *_this, uint64_t hSteamLeaderboard)
@@ -3064,7 +3064,7 @@ __ASM_BLOCK_BEGIN(winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION008_vtables
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION008(void *u_iface)
+struct w_steam_iface *create_winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION008(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMUSERSTATS_INTERFACE_VERSION008");
     TRACE("-> %p\n", r);
@@ -3279,7 +3279,7 @@ const char * __thiscall winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION009_G
     IsBadStringPtrA(pchName, -1);
     IsBadStringPtrA(pchKey, -1);
     STEAMCLIENT_CALL( ISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION009_GetAchievementDisplayAttribute, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 int8_t __thiscall winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION009_IndicateAchievementProgress(struct w_steam_iface *_this, const char *pchName, uint32_t nCurProgress, uint32_t nMaxProgress)
@@ -3419,7 +3419,7 @@ const char * __thiscall winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION009_G
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION009_GetLeaderboardName, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 int32_t __thiscall winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION009_GetLeaderboardEntryCount(struct w_steam_iface *_this, uint64_t hSteamLeaderboard)
@@ -3584,7 +3584,7 @@ __ASM_BLOCK_BEGIN(winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION009_vtables
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION009(void *u_iface)
+struct w_steam_iface *create_winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION009(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMUSERSTATS_INTERFACE_VERSION009");
     TRACE("-> %p\n", r);
@@ -3808,7 +3808,7 @@ const char * __thiscall winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION010_G
     IsBadStringPtrA(pchName, -1);
     IsBadStringPtrA(pchKey, -1);
     STEAMCLIENT_CALL( ISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION010_GetAchievementDisplayAttribute, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 int8_t __thiscall winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION010_IndicateAchievementProgress(struct w_steam_iface *_this, const char *pchName, uint32_t nCurProgress, uint32_t nMaxProgress)
@@ -3948,7 +3948,7 @@ const char * __thiscall winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION010_G
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION010_GetLeaderboardName, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 int32_t __thiscall winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION010_GetLeaderboardEntryCount(struct w_steam_iface *_this, uint64_t hSteamLeaderboard)
@@ -4248,7 +4248,7 @@ __ASM_BLOCK_BEGIN(winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION010_vtables
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION010(void *u_iface)
+struct w_steam_iface *create_winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION010(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMUSERSTATS_INTERFACE_VERSION010");
     TRACE("-> %p\n", r);
@@ -4474,7 +4474,7 @@ const char * __thiscall winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION011_G
     IsBadStringPtrA(pchName, -1);
     IsBadStringPtrA(pchKey, -1);
     STEAMCLIENT_CALL( ISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION011_GetAchievementDisplayAttribute, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 int8_t __thiscall winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION011_IndicateAchievementProgress(struct w_steam_iface *_this, const char *pchName, uint32_t nCurProgress, uint32_t nMaxProgress)
@@ -4512,7 +4512,7 @@ const char * __thiscall winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION011_G
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION011_GetAchievementName, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 uint64_t __thiscall winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION011_RequestUserStats(struct w_steam_iface *_this, CSteamID steamIDUser)
@@ -4637,7 +4637,7 @@ const char * __thiscall winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION011_G
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION011_GetLeaderboardName, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 int32_t __thiscall winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION011_GetLeaderboardEntryCount(struct w_steam_iface *_this, uint64_t hSteamLeaderboard)
@@ -4939,7 +4939,7 @@ __ASM_BLOCK_BEGIN(winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION011_vtables
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION011(void *u_iface)
+struct w_steam_iface *create_winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION011(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMUSERSTATS_INTERFACE_VERSION011");
     TRACE("-> %p\n", r);
@@ -5167,7 +5167,7 @@ const char * __thiscall winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION012_G
     IsBadStringPtrA(pchName, -1);
     IsBadStringPtrA(pchKey, -1);
     STEAMCLIENT_CALL( ISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION012_GetAchievementDisplayAttribute, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 int8_t __thiscall winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION012_IndicateAchievementProgress(struct w_steam_iface *_this, const char *pchName, uint32_t nCurProgress, uint32_t nMaxProgress)
@@ -5205,7 +5205,7 @@ const char * __thiscall winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION012_G
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION012_GetAchievementName, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 uint64_t __thiscall winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION012_RequestUserStats(struct w_steam_iface *_this, CSteamID steamIDUser)
@@ -5330,7 +5330,7 @@ const char * __thiscall winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION012_G
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION012_GetLeaderboardName, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 int32_t __thiscall winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION012_GetLeaderboardEntryCount(struct w_steam_iface *_this, uint64_t hSteamLeaderboard)
@@ -5664,7 +5664,7 @@ __ASM_BLOCK_BEGIN(winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION012_vtables
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION012(void *u_iface)
+struct w_steam_iface *create_winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION012(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMUSERSTATS_INTERFACE_VERSION012");
     TRACE("-> %p\n", r);
@@ -5675,7 +5675,7 @@ struct w_steam_iface *create_winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION
 
 void init_winISteamUserStats_rtti( char *base )
 {
-#ifdef __x86_64__
+#if defined(__x86_64__) || defined(__aarch64__)
     init_winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION001_rtti( base );
     init_winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION002_rtti( base );
     init_winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION003_rtti( base );
@@ -5688,5 +5688,5 @@ void init_winISteamUserStats_rtti( char *base )
     init_winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION010_rtti( base );
     init_winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION011_rtti( base );
     init_winISteamUserStats_STEAMUSERSTATS_INTERFACE_VERSION012_rtti( base );
-#endif /* __x86_64__ */
+#endif /* defined(__x86_64__) || defined(__aarch64__) */
 }

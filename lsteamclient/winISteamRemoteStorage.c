@@ -102,7 +102,7 @@ const char * __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERS
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION001_GetFileNameAndSize, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 int8_t __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION001_GetQuota(struct w_steam_iface *_this, int32_t *pnTotalBytes, int32_t *puAvailableBytes)
@@ -135,7 +135,7 @@ __ASM_BLOCK_BEGIN(winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION001
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION001(void *u_iface)
+struct w_steam_iface *create_winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION001(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMREMOTESTORAGE_INTERFACE_VERSION001");
     TRACE("-> %p\n", r);
@@ -229,7 +229,7 @@ const char * __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERS
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION002_GetFileNameAndSize, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 int8_t __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION002_GetQuota(struct w_steam_iface *_this, int32_t *pnTotalBytes, int32_t *puAvailableBytes)
@@ -261,7 +261,7 @@ __ASM_BLOCK_BEGIN(winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION002
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION002(void *u_iface)
+struct w_steam_iface *create_winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION002(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMREMOTESTORAGE_INTERFACE_VERSION002");
     TRACE("-> %p\n", r);
@@ -433,7 +433,7 @@ const char * __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERS
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION003_GetFileNameAndSize, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 int8_t __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION003_GetQuota(struct w_steam_iface *_this, int32_t *pnTotalBytes, int32_t *puAvailableBytes)
@@ -491,22 +491,6 @@ uint64_t __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION0
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION003_UGCDownload, &params );
-    return params._ret;
-}
-
-int8_t __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION003_GetUGCDetails(struct w_steam_iface *_this, uint64_t hContent, uint32_t *pnAppID, char **ppchName, int32_t *pnFileSizeInBytes, CSteamID *pSteamIDOwner)
-{
-    struct ISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION003_GetUGCDetails_params params =
-    {
-        .linux_side = _this->u_iface,
-        .hContent = hContent,
-        .pnAppID = pnAppID,
-        .ppchName = ppchName,
-        .pnFileSizeInBytes = pnFileSizeInBytes,
-        .pSteamIDOwner = pSteamIDOwner,
-    };
-    TRACE("%p\n", _this);
-    STEAMCLIENT_CALL( ISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION003_GetUGCDetails, &params );
     return params._ret;
 }
 
@@ -576,7 +560,7 @@ __ASM_BLOCK_BEGIN(winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION003
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION003(void *u_iface)
+struct w_steam_iface *create_winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION003(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMREMOTESTORAGE_INTERFACE_VERSION003");
     TRACE("-> %p\n", r);
@@ -777,7 +761,7 @@ const char * __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERS
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION004_GetFileNameAndSize, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 int8_t __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION004_GetQuota(struct w_steam_iface *_this, int32_t *pnTotalBytes, int32_t *puAvailableBytes)
@@ -835,22 +819,6 @@ uint64_t __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION0
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION004_UGCDownload, &params );
-    return params._ret;
-}
-
-int8_t __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION004_GetUGCDetails(struct w_steam_iface *_this, uint64_t hContent, uint32_t *pnAppID, char **ppchName, int32_t *pnFileSizeInBytes, CSteamID *pSteamIDOwner)
-{
-    struct ISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION004_GetUGCDetails_params params =
-    {
-        .linux_side = _this->u_iface,
-        .hContent = hContent,
-        .pnAppID = pnAppID,
-        .ppchName = ppchName,
-        .pnFileSizeInBytes = pnFileSizeInBytes,
-        .pSteamIDOwner = pSteamIDOwner,
-    };
-    TRACE("%p\n", _this);
-    STEAMCLIENT_CALL( ISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION004_GetUGCDetails, &params );
     return params._ret;
 }
 
@@ -922,7 +890,7 @@ __ASM_BLOCK_BEGIN(winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION004
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION004(void *u_iface)
+struct w_steam_iface *create_winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION004(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMREMOTESTORAGE_INTERFACE_VERSION004");
     TRACE("-> %p\n", r);
@@ -1132,7 +1100,7 @@ const char * __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERS
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION005_GetFileNameAndSize, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 int8_t __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION005_GetQuota(struct w_steam_iface *_this, int32_t *pnTotalBytes, int32_t *puAvailableBytes)
@@ -1190,22 +1158,6 @@ uint64_t __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION0
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION005_UGCDownload, &params );
-    return params._ret;
-}
-
-int8_t __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION005_GetUGCDetails(struct w_steam_iface *_this, uint64_t hContent, uint32_t *pnAppID, char **ppchName, int32_t *pnFileSizeInBytes, CSteamID *pSteamIDOwner)
-{
-    struct ISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION005_GetUGCDetails_params params =
-    {
-        .linux_side = _this->u_iface,
-        .hContent = hContent,
-        .pnAppID = pnAppID,
-        .ppchName = ppchName,
-        .pnFileSizeInBytes = pnFileSizeInBytes,
-        .pSteamIDOwner = pSteamIDOwner,
-    };
-    TRACE("%p\n", _this);
-    STEAMCLIENT_CALL( ISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION005_GetUGCDetails, &params );
     return params._ret;
 }
 
@@ -1413,7 +1365,7 @@ __ASM_BLOCK_BEGIN(winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION005
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION005(void *u_iface)
+struct w_steam_iface *create_winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION005(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMREMOTESTORAGE_INTERFACE_VERSION005");
     TRACE("-> %p\n", r);
@@ -1639,7 +1591,7 @@ const char * __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERS
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION006_GetFileNameAndSize, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 int8_t __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION006_GetQuota(struct w_steam_iface *_this, int32_t *pnTotalBytes, int32_t *puAvailableBytes)
@@ -1711,22 +1663,6 @@ int8_t __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION006
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION006_GetUGCDownloadProgress, &params );
-    return params._ret;
-}
-
-int8_t __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION006_GetUGCDetails(struct w_steam_iface *_this, uint64_t hContent, uint32_t *pnAppID, char **ppchName, int32_t *pnFileSizeInBytes, CSteamID *pSteamIDOwner)
-{
-    struct ISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION006_GetUGCDetails_params params =
-    {
-        .linux_side = _this->u_iface,
-        .hContent = hContent,
-        .pnAppID = pnAppID,
-        .ppchName = ppchName,
-        .pnFileSizeInBytes = pnFileSizeInBytes,
-        .pSteamIDOwner = pSteamIDOwner,
-    };
-    TRACE("%p\n", _this);
-    STEAMCLIENT_CALL( ISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION006_GetUGCDetails, &params );
     return params._ret;
 }
 
@@ -2155,7 +2091,7 @@ __ASM_BLOCK_BEGIN(winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION006
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION006(void *u_iface)
+struct w_steam_iface *create_winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION006(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMREMOTESTORAGE_INTERFACE_VERSION006");
     TRACE("-> %p\n", r);
@@ -2381,7 +2317,7 @@ const char * __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERS
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION007_GetFileNameAndSize, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 int8_t __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION007_GetQuota(struct w_steam_iface *_this, int32_t *pnTotalBytes, int32_t *puAvailableBytes)
@@ -2453,22 +2389,6 @@ int8_t __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION007
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION007_GetUGCDownloadProgress, &params );
-    return params._ret;
-}
-
-int8_t __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION007_GetUGCDetails(struct w_steam_iface *_this, uint64_t hContent, uint32_t *pnAppID, char **ppchName, int32_t *pnFileSizeInBytes, CSteamID *pSteamIDOwner)
-{
-    struct ISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION007_GetUGCDetails_params params =
-    {
-        .linux_side = _this->u_iface,
-        .hContent = hContent,
-        .pnAppID = pnAppID,
-        .ppchName = ppchName,
-        .pnFileSizeInBytes = pnFileSizeInBytes,
-        .pSteamIDOwner = pSteamIDOwner,
-    };
-    TRACE("%p\n", _this);
-    STEAMCLIENT_CALL( ISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION007_GetUGCDetails, &params );
     return params._ret;
 }
 
@@ -2900,7 +2820,7 @@ __ASM_BLOCK_BEGIN(winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION007
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION007(void *u_iface)
+struct w_steam_iface *create_winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION007(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMREMOTESTORAGE_INTERFACE_VERSION007");
     TRACE("-> %p\n", r);
@@ -3181,7 +3101,7 @@ const char * __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERS
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION008_GetFileNameAndSize, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 int8_t __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION008_GetQuota(struct w_steam_iface *_this, int32_t *pnTotalBytes, int32_t *puAvailableBytes)
@@ -3253,22 +3173,6 @@ int8_t __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION008
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION008_GetUGCDownloadProgress, &params );
-    return params._ret;
-}
-
-int8_t __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION008_GetUGCDetails(struct w_steam_iface *_this, uint64_t hContent, uint32_t *pnAppID, char **ppchName, int32_t *pnFileSizeInBytes, CSteamID *pSteamIDOwner)
-{
-    struct ISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION008_GetUGCDetails_params params =
-    {
-        .linux_side = _this->u_iface,
-        .hContent = hContent,
-        .pnAppID = pnAppID,
-        .ppchName = ppchName,
-        .pnFileSizeInBytes = pnFileSizeInBytes,
-        .pSteamIDOwner = pSteamIDOwner,
-    };
-    TRACE("%p\n", _this);
-    STEAMCLIENT_CALL( ISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION008_GetUGCDetails, &params );
     return params._ret;
 }
 
@@ -3704,7 +3608,7 @@ __ASM_BLOCK_BEGIN(winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION008
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION008(void *u_iface)
+struct w_steam_iface *create_winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION008(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMREMOTESTORAGE_INTERFACE_VERSION008");
     TRACE("-> %p\n", r);
@@ -3985,7 +3889,7 @@ const char * __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERS
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION009_GetFileNameAndSize, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 int8_t __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION009_GetQuota(struct w_steam_iface *_this, int32_t *pnTotalBytes, int32_t *puAvailableBytes)
@@ -4057,22 +3961,6 @@ int8_t __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION009
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION009_GetUGCDownloadProgress, &params );
-    return params._ret;
-}
-
-int8_t __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION009_GetUGCDetails(struct w_steam_iface *_this, uint64_t hContent, uint32_t *pnAppID, char **ppchName, int32_t *pnFileSizeInBytes, CSteamID *pSteamIDOwner)
-{
-    struct ISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION009_GetUGCDetails_params params =
-    {
-        .linux_side = _this->u_iface,
-        .hContent = hContent,
-        .pnAppID = pnAppID,
-        .ppchName = ppchName,
-        .pnFileSizeInBytes = pnFileSizeInBytes,
-        .pSteamIDOwner = pSteamIDOwner,
-    };
-    TRACE("%p\n", _this);
-    STEAMCLIENT_CALL( ISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION009_GetUGCDetails, &params );
     return params._ret;
 }
 
@@ -4509,7 +4397,7 @@ __ASM_BLOCK_BEGIN(winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION009
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION009(void *u_iface)
+struct w_steam_iface *create_winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION009(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMREMOTESTORAGE_INTERFACE_VERSION009");
     TRACE("-> %p\n", r);
@@ -4791,7 +4679,7 @@ const char * __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERS
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION010_GetFileNameAndSize, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 int8_t __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION010_GetQuota(struct w_steam_iface *_this, int32_t *pnTotalBytes, int32_t *puAvailableBytes)
@@ -4864,22 +4752,6 @@ int8_t __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION010
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION010_GetUGCDownloadProgress, &params );
-    return params._ret;
-}
-
-int8_t __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION010_GetUGCDetails(struct w_steam_iface *_this, uint64_t hContent, uint32_t *pnAppID, char **ppchName, int32_t *pnFileSizeInBytes, CSteamID *pSteamIDOwner)
-{
-    struct ISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION010_GetUGCDetails_params params =
-    {
-        .linux_side = _this->u_iface,
-        .hContent = hContent,
-        .pnAppID = pnAppID,
-        .ppchName = ppchName,
-        .pnFileSizeInBytes = pnFileSizeInBytes,
-        .pSteamIDOwner = pSteamIDOwner,
-    };
-    TRACE("%p\n", _this);
-    STEAMCLIENT_CALL( ISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION010_GetUGCDetails, &params );
     return params._ret;
 }
 
@@ -5332,7 +5204,7 @@ __ASM_BLOCK_BEGIN(winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION010
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION010(void *u_iface)
+struct w_steam_iface *create_winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION010(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMREMOTESTORAGE_INTERFACE_VERSION010");
     TRACE("-> %p\n", r);
@@ -5614,7 +5486,7 @@ const char * __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERS
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION011_GetFileNameAndSize, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 int8_t __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION011_GetQuota(struct w_steam_iface *_this, int32_t *pnTotalBytes, int32_t *puAvailableBytes)
@@ -5687,22 +5559,6 @@ int8_t __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION011
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION011_GetUGCDownloadProgress, &params );
-    return params._ret;
-}
-
-int8_t __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION011_GetUGCDetails(struct w_steam_iface *_this, uint64_t hContent, uint32_t *pnAppID, char **ppchName, int32_t *pnFileSizeInBytes, CSteamID *pSteamIDOwner)
-{
-    struct ISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION011_GetUGCDetails_params params =
-    {
-        .linux_side = _this->u_iface,
-        .hContent = hContent,
-        .pnAppID = pnAppID,
-        .ppchName = ppchName,
-        .pnFileSizeInBytes = pnFileSizeInBytes,
-        .pSteamIDOwner = pSteamIDOwner,
-    };
-    TRACE("%p\n", _this);
-    STEAMCLIENT_CALL( ISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION011_GetUGCDetails, &params );
     return params._ret;
 }
 
@@ -6156,7 +6012,7 @@ __ASM_BLOCK_BEGIN(winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION011
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION011(void *u_iface)
+struct w_steam_iface *create_winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION011(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMREMOTESTORAGE_INTERFACE_VERSION011");
     TRACE("-> %p\n", r);
@@ -6438,7 +6294,7 @@ const char * __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERS
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION012_GetFileNameAndSize, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 int8_t __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION012_GetQuota(struct w_steam_iface *_this, int32_t *pnTotalBytes, int32_t *puAvailableBytes)
@@ -6511,22 +6367,6 @@ int8_t __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION012
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION012_GetUGCDownloadProgress, &params );
-    return params._ret;
-}
-
-int8_t __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION012_GetUGCDetails(struct w_steam_iface *_this, uint64_t hContent, uint32_t *pnAppID, char **ppchName, int32_t *pnFileSizeInBytes, CSteamID *pSteamIDOwner)
-{
-    struct ISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION012_GetUGCDetails_params params =
-    {
-        .linux_side = _this->u_iface,
-        .hContent = hContent,
-        .pnAppID = pnAppID,
-        .ppchName = ppchName,
-        .pnFileSizeInBytes = pnFileSizeInBytes,
-        .pSteamIDOwner = pSteamIDOwner,
-    };
-    TRACE("%p\n", _this);
-    STEAMCLIENT_CALL( ISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION012_GetUGCDetails, &params );
     return params._ret;
 }
 
@@ -6981,7 +6821,7 @@ __ASM_BLOCK_BEGIN(winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION012
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION012(void *u_iface)
+struct w_steam_iface *create_winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION012(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMREMOTESTORAGE_INTERFACE_VERSION012");
     TRACE("-> %p\n", r);
@@ -7310,7 +7150,7 @@ const char * __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERS
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION013_GetFileNameAndSize, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 int8_t __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION013_GetQuota(struct w_steam_iface *_this, int32_t *pnTotalBytes, int32_t *puAvailableBytes)
@@ -7383,22 +7223,6 @@ int8_t __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION013
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION013_GetUGCDownloadProgress, &params );
-    return params._ret;
-}
-
-int8_t __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION013_GetUGCDetails(struct w_steam_iface *_this, uint64_t hContent, uint32_t *pnAppID, char **ppchName, int32_t *pnFileSizeInBytes, CSteamID *pSteamIDOwner)
-{
-    struct ISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION013_GetUGCDetails_params params =
-    {
-        .linux_side = _this->u_iface,
-        .hContent = hContent,
-        .pnAppID = pnAppID,
-        .ppchName = ppchName,
-        .pnFileSizeInBytes = pnFileSizeInBytes,
-        .pSteamIDOwner = pSteamIDOwner,
-    };
-    TRACE("%p\n", _this);
-    STEAMCLIENT_CALL( ISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION013_GetUGCDetails, &params );
     return params._ret;
 }
 
@@ -7856,7 +7680,7 @@ __ASM_BLOCK_BEGIN(winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION013
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION013(void *u_iface)
+struct w_steam_iface *create_winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION013(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMREMOTESTORAGE_INTERFACE_VERSION013");
     TRACE("-> %p\n", r);
@@ -8185,7 +8009,7 @@ const char * __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERS
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION014_GetFileNameAndSize, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 int8_t __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION014_GetQuota(struct w_steam_iface *_this, uint64_t *pnTotalBytes, uint64_t *puAvailableBytes)
@@ -8258,22 +8082,6 @@ int8_t __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION014
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION014_GetUGCDownloadProgress, &params );
-    return params._ret;
-}
-
-int8_t __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION014_GetUGCDetails(struct w_steam_iface *_this, uint64_t hContent, uint32_t *pnAppID, char **ppchName, int32_t *pnFileSizeInBytes, CSteamID *pSteamIDOwner)
-{
-    struct ISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION014_GetUGCDetails_params params =
-    {
-        .linux_side = _this->u_iface,
-        .hContent = hContent,
-        .pnAppID = pnAppID,
-        .ppchName = ppchName,
-        .pnFileSizeInBytes = pnFileSizeInBytes,
-        .pSteamIDOwner = pSteamIDOwner,
-    };
-    TRACE("%p\n", _this);
-    STEAMCLIENT_CALL( ISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION014_GetUGCDetails, &params );
     return params._ret;
 }
 
@@ -8731,7 +8539,7 @@ __ASM_BLOCK_BEGIN(winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION014
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION014(void *u_iface)
+struct w_steam_iface *create_winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION014(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMREMOTESTORAGE_INTERFACE_VERSION014");
     TRACE("-> %p\n", r);
@@ -9064,7 +8872,7 @@ const char * __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERS
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION016_GetFileNameAndSize, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 int8_t __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION016_GetQuota(struct w_steam_iface *_this, uint64_t *pnTotalBytes, uint64_t *puAvailableBytes)
@@ -9137,22 +8945,6 @@ int8_t __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION016
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION016_GetUGCDownloadProgress, &params );
-    return params._ret;
-}
-
-int8_t __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION016_GetUGCDetails(struct w_steam_iface *_this, uint64_t hContent, uint32_t *pnAppID, char **ppchName, int32_t *pnFileSizeInBytes, CSteamID *pSteamIDOwner)
-{
-    struct ISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION016_GetUGCDetails_params params =
-    {
-        .linux_side = _this->u_iface,
-        .hContent = hContent,
-        .pnAppID = pnAppID,
-        .ppchName = ppchName,
-        .pnFileSizeInBytes = pnFileSizeInBytes,
-        .pSteamIDOwner = pSteamIDOwner,
-    };
-    TRACE("%p\n", _this);
-    STEAMCLIENT_CALL( ISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION016_GetUGCDetails, &params );
     return params._ret;
 }
 
@@ -9568,7 +9360,7 @@ const char * __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERS
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION016_GetLocalFileChange, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 int8_t __thiscall winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION016_BeginFileWriteBatch(struct w_steam_iface *_this)
@@ -9661,7 +9453,7 @@ __ASM_BLOCK_BEGIN(winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION016
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION016(void *u_iface)
+struct w_steam_iface *create_winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION016(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMREMOTESTORAGE_INTERFACE_VERSION016");
     TRACE("-> %p\n", r);
@@ -9672,7 +9464,7 @@ struct w_steam_iface *create_winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE
 
 void init_winISteamRemoteStorage_rtti( char *base )
 {
-#ifdef __x86_64__
+#if defined(__x86_64__) || defined(__aarch64__)
     init_winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION001_rtti( base );
     init_winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION002_rtti( base );
     init_winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION003_rtti( base );
@@ -9688,5 +9480,5 @@ void init_winISteamRemoteStorage_rtti( char *base )
     init_winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION013_rtti( base );
     init_winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION014_rtti( base );
     init_winISteamRemoteStorage_STEAMREMOTESTORAGE_INTERFACE_VERSION016_rtti( base );
-#endif /* __x86_64__ */
+#endif /* defined(__x86_64__) || defined(__aarch64__) */
 }

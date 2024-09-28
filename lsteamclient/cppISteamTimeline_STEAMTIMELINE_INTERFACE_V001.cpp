@@ -13,9 +13,25 @@ NTSTATUS ISteamTimeline_STEAMTIMELINE_INTERFACE_V001_SetTimelineStateDescription
     return 0;
 }
 
+NTSTATUS wow64_ISteamTimeline_STEAMTIMELINE_INTERFACE_V001_SetTimelineStateDescription( void *args )
+{
+    struct wow64_ISteamTimeline_STEAMTIMELINE_INTERFACE_V001_SetTimelineStateDescription_params *params = (struct wow64_ISteamTimeline_STEAMTIMELINE_INTERFACE_V001_SetTimelineStateDescription_params *)args;
+    struct u_ISteamTimeline_STEAMTIMELINE_INTERFACE_V001 *iface = (struct u_ISteamTimeline_STEAMTIMELINE_INTERFACE_V001 *)params->linux_side;
+    iface->SetTimelineStateDescription( (const char *)params->pchDescription, params->flTimeDelta );
+    return 0;
+}
+
 NTSTATUS ISteamTimeline_STEAMTIMELINE_INTERFACE_V001_ClearTimelineStateDescription( void *args )
 {
     struct ISteamTimeline_STEAMTIMELINE_INTERFACE_V001_ClearTimelineStateDescription_params *params = (struct ISteamTimeline_STEAMTIMELINE_INTERFACE_V001_ClearTimelineStateDescription_params *)args;
+    struct u_ISteamTimeline_STEAMTIMELINE_INTERFACE_V001 *iface = (struct u_ISteamTimeline_STEAMTIMELINE_INTERFACE_V001 *)params->linux_side;
+    iface->ClearTimelineStateDescription( params->flTimeDelta );
+    return 0;
+}
+
+NTSTATUS wow64_ISteamTimeline_STEAMTIMELINE_INTERFACE_V001_ClearTimelineStateDescription( void *args )
+{
+    struct wow64_ISteamTimeline_STEAMTIMELINE_INTERFACE_V001_ClearTimelineStateDescription_params *params = (struct wow64_ISteamTimeline_STEAMTIMELINE_INTERFACE_V001_ClearTimelineStateDescription_params *)args;
     struct u_ISteamTimeline_STEAMTIMELINE_INTERFACE_V001 *iface = (struct u_ISteamTimeline_STEAMTIMELINE_INTERFACE_V001 *)params->linux_side;
     iface->ClearTimelineStateDescription( params->flTimeDelta );
     return 0;
@@ -29,9 +45,25 @@ NTSTATUS ISteamTimeline_STEAMTIMELINE_INTERFACE_V001_AddTimelineEvent( void *arg
     return 0;
 }
 
+NTSTATUS wow64_ISteamTimeline_STEAMTIMELINE_INTERFACE_V001_AddTimelineEvent( void *args )
+{
+    struct wow64_ISteamTimeline_STEAMTIMELINE_INTERFACE_V001_AddTimelineEvent_params *params = (struct wow64_ISteamTimeline_STEAMTIMELINE_INTERFACE_V001_AddTimelineEvent_params *)args;
+    struct u_ISteamTimeline_STEAMTIMELINE_INTERFACE_V001 *iface = (struct u_ISteamTimeline_STEAMTIMELINE_INTERFACE_V001 *)params->linux_side;
+    iface->AddTimelineEvent( (const char *)params->pchIcon, (const char *)params->pchTitle, (const char *)params->pchDescription, params->unPriority, params->flStartOffsetSeconds, params->flDurationSeconds, params->ePossibleClip );
+    return 0;
+}
+
 NTSTATUS ISteamTimeline_STEAMTIMELINE_INTERFACE_V001_SetTimelineGameMode( void *args )
 {
     struct ISteamTimeline_STEAMTIMELINE_INTERFACE_V001_SetTimelineGameMode_params *params = (struct ISteamTimeline_STEAMTIMELINE_INTERFACE_V001_SetTimelineGameMode_params *)args;
+    struct u_ISteamTimeline_STEAMTIMELINE_INTERFACE_V001 *iface = (struct u_ISteamTimeline_STEAMTIMELINE_INTERFACE_V001 *)params->linux_side;
+    iface->SetTimelineGameMode( params->eMode );
+    return 0;
+}
+
+NTSTATUS wow64_ISteamTimeline_STEAMTIMELINE_INTERFACE_V001_SetTimelineGameMode( void *args )
+{
+    struct wow64_ISteamTimeline_STEAMTIMELINE_INTERFACE_V001_SetTimelineGameMode_params *params = (struct wow64_ISteamTimeline_STEAMTIMELINE_INTERFACE_V001_SetTimelineGameMode_params *)args;
     struct u_ISteamTimeline_STEAMTIMELINE_INTERFACE_V001 *iface = (struct u_ISteamTimeline_STEAMTIMELINE_INTERFACE_V001 *)params->linux_side;
     iface->SetTimelineGameMode( params->eMode );
     return 0;

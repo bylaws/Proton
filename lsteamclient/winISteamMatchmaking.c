@@ -246,7 +246,7 @@ const char * __thiscall winISteamMatchmaking_SteamMatchMaking001_GetLobbyData(st
     TRACE("%p\n", _this);
     IsBadStringPtrA(pchKey, -1);
     STEAMCLIENT_CALL( ISteamMatchmaking_SteamMatchMaking001_GetLobbyData, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 int8_t __thiscall winISteamMatchmaking_SteamMatchMaking001_SetLobbyData(struct w_steam_iface *_this, CSteamID steamIDLobby, const char *pchKey, const char *pchValue)
@@ -277,7 +277,7 @@ const char * __thiscall winISteamMatchmaking_SteamMatchMaking001_GetLobbyMemberD
     TRACE("%p\n", _this);
     IsBadStringPtrA(pchKey, -1);
     STEAMCLIENT_CALL( ISteamMatchmaking_SteamMatchMaking001_GetLobbyMemberData, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 int8_t __thiscall winISteamMatchmaking_SteamMatchMaking001_SetLobbyMemberData(struct w_steam_iface *_this, CSteamID steamIDLobby, const char *pchKey, const char *pchValue)
@@ -370,7 +370,7 @@ __ASM_BLOCK_BEGIN(winISteamMatchmaking_SteamMatchMaking001_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamMatchmaking_SteamMatchMaking001(void *u_iface)
+struct w_steam_iface *create_winISteamMatchmaking_SteamMatchMaking001(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamMatchMaking001");
     TRACE("-> %p\n", r);
@@ -568,7 +568,7 @@ const char * __thiscall winISteamMatchmaking_SteamMatchMaking002_GetLobbyData(st
     TRACE("%p\n", _this);
     IsBadStringPtrA(pchKey, -1);
     STEAMCLIENT_CALL( ISteamMatchmaking_SteamMatchMaking002_GetLobbyData, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 int8_t __thiscall winISteamMatchmaking_SteamMatchMaking002_SetLobbyData(struct w_steam_iface *_this, CSteamID steamIDLobby, const char *pchKey, const char *pchValue)
@@ -599,7 +599,7 @@ const char * __thiscall winISteamMatchmaking_SteamMatchMaking002_GetLobbyMemberD
     TRACE("%p\n", _this);
     IsBadStringPtrA(pchKey, -1);
     STEAMCLIENT_CALL( ISteamMatchmaking_SteamMatchMaking002_GetLobbyMemberData, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 void __thiscall winISteamMatchmaking_SteamMatchMaking002_SetLobbyMemberData(struct w_steam_iface *_this, CSteamID steamIDLobby, const char *pchKey, const char *pchValue)
@@ -703,7 +703,7 @@ __ASM_BLOCK_BEGIN(winISteamMatchmaking_SteamMatchMaking002_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamMatchmaking_SteamMatchMaking002(void *u_iface)
+struct w_steam_iface *create_winISteamMatchmaking_SteamMatchMaking002(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamMatchMaking002");
     TRACE("-> %p\n", r);
@@ -947,7 +947,7 @@ const char * __thiscall winISteamMatchmaking_SteamMatchMaking003_GetLobbyData(st
     TRACE("%p\n", _this);
     IsBadStringPtrA(pchKey, -1);
     STEAMCLIENT_CALL( ISteamMatchmaking_SteamMatchMaking003_GetLobbyData, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 int8_t __thiscall winISteamMatchmaking_SteamMatchMaking003_SetLobbyData(struct w_steam_iface *_this, CSteamID steamIDLobby, const char *pchKey, const char *pchValue)
@@ -978,7 +978,7 @@ const char * __thiscall winISteamMatchmaking_SteamMatchMaking003_GetLobbyMemberD
     TRACE("%p\n", _this);
     IsBadStringPtrA(pchKey, -1);
     STEAMCLIENT_CALL( ISteamMatchmaking_SteamMatchMaking003_GetLobbyMemberData, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 void __thiscall winISteamMatchmaking_SteamMatchMaking003_SetLobbyMemberData(struct w_steam_iface *_this, CSteamID steamIDLobby, const char *pchKey, const char *pchValue)
@@ -1153,7 +1153,7 @@ __ASM_BLOCK_BEGIN(winISteamMatchmaking_SteamMatchMaking003_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamMatchmaking_SteamMatchMaking003(void *u_iface)
+struct w_steam_iface *create_winISteamMatchmaking_SteamMatchMaking003(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamMatchMaking003");
     TRACE("-> %p\n", r);
@@ -1396,7 +1396,7 @@ const char * __thiscall winISteamMatchmaking_SteamMatchMaking004_GetLobbyData(st
     TRACE("%p\n", _this);
     IsBadStringPtrA(pchKey, -1);
     STEAMCLIENT_CALL( ISteamMatchmaking_SteamMatchMaking004_GetLobbyData, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 int8_t __thiscall winISteamMatchmaking_SteamMatchMaking004_SetLobbyData(struct w_steam_iface *_this, CSteamID steamIDLobby, const char *pchKey, const char *pchValue)
@@ -1427,7 +1427,7 @@ const char * __thiscall winISteamMatchmaking_SteamMatchMaking004_GetLobbyMemberD
     TRACE("%p\n", _this);
     IsBadStringPtrA(pchKey, -1);
     STEAMCLIENT_CALL( ISteamMatchmaking_SteamMatchMaking004_GetLobbyMemberData, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 void __thiscall winISteamMatchmaking_SteamMatchMaking004_SetLobbyMemberData(struct w_steam_iface *_this, CSteamID steamIDLobby, const char *pchKey, const char *pchValue)
@@ -1589,7 +1589,7 @@ __ASM_BLOCK_BEGIN(winISteamMatchmaking_SteamMatchMaking004_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamMatchmaking_SteamMatchMaking004(void *u_iface)
+struct w_steam_iface *create_winISteamMatchmaking_SteamMatchMaking004(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamMatchMaking004");
     TRACE("-> %p\n", r);
@@ -1849,7 +1849,7 @@ const char * __thiscall winISteamMatchmaking_SteamMatchMaking005_GetLobbyData(st
     TRACE("%p\n", _this);
     IsBadStringPtrA(pchKey, -1);
     STEAMCLIENT_CALL( ISteamMatchmaking_SteamMatchMaking005_GetLobbyData, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 int8_t __thiscall winISteamMatchmaking_SteamMatchMaking005_SetLobbyData(struct w_steam_iface *_this, CSteamID steamIDLobby, const char *pchKey, const char *pchValue)
@@ -1880,7 +1880,7 @@ const char * __thiscall winISteamMatchmaking_SteamMatchMaking005_GetLobbyMemberD
     TRACE("%p\n", _this);
     IsBadStringPtrA(pchKey, -1);
     STEAMCLIENT_CALL( ISteamMatchmaking_SteamMatchMaking005_GetLobbyMemberData, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 void __thiscall winISteamMatchmaking_SteamMatchMaking005_SetLobbyMemberData(struct w_steam_iface *_this, CSteamID steamIDLobby, const char *pchKey, const char *pchValue)
@@ -2084,7 +2084,7 @@ __ASM_BLOCK_BEGIN(winISteamMatchmaking_SteamMatchMaking005_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamMatchmaking_SteamMatchMaking005(void *u_iface)
+struct w_steam_iface *create_winISteamMatchmaking_SteamMatchMaking005(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamMatchMaking005");
     TRACE("-> %p\n", r);
@@ -2334,7 +2334,7 @@ const char * __thiscall winISteamMatchmaking_SteamMatchMaking006_GetLobbyData(st
     TRACE("%p\n", _this);
     IsBadStringPtrA(pchKey, -1);
     STEAMCLIENT_CALL( ISteamMatchmaking_SteamMatchMaking006_GetLobbyData, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 int8_t __thiscall winISteamMatchmaking_SteamMatchMaking006_SetLobbyData(struct w_steam_iface *_this, CSteamID steamIDLobby, const char *pchKey, const char *pchValue)
@@ -2365,7 +2365,7 @@ const char * __thiscall winISteamMatchmaking_SteamMatchMaking006_GetLobbyMemberD
     TRACE("%p\n", _this);
     IsBadStringPtrA(pchKey, -1);
     STEAMCLIENT_CALL( ISteamMatchmaking_SteamMatchMaking006_GetLobbyMemberData, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 void __thiscall winISteamMatchmaking_SteamMatchMaking006_SetLobbyMemberData(struct w_steam_iface *_this, CSteamID steamIDLobby, const char *pchKey, const char *pchValue)
@@ -2543,7 +2543,7 @@ __ASM_BLOCK_BEGIN(winISteamMatchmaking_SteamMatchMaking006_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamMatchmaking_SteamMatchMaking006(void *u_iface)
+struct w_steam_iface *create_winISteamMatchmaking_SteamMatchMaking006(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamMatchMaking006");
     TRACE("-> %p\n", r);
@@ -2812,7 +2812,7 @@ const char * __thiscall winISteamMatchmaking_SteamMatchMaking007_GetLobbyData(st
     TRACE("%p\n", _this);
     IsBadStringPtrA(pchKey, -1);
     STEAMCLIENT_CALL( ISteamMatchmaking_SteamMatchMaking007_GetLobbyData, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 int8_t __thiscall winISteamMatchmaking_SteamMatchMaking007_SetLobbyData(struct w_steam_iface *_this, CSteamID steamIDLobby, const char *pchKey, const char *pchValue)
@@ -2886,7 +2886,7 @@ const char * __thiscall winISteamMatchmaking_SteamMatchMaking007_GetLobbyMemberD
     TRACE("%p\n", _this);
     IsBadStringPtrA(pchKey, -1);
     STEAMCLIENT_CALL( ISteamMatchmaking_SteamMatchMaking007_GetLobbyMemberData, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 void __thiscall winISteamMatchmaking_SteamMatchMaking007_SetLobbyMemberData(struct w_steam_iface *_this, CSteamID steamIDLobby, const char *pchKey, const char *pchValue)
@@ -3096,7 +3096,7 @@ __ASM_BLOCK_BEGIN(winISteamMatchmaking_SteamMatchMaking007_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamMatchmaking_SteamMatchMaking007(void *u_iface)
+struct w_steam_iface *create_winISteamMatchmaking_SteamMatchMaking007(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamMatchMaking007");
     TRACE("-> %p\n", r);
@@ -3389,7 +3389,7 @@ const char * __thiscall winISteamMatchmaking_SteamMatchMaking008_GetLobbyData(st
     TRACE("%p\n", _this);
     IsBadStringPtrA(pchKey, -1);
     STEAMCLIENT_CALL( ISteamMatchmaking_SteamMatchMaking008_GetLobbyData, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 int8_t __thiscall winISteamMatchmaking_SteamMatchMaking008_SetLobbyData(struct w_steam_iface *_this, CSteamID steamIDLobby, const char *pchKey, const char *pchValue)
@@ -3463,7 +3463,7 @@ const char * __thiscall winISteamMatchmaking_SteamMatchMaking008_GetLobbyMemberD
     TRACE("%p\n", _this);
     IsBadStringPtrA(pchKey, -1);
     STEAMCLIENT_CALL( ISteamMatchmaking_SteamMatchMaking008_GetLobbyMemberData, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 void __thiscall winISteamMatchmaking_SteamMatchMaking008_SetLobbyMemberData(struct w_steam_iface *_this, CSteamID steamIDLobby, const char *pchKey, const char *pchValue)
@@ -3675,7 +3675,7 @@ __ASM_BLOCK_BEGIN(winISteamMatchmaking_SteamMatchMaking008_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamMatchmaking_SteamMatchMaking008(void *u_iface)
+struct w_steam_iface *create_winISteamMatchmaking_SteamMatchMaking008(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamMatchMaking008");
     TRACE("-> %p\n", r);
@@ -3981,7 +3981,7 @@ const char * __thiscall winISteamMatchmaking_SteamMatchMaking009_GetLobbyData(st
     TRACE("%p\n", _this);
     IsBadStringPtrA(pchKey, -1);
     STEAMCLIENT_CALL( ISteamMatchmaking_SteamMatchMaking009_GetLobbyData, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 int8_t __thiscall winISteamMatchmaking_SteamMatchMaking009_SetLobbyData(struct w_steam_iface *_this, CSteamID steamIDLobby, const char *pchKey, const char *pchValue)
@@ -4055,7 +4055,7 @@ const char * __thiscall winISteamMatchmaking_SteamMatchMaking009_GetLobbyMemberD
     TRACE("%p\n", _this);
     IsBadStringPtrA(pchKey, -1);
     STEAMCLIENT_CALL( ISteamMatchmaking_SteamMatchMaking009_GetLobbyMemberData, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 void __thiscall winISteamMatchmaking_SteamMatchMaking009_SetLobbyMemberData(struct w_steam_iface *_this, CSteamID steamIDLobby, const char *pchKey, const char *pchValue)
@@ -4282,7 +4282,7 @@ __ASM_BLOCK_BEGIN(winISteamMatchmaking_SteamMatchMaking009_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamMatchmaking_SteamMatchMaking009(void *u_iface)
+struct w_steam_iface *create_winISteamMatchmaking_SteamMatchMaking009(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamMatchMaking009");
     TRACE("-> %p\n", r);
@@ -4293,7 +4293,7 @@ struct w_steam_iface *create_winISteamMatchmaking_SteamMatchMaking009(void *u_if
 
 void init_winISteamMatchmaking_rtti( char *base )
 {
-#ifdef __x86_64__
+#if defined(__x86_64__) || defined(__aarch64__)
     init_winISteamMatchmaking_SteamMatchMaking001_rtti( base );
     init_winISteamMatchmaking_SteamMatchMaking002_rtti( base );
     init_winISteamMatchmaking_SteamMatchMaking003_rtti( base );
@@ -4303,5 +4303,5 @@ void init_winISteamMatchmaking_rtti( char *base )
     init_winISteamMatchmaking_SteamMatchMaking007_rtti( base );
     init_winISteamMatchmaking_SteamMatchMaking008_rtti( base );
     init_winISteamMatchmaking_SteamMatchMaking009_rtti( base );
-#endif /* __x86_64__ */
+#endif /* defined(__x86_64__) || defined(__aarch64__) */
 }

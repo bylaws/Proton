@@ -360,7 +360,7 @@ __ASM_BLOCK_BEGIN(winISteamGameServer_SteamGameServer002_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamGameServer_SteamGameServer002(void *u_iface)
+struct w_steam_iface *create_winISteamGameServer_SteamGameServer002(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamGameServer002");
     TRACE("-> %p\n", r);
@@ -639,7 +639,7 @@ __ASM_BLOCK_BEGIN(winISteamGameServer_SteamGameServer003_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamGameServer_SteamGameServer003(void *u_iface)
+struct w_steam_iface *create_winISteamGameServer_SteamGameServer003(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamGameServer003");
     TRACE("-> %p\n", r);
@@ -870,7 +870,7 @@ __ASM_BLOCK_BEGIN(winISteamGameServer_SteamGameServer004_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamGameServer_SteamGameServer004(void *u_iface)
+struct w_steam_iface *create_winISteamGameServer_SteamGameServer004(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamGameServer004");
     TRACE("-> %p\n", r);
@@ -1101,7 +1101,7 @@ __ASM_BLOCK_BEGIN(winISteamGameServer_SteamGameServer005_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamGameServer_SteamGameServer005(void *u_iface)
+struct w_steam_iface *create_winISteamGameServer_SteamGameServer005(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamGameServer005");
     TRACE("-> %p\n", r);
@@ -1372,7 +1372,7 @@ __ASM_BLOCK_BEGIN(winISteamGameServer_SteamGameServer008_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamGameServer_SteamGameServer008(void *u_iface)
+struct w_steam_iface *create_winISteamGameServer_SteamGameServer008(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamGameServer008");
     TRACE("-> %p\n", r);
@@ -1672,7 +1672,7 @@ __ASM_BLOCK_BEGIN(winISteamGameServer_SteamGameServer009_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamGameServer_SteamGameServer009(void *u_iface)
+struct w_steam_iface *create_winISteamGameServer_SteamGameServer009(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamGameServer009");
     TRACE("-> %p\n", r);
@@ -2027,7 +2027,7 @@ __ASM_BLOCK_BEGIN(winISteamGameServer_SteamGameServer010_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamGameServer_SteamGameServer010(void *u_iface)
+struct w_steam_iface *create_winISteamGameServer_SteamGameServer010(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamGameServer010");
     TRACE("-> %p\n", r);
@@ -2665,7 +2665,7 @@ __ASM_BLOCK_BEGIN(winISteamGameServer_SteamGameServer011_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamGameServer_SteamGameServer011(void *u_iface)
+struct w_steam_iface *create_winISteamGameServer_SteamGameServer011(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamGameServer011");
     TRACE("-> %p\n", r);
@@ -3301,7 +3301,7 @@ __ASM_BLOCK_BEGIN(winISteamGameServer_SteamGameServer012_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamGameServer_SteamGameServer012(void *u_iface)
+struct w_steam_iface *create_winISteamGameServer_SteamGameServer012(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamGameServer012");
     TRACE("-> %p\n", r);
@@ -3938,7 +3938,7 @@ __ASM_BLOCK_BEGIN(winISteamGameServer_SteamGameServer013_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamGameServer_SteamGameServer013(void *u_iface)
+struct w_steam_iface *create_winISteamGameServer_SteamGameServer013(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamGameServer013");
     TRACE("-> %p\n", r);
@@ -4575,7 +4575,7 @@ __ASM_BLOCK_BEGIN(winISteamGameServer_SteamGameServer014_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamGameServer_SteamGameServer014(void *u_iface)
+struct w_steam_iface *create_winISteamGameServer_SteamGameServer014(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamGameServer014");
     TRACE("-> %p\n", r);
@@ -5213,7 +5213,7 @@ __ASM_BLOCK_BEGIN(winISteamGameServer_SteamGameServer015_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamGameServer_SteamGameServer015(void *u_iface)
+struct w_steam_iface *create_winISteamGameServer_SteamGameServer015(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamGameServer015");
     TRACE("-> %p\n", r);
@@ -5224,7 +5224,7 @@ struct w_steam_iface *create_winISteamGameServer_SteamGameServer015(void *u_ifac
 
 void init_winISteamGameServer_rtti( char *base )
 {
-#ifdef __x86_64__
+#if defined(__x86_64__) || defined(__aarch64__)
     init_winISteamGameServer_SteamGameServer002_rtti( base );
     init_winISteamGameServer_SteamGameServer003_rtti( base );
     init_winISteamGameServer_SteamGameServer004_rtti( base );
@@ -5237,5 +5237,5 @@ void init_winISteamGameServer_rtti( char *base )
     init_winISteamGameServer_SteamGameServer013_rtti( base );
     init_winISteamGameServer_SteamGameServer014_rtti( base );
     init_winISteamGameServer_SteamGameServer015_rtti( base );
-#endif /* __x86_64__ */
+#endif /* defined(__x86_64__) || defined(__aarch64__) */
 }

@@ -97,7 +97,7 @@ __ASM_BLOCK_BEGIN(winISteamController_STEAMCONTROLLER_INTERFACE_VERSION_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamController_STEAMCONTROLLER_INTERFACE_VERSION(void *u_iface)
+struct w_steam_iface *create_winISteamController_STEAMCONTROLLER_INTERFACE_VERSION(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMCONTROLLER_INTERFACE_VERSION");
     TRACE("-> %p\n", r);
@@ -368,7 +368,7 @@ __ASM_BLOCK_BEGIN(winISteamController_SteamController003_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamController_SteamController003(void *u_iface)
+struct w_steam_iface *create_winISteamController_SteamController003(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamController003");
     TRACE("-> %p\n", r);
@@ -718,7 +718,7 @@ __ASM_BLOCK_BEGIN(winISteamController_SteamController004_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamController_SteamController004(void *u_iface)
+struct w_steam_iface *create_winISteamController_SteamController004(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamController004");
     TRACE("-> %p\n", r);
@@ -1078,7 +1078,7 @@ const char * __thiscall winISteamController_SteamController005_GetStringForActio
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamController_SteamController005_GetStringForActionOrigin, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 extern vtable_ptr winISteamController_SteamController005_vtable;
@@ -1116,7 +1116,7 @@ __ASM_BLOCK_BEGIN(winISteamController_SteamController005_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamController_SteamController005(void *u_iface)
+struct w_steam_iface *create_winISteamController_SteamController005(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamController005");
     TRACE("-> %p\n", r);
@@ -1529,7 +1529,7 @@ const char * __thiscall winISteamController_SteamController006_GetStringForActio
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamController_SteamController006_GetStringForActionOrigin, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 uint32_t __thiscall winISteamController_SteamController006_GetInputTypeForHandle(struct w_steam_iface *_this, uint64_t controllerHandle)
@@ -1584,7 +1584,7 @@ __ASM_BLOCK_BEGIN(winISteamController_SteamController006_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamController_SteamController006(void *u_iface)
+struct w_steam_iface *create_winISteamController_SteamController006(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamController006");
     TRACE("-> %p\n", r);
@@ -1850,7 +1850,7 @@ const char * __thiscall winISteamController_SteamController007_GetStringForActio
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamController_SteamController007_GetStringForActionOrigin, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 void __thiscall winISteamController_SteamController007_StopAnalogActionMomentum(struct w_steam_iface *_this, uint64_t controllerHandle, uint64_t eAction)
@@ -1992,7 +1992,7 @@ const char * __thiscall winISteamController_SteamController007_GetStringForXboxO
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamController_SteamController007_GetStringForXboxOrigin, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 uint32_t __thiscall winISteamController_SteamController007_GetActionOriginFromXboxOrigin(struct w_steam_iface *_this, uint64_t controllerHandle, uint32_t eOrigin)
@@ -2078,7 +2078,7 @@ __ASM_BLOCK_BEGIN(winISteamController_SteamController007_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamController_SteamController007(void *u_iface)
+struct w_steam_iface *create_winISteamController_SteamController007(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamController007");
     TRACE("-> %p\n", r);
@@ -2344,7 +2344,7 @@ const char * __thiscall winISteamController_SteamController008_GetStringForActio
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamController_SteamController008_GetStringForActionOrigin, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 void __thiscall winISteamController_SteamController008_StopAnalogActionMomentum(struct w_steam_iface *_this, uint64_t controllerHandle, uint64_t eAction)
@@ -2486,7 +2486,7 @@ const char * __thiscall winISteamController_SteamController008_GetStringForXboxO
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamController_SteamController008_GetStringForXboxOrigin, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 uint32_t __thiscall winISteamController_SteamController008_GetActionOriginFromXboxOrigin(struct w_steam_iface *_this, uint64_t controllerHandle, uint32_t eOrigin)
@@ -2572,7 +2572,7 @@ __ASM_BLOCK_BEGIN(winISteamController_SteamController008_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamController_SteamController008(void *u_iface)
+struct w_steam_iface *create_winISteamController_SteamController008(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamController008");
     TRACE("-> %p\n", r);
@@ -2583,7 +2583,7 @@ struct w_steam_iface *create_winISteamController_SteamController008(void *u_ifac
 
 void init_winISteamController_rtti( char *base )
 {
-#ifdef __x86_64__
+#if defined(__x86_64__) || defined(__aarch64__)
     init_winISteamController_STEAMCONTROLLER_INTERFACE_VERSION_rtti( base );
     init_winISteamController_SteamController003_rtti( base );
     init_winISteamController_SteamController004_rtti( base );
@@ -2591,5 +2591,5 @@ void init_winISteamController_rtti( char *base )
     init_winISteamController_SteamController006_rtti( base );
     init_winISteamController_SteamController007_rtti( base );
     init_winISteamController_SteamController008_rtti( base );
-#endif /* __x86_64__ */
+#endif /* defined(__x86_64__) || defined(__aarch64__) */
 }

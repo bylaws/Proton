@@ -95,7 +95,7 @@ __ASM_BLOCK_BEGIN(winISteamUnifiedMessages_STEAMUNIFIEDMESSAGES_INTERFACE_VERSIO
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamUnifiedMessages_STEAMUNIFIEDMESSAGES_INTERFACE_VERSION001(void *u_iface)
+struct w_steam_iface *create_winISteamUnifiedMessages_STEAMUNIFIEDMESSAGES_INTERFACE_VERSION001(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMUNIFIEDMESSAGES_INTERFACE_VERSION001");
     TRACE("-> %p\n", r);
@@ -106,7 +106,7 @@ struct w_steam_iface *create_winISteamUnifiedMessages_STEAMUNIFIEDMESSAGES_INTER
 
 void init_winISteamUnifiedMessages_rtti( char *base )
 {
-#ifdef __x86_64__
+#if defined(__x86_64__) || defined(__aarch64__)
     init_winISteamUnifiedMessages_STEAMUNIFIEDMESSAGES_INTERFACE_VERSION001_rtti( base );
-#endif /* __x86_64__ */
+#endif /* defined(__x86_64__) || defined(__aarch64__) */
 }

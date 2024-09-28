@@ -387,7 +387,7 @@ __ASM_BLOCK_BEGIN(winISteamInventory_STEAMINVENTORY_INTERFACE_V001_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamInventory_STEAMINVENTORY_INTERFACE_V001(void *u_iface)
+struct w_steam_iface *create_winISteamInventory_STEAMINVENTORY_INTERFACE_V001(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMINVENTORY_INTERFACE_V001");
     TRACE("-> %p\n", r);
@@ -990,7 +990,7 @@ __ASM_BLOCK_BEGIN(winISteamInventory_STEAMINVENTORY_INTERFACE_V002_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamInventory_STEAMINVENTORY_INTERFACE_V002(void *u_iface)
+struct w_steam_iface *create_winISteamInventory_STEAMINVENTORY_INTERFACE_V002(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMINVENTORY_INTERFACE_V002");
     TRACE("-> %p\n", r);
@@ -1611,7 +1611,7 @@ __ASM_BLOCK_BEGIN(winISteamInventory_STEAMINVENTORY_INTERFACE_V003_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamInventory_STEAMINVENTORY_INTERFACE_V003(void *u_iface)
+struct w_steam_iface *create_winISteamInventory_STEAMINVENTORY_INTERFACE_V003(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMINVENTORY_INTERFACE_V003");
     TRACE("-> %p\n", r);
@@ -1622,9 +1622,9 @@ struct w_steam_iface *create_winISteamInventory_STEAMINVENTORY_INTERFACE_V003(vo
 
 void init_winISteamInventory_rtti( char *base )
 {
-#ifdef __x86_64__
+#if defined(__x86_64__) || defined(__aarch64__)
     init_winISteamInventory_STEAMINVENTORY_INTERFACE_V001_rtti( base );
     init_winISteamInventory_STEAMINVENTORY_INTERFACE_V002_rtti( base );
     init_winISteamInventory_STEAMINVENTORY_INTERFACE_V003_rtti( base );
-#endif /* __x86_64__ */
+#endif /* defined(__x86_64__) || defined(__aarch64__) */
 }

@@ -13,6 +13,14 @@ NTSTATUS ISteamGameCoordinator_SteamGameCoordinator001_SendMessage( void *args )
     return 0;
 }
 
+NTSTATUS wow64_ISteamGameCoordinator_SteamGameCoordinator001_SendMessage( void *args )
+{
+    struct wow64_ISteamGameCoordinator_SteamGameCoordinator001_SendMessage_params *params = (struct wow64_ISteamGameCoordinator_SteamGameCoordinator001_SendMessage_params *)args;
+    struct u_ISteamGameCoordinator_SteamGameCoordinator001 *iface = (struct u_ISteamGameCoordinator_SteamGameCoordinator001 *)params->linux_side;
+    params->_ret = iface->SendMessage( params->unMsgType, (const void *)params->pubData, params->cubData );
+    return 0;
+}
+
 NTSTATUS ISteamGameCoordinator_SteamGameCoordinator001_IsMessageAvailable( void *args )
 {
     struct ISteamGameCoordinator_SteamGameCoordinator001_IsMessageAvailable_params *params = (struct ISteamGameCoordinator_SteamGameCoordinator001_IsMessageAvailable_params *)args;
@@ -21,11 +29,27 @@ NTSTATUS ISteamGameCoordinator_SteamGameCoordinator001_IsMessageAvailable( void 
     return 0;
 }
 
+NTSTATUS wow64_ISteamGameCoordinator_SteamGameCoordinator001_IsMessageAvailable( void *args )
+{
+    struct wow64_ISteamGameCoordinator_SteamGameCoordinator001_IsMessageAvailable_params *params = (struct wow64_ISteamGameCoordinator_SteamGameCoordinator001_IsMessageAvailable_params *)args;
+    struct u_ISteamGameCoordinator_SteamGameCoordinator001 *iface = (struct u_ISteamGameCoordinator_SteamGameCoordinator001 *)params->linux_side;
+    params->_ret = iface->IsMessageAvailable( (uint32_t *)params->pcubMsgSize );
+    return 0;
+}
+
 NTSTATUS ISteamGameCoordinator_SteamGameCoordinator001_RetrieveMessage( void *args )
 {
     struct ISteamGameCoordinator_SteamGameCoordinator001_RetrieveMessage_params *params = (struct ISteamGameCoordinator_SteamGameCoordinator001_RetrieveMessage_params *)args;
     struct u_ISteamGameCoordinator_SteamGameCoordinator001 *iface = (struct u_ISteamGameCoordinator_SteamGameCoordinator001 *)params->linux_side;
     params->_ret = iface->RetrieveMessage( params->punMsgType, params->pubDest, params->cubDest, params->pcubMsgSize );
+    return 0;
+}
+
+NTSTATUS wow64_ISteamGameCoordinator_SteamGameCoordinator001_RetrieveMessage( void *args )
+{
+    struct wow64_ISteamGameCoordinator_SteamGameCoordinator001_RetrieveMessage_params *params = (struct wow64_ISteamGameCoordinator_SteamGameCoordinator001_RetrieveMessage_params *)args;
+    struct u_ISteamGameCoordinator_SteamGameCoordinator001 *iface = (struct u_ISteamGameCoordinator_SteamGameCoordinator001 *)params->linux_side;
+    params->_ret = iface->RetrieveMessage( (uint32_t *)params->punMsgType, (void *)params->pubDest, params->cubDest, (uint32_t *)params->pcubMsgSize );
     return 0;
 }
 

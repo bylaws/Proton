@@ -40,7 +40,7 @@ __ASM_BLOCK_BEGIN(winISteamVideo_STEAMVIDEO_INTERFACE_V001_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamVideo_STEAMVIDEO_INTERFACE_V001(void *u_iface)
+struct w_steam_iface *create_winISteamVideo_STEAMVIDEO_INTERFACE_V001(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMVIDEO_INTERFACE_V001");
     TRACE("-> %p\n", r);
@@ -115,7 +115,7 @@ __ASM_BLOCK_BEGIN(winISteamVideo_STEAMVIDEO_INTERFACE_V002_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamVideo_STEAMVIDEO_INTERFACE_V002(void *u_iface)
+struct w_steam_iface *create_winISteamVideo_STEAMVIDEO_INTERFACE_V002(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMVIDEO_INTERFACE_V002");
     TRACE("-> %p\n", r);
@@ -190,7 +190,7 @@ __ASM_BLOCK_BEGIN(winISteamVideo_STEAMVIDEO_INTERFACE_V007_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamVideo_STEAMVIDEO_INTERFACE_V007(void *u_iface)
+struct w_steam_iface *create_winISteamVideo_STEAMVIDEO_INTERFACE_V007(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMVIDEO_INTERFACE_V007");
     TRACE("-> %p\n", r);
@@ -201,9 +201,9 @@ struct w_steam_iface *create_winISteamVideo_STEAMVIDEO_INTERFACE_V007(void *u_if
 
 void init_winISteamVideo_rtti( char *base )
 {
-#ifdef __x86_64__
+#if defined(__x86_64__) || defined(__aarch64__)
     init_winISteamVideo_STEAMVIDEO_INTERFACE_V001_rtti( base );
     init_winISteamVideo_STEAMVIDEO_INTERFACE_V002_rtti( base );
     init_winISteamVideo_STEAMVIDEO_INTERFACE_V007_rtti( base );
-#endif /* __x86_64__ */
+#endif /* defined(__x86_64__) || defined(__aarch64__) */
 }

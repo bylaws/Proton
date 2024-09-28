@@ -261,7 +261,7 @@ const char * __thiscall winISteamInput_SteamInput001_GetStringForActionOrigin(st
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamInput_SteamInput001_GetStringForActionOrigin, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 void __thiscall winISteamInput_SteamInput001_StopAnalogActionMomentum(struct w_steam_iface *_this, uint64_t inputHandle, uint64_t eAction)
@@ -403,7 +403,7 @@ const char * __thiscall winISteamInput_SteamInput001_GetStringForXboxOrigin(stru
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamInput_SteamInput001_GetStringForXboxOrigin, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 uint32_t __thiscall winISteamInput_SteamInput001_GetActionOriginFromXboxOrigin(struct w_steam_iface *_this, uint64_t inputHandle, uint32_t eOrigin)
@@ -502,7 +502,7 @@ __ASM_BLOCK_BEGIN(winISteamInput_SteamInput001_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamInput_SteamInput001(void *u_iface)
+struct w_steam_iface *create_winISteamInput_SteamInput001(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamInput001");
     TRACE("-> %p\n", r);
@@ -769,7 +769,7 @@ const char * __thiscall winISteamInput_SteamInput002_GetStringForActionOrigin(st
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamInput_SteamInput002_GetStringForActionOrigin, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 void __thiscall winISteamInput_SteamInput002_StopAnalogActionMomentum(struct w_steam_iface *_this, uint64_t inputHandle, uint64_t eAction)
@@ -911,7 +911,7 @@ const char * __thiscall winISteamInput_SteamInput002_GetStringForXboxOrigin(stru
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamInput_SteamInput002_GetStringForXboxOrigin, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 uint32_t __thiscall winISteamInput_SteamInput002_GetActionOriginFromXboxOrigin(struct w_steam_iface *_this, uint64_t inputHandle, uint32_t eOrigin)
@@ -1010,7 +1010,7 @@ __ASM_BLOCK_BEGIN(winISteamInput_SteamInput002_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamInput_SteamInput002(void *u_iface)
+struct w_steam_iface *create_winISteamInput_SteamInput002(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamInput002");
     TRACE("-> %p\n", r);
@@ -1307,7 +1307,7 @@ const char * __thiscall winISteamInput_SteamInput005_GetStringForDigitalActionNa
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamInput_SteamInput005_GetStringForDigitalActionName, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 uint64_t __thiscall winISteamInput_SteamInput005_GetAnalogActionHandle(struct w_steam_iface *_this, const char *pszActionName)
@@ -1361,7 +1361,7 @@ const char * __thiscall winISteamInput_SteamInput005_GetStringForActionOrigin(st
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamInput_SteamInput005_GetStringForActionOrigin, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 const char * __thiscall winISteamInput_SteamInput005_GetStringForAnalogActionName(struct w_steam_iface *_this, uint64_t eActionHandle)
@@ -1373,7 +1373,7 @@ const char * __thiscall winISteamInput_SteamInput005_GetStringForAnalogActionNam
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamInput_SteamInput005_GetStringForAnalogActionName, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 void __thiscall winISteamInput_SteamInput005_StopAnalogActionMomentum(struct w_steam_iface *_this, uint64_t inputHandle, uint64_t eAction)
@@ -1546,7 +1546,7 @@ const char * __thiscall winISteamInput_SteamInput005_GetStringForXboxOrigin(stru
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamInput_SteamInput005_GetStringForXboxOrigin, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 uint32_t __thiscall winISteamInput_SteamInput005_GetActionOriginFromXboxOrigin(struct w_steam_iface *_this, uint64_t inputHandle, uint32_t eOrigin)
@@ -1668,7 +1668,7 @@ __ASM_BLOCK_BEGIN(winISteamInput_SteamInput005_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamInput_SteamInput005(void *u_iface)
+struct w_steam_iface *create_winISteamInput_SteamInput005(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamInput005");
     TRACE("-> %p\n", r);
@@ -1966,7 +1966,7 @@ const char * __thiscall winISteamInput_SteamInput006_GetStringForDigitalActionNa
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamInput_SteamInput006_GetStringForDigitalActionName, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 uint64_t __thiscall winISteamInput_SteamInput006_GetAnalogActionHandle(struct w_steam_iface *_this, const char *pszActionName)
@@ -2020,7 +2020,7 @@ const char * __thiscall winISteamInput_SteamInput006_GetStringForActionOrigin(st
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamInput_SteamInput006_GetStringForActionOrigin, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 const char * __thiscall winISteamInput_SteamInput006_GetStringForAnalogActionName(struct w_steam_iface *_this, uint64_t eActionHandle)
@@ -2032,7 +2032,7 @@ const char * __thiscall winISteamInput_SteamInput006_GetStringForAnalogActionNam
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamInput_SteamInput006_GetStringForAnalogActionName, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 void __thiscall winISteamInput_SteamInput006_StopAnalogActionMomentum(struct w_steam_iface *_this, uint64_t inputHandle, uint64_t eAction)
@@ -2205,7 +2205,7 @@ const char * __thiscall winISteamInput_SteamInput006_GetStringForXboxOrigin(stru
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamInput_SteamInput006_GetStringForXboxOrigin, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 uint32_t __thiscall winISteamInput_SteamInput006_GetActionOriginFromXboxOrigin(struct w_steam_iface *_this, uint64_t inputHandle, uint32_t eOrigin)
@@ -2340,7 +2340,7 @@ __ASM_BLOCK_BEGIN(winISteamInput_SteamInput006_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamInput_SteamInput006(void *u_iface)
+struct w_steam_iface *create_winISteamInput_SteamInput006(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamInput006");
     TRACE("-> %p\n", r);
@@ -2351,10 +2351,10 @@ struct w_steam_iface *create_winISteamInput_SteamInput006(void *u_iface)
 
 void init_winISteamInput_rtti( char *base )
 {
-#ifdef __x86_64__
+#if defined(__x86_64__) || defined(__aarch64__)
     init_winISteamInput_SteamInput001_rtti( base );
     init_winISteamInput_SteamInput002_rtti( base );
     init_winISteamInput_SteamInput005_rtti( base );
     init_winISteamInput_SteamInput006_rtti( base );
-#endif /* __x86_64__ */
+#endif /* defined(__x86_64__) || defined(__aarch64__) */
 }

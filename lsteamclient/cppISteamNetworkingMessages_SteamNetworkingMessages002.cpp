@@ -13,11 +13,27 @@ NTSTATUS ISteamNetworkingMessages_SteamNetworkingMessages002_SendMessageToUser( 
     return 0;
 }
 
+NTSTATUS wow64_ISteamNetworkingMessages_SteamNetworkingMessages002_SendMessageToUser( void *args )
+{
+    struct wow64_ISteamNetworkingMessages_SteamNetworkingMessages002_SendMessageToUser_params *params = (struct wow64_ISteamNetworkingMessages_SteamNetworkingMessages002_SendMessageToUser_params *)args;
+    struct u_ISteamNetworkingMessages_SteamNetworkingMessages002 *iface = (struct u_ISteamNetworkingMessages_SteamNetworkingMessages002 *)params->linux_side;
+    params->_ret = iface->SendMessageToUser( (const SteamNetworkingIdentity_144 *)params->identityRemote, (const void *)params->pubData, params->cubData, params->nSendFlags, params->nRemoteChannel );
+    return 0;
+}
+
 NTSTATUS ISteamNetworkingMessages_SteamNetworkingMessages002_AcceptSessionWithUser( void *args )
 {
     struct ISteamNetworkingMessages_SteamNetworkingMessages002_AcceptSessionWithUser_params *params = (struct ISteamNetworkingMessages_SteamNetworkingMessages002_AcceptSessionWithUser_params *)args;
     struct u_ISteamNetworkingMessages_SteamNetworkingMessages002 *iface = (struct u_ISteamNetworkingMessages_SteamNetworkingMessages002 *)params->linux_side;
     params->_ret = iface->AcceptSessionWithUser( params->identityRemote );
+    return 0;
+}
+
+NTSTATUS wow64_ISteamNetworkingMessages_SteamNetworkingMessages002_AcceptSessionWithUser( void *args )
+{
+    struct wow64_ISteamNetworkingMessages_SteamNetworkingMessages002_AcceptSessionWithUser_params *params = (struct wow64_ISteamNetworkingMessages_SteamNetworkingMessages002_AcceptSessionWithUser_params *)args;
+    struct u_ISteamNetworkingMessages_SteamNetworkingMessages002 *iface = (struct u_ISteamNetworkingMessages_SteamNetworkingMessages002 *)params->linux_side;
+    params->_ret = iface->AcceptSessionWithUser( (const SteamNetworkingIdentity_144 *)params->identityRemote );
     return 0;
 }
 
@@ -29,6 +45,14 @@ NTSTATUS ISteamNetworkingMessages_SteamNetworkingMessages002_CloseSessionWithUse
     return 0;
 }
 
+NTSTATUS wow64_ISteamNetworkingMessages_SteamNetworkingMessages002_CloseSessionWithUser( void *args )
+{
+    struct wow64_ISteamNetworkingMessages_SteamNetworkingMessages002_CloseSessionWithUser_params *params = (struct wow64_ISteamNetworkingMessages_SteamNetworkingMessages002_CloseSessionWithUser_params *)args;
+    struct u_ISteamNetworkingMessages_SteamNetworkingMessages002 *iface = (struct u_ISteamNetworkingMessages_SteamNetworkingMessages002 *)params->linux_side;
+    params->_ret = iface->CloseSessionWithUser( (const SteamNetworkingIdentity_144 *)params->identityRemote );
+    return 0;
+}
+
 NTSTATUS ISteamNetworkingMessages_SteamNetworkingMessages002_CloseChannelWithUser( void *args )
 {
     struct ISteamNetworkingMessages_SteamNetworkingMessages002_CloseChannelWithUser_params *params = (struct ISteamNetworkingMessages_SteamNetworkingMessages002_CloseChannelWithUser_params *)args;
@@ -37,11 +61,27 @@ NTSTATUS ISteamNetworkingMessages_SteamNetworkingMessages002_CloseChannelWithUse
     return 0;
 }
 
+NTSTATUS wow64_ISteamNetworkingMessages_SteamNetworkingMessages002_CloseChannelWithUser( void *args )
+{
+    struct wow64_ISteamNetworkingMessages_SteamNetworkingMessages002_CloseChannelWithUser_params *params = (struct wow64_ISteamNetworkingMessages_SteamNetworkingMessages002_CloseChannelWithUser_params *)args;
+    struct u_ISteamNetworkingMessages_SteamNetworkingMessages002 *iface = (struct u_ISteamNetworkingMessages_SteamNetworkingMessages002 *)params->linux_side;
+    params->_ret = iface->CloseChannelWithUser( (const SteamNetworkingIdentity_144 *)params->identityRemote, params->nLocalChannel );
+    return 0;
+}
+
 NTSTATUS ISteamNetworkingMessages_SteamNetworkingMessages002_GetSessionConnectionInfo( void *args )
 {
     struct ISteamNetworkingMessages_SteamNetworkingMessages002_GetSessionConnectionInfo_params *params = (struct ISteamNetworkingMessages_SteamNetworkingMessages002_GetSessionConnectionInfo_params *)args;
     struct u_ISteamNetworkingMessages_SteamNetworkingMessages002 *iface = (struct u_ISteamNetworkingMessages_SteamNetworkingMessages002 *)params->linux_side;
     params->_ret = iface->GetSessionConnectionInfo( params->identityRemote, params->pConnectionInfo, params->pQuickStatus );
+    return 0;
+}
+
+NTSTATUS wow64_ISteamNetworkingMessages_SteamNetworkingMessages002_GetSessionConnectionInfo( void *args )
+{
+    struct wow64_ISteamNetworkingMessages_SteamNetworkingMessages002_GetSessionConnectionInfo_params *params = (struct wow64_ISteamNetworkingMessages_SteamNetworkingMessages002_GetSessionConnectionInfo_params *)args;
+    struct u_ISteamNetworkingMessages_SteamNetworkingMessages002 *iface = (struct u_ISteamNetworkingMessages_SteamNetworkingMessages002 *)params->linux_side;
+    params->_ret = iface->GetSessionConnectionInfo( (const SteamNetworkingIdentity_144 *)params->identityRemote, (SteamNetConnectionInfo_t_153a *)params->pConnectionInfo, (SteamNetConnectionRealTimeStatus_t *)params->pQuickStatus );
     return 0;
 }
 

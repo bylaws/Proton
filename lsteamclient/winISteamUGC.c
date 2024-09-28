@@ -233,7 +233,7 @@ __ASM_BLOCK_BEGIN(winISteamUGC_STEAMUGC_INTERFACE_VERSION001_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamUGC_STEAMUGC_INTERFACE_VERSION001(void *u_iface)
+struct w_steam_iface *create_winISteamUGC_STEAMUGC_INTERFACE_VERSION001(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMUGC_INTERFACE_VERSION001");
     TRACE("-> %p\n", r);
@@ -735,7 +735,7 @@ __ASM_BLOCK_BEGIN(winISteamUGC_STEAMUGC_INTERFACE_VERSION002_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamUGC_STEAMUGC_INTERFACE_VERSION002(void *u_iface)
+struct w_steam_iface *create_winISteamUGC_STEAMUGC_INTERFACE_VERSION002(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMUGC_INTERFACE_VERSION002");
     TRACE("-> %p\n", r);
@@ -1238,7 +1238,7 @@ __ASM_BLOCK_BEGIN(winISteamUGC_STEAMUGC_INTERFACE_VERSION003_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamUGC_STEAMUGC_INTERFACE_VERSION003(void *u_iface)
+struct w_steam_iface *create_winISteamUGC_STEAMUGC_INTERFACE_VERSION003(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMUGC_INTERFACE_VERSION003");
     TRACE("-> %p\n", r);
@@ -1768,7 +1768,7 @@ __ASM_BLOCK_BEGIN(winISteamUGC_STEAMUGC_INTERFACE_VERSION004_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamUGC_STEAMUGC_INTERFACE_VERSION004(void *u_iface)
+struct w_steam_iface *create_winISteamUGC_STEAMUGC_INTERFACE_VERSION004(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMUGC_INTERFACE_VERSION004");
     TRACE("-> %p\n", r);
@@ -2506,7 +2506,7 @@ __ASM_BLOCK_BEGIN(winISteamUGC_STEAMUGC_INTERFACE_VERSION005_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamUGC_STEAMUGC_INTERFACE_VERSION005(void *u_iface)
+struct w_steam_iface *create_winISteamUGC_STEAMUGC_INTERFACE_VERSION005(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMUGC_INTERFACE_VERSION005");
     TRACE("-> %p\n", r);
@@ -3305,7 +3305,7 @@ __ASM_BLOCK_BEGIN(winISteamUGC_STEAMUGC_INTERFACE_VERSION006_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamUGC_STEAMUGC_INTERFACE_VERSION006(void *u_iface)
+struct w_steam_iface *create_winISteamUGC_STEAMUGC_INTERFACE_VERSION006(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMUGC_INTERFACE_VERSION006");
     TRACE("-> %p\n", r);
@@ -4235,7 +4235,7 @@ __ASM_BLOCK_BEGIN(winISteamUGC_STEAMUGC_INTERFACE_VERSION007_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamUGC_STEAMUGC_INTERFACE_VERSION007(void *u_iface)
+struct w_steam_iface *create_winISteamUGC_STEAMUGC_INTERFACE_VERSION007(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMUGC_INTERFACE_VERSION007");
     TRACE("-> %p\n", r);
@@ -5249,7 +5249,7 @@ __ASM_BLOCK_BEGIN(winISteamUGC_STEAMUGC_INTERFACE_VERSION008_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamUGC_STEAMUGC_INTERFACE_VERSION008(void *u_iface)
+struct w_steam_iface *create_winISteamUGC_STEAMUGC_INTERFACE_VERSION008(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMUGC_INTERFACE_VERSION008");
     TRACE("-> %p\n", r);
@@ -6321,7 +6321,7 @@ __ASM_BLOCK_BEGIN(winISteamUGC_STEAMUGC_INTERFACE_VERSION009_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamUGC_STEAMUGC_INTERFACE_VERSION009(void *u_iface)
+struct w_steam_iface *create_winISteamUGC_STEAMUGC_INTERFACE_VERSION009(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMUGC_INTERFACE_VERSION009");
     TRACE("-> %p\n", r);
@@ -7496,7 +7496,7 @@ __ASM_BLOCK_BEGIN(winISteamUGC_STEAMUGC_INTERFACE_VERSION010_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamUGC_STEAMUGC_INTERFACE_VERSION010(void *u_iface)
+struct w_steam_iface *create_winISteamUGC_STEAMUGC_INTERFACE_VERSION010(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMUGC_INTERFACE_VERSION010");
     TRACE("-> %p\n", r);
@@ -8705,7 +8705,7 @@ __ASM_BLOCK_BEGIN(winISteamUGC_STEAMUGC_INTERFACE_VERSION012_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamUGC_STEAMUGC_INTERFACE_VERSION012(void *u_iface)
+struct w_steam_iface *create_winISteamUGC_STEAMUGC_INTERFACE_VERSION012(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMUGC_INTERFACE_VERSION012");
     TRACE("-> %p\n", r);
@@ -9947,7 +9947,7 @@ __ASM_BLOCK_BEGIN(winISteamUGC_STEAMUGC_INTERFACE_VERSION013_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamUGC_STEAMUGC_INTERFACE_VERSION013(void *u_iface)
+struct w_steam_iface *create_winISteamUGC_STEAMUGC_INTERFACE_VERSION013(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMUGC_INTERFACE_VERSION013");
     TRACE("-> %p\n", r);
@@ -11204,7 +11204,7 @@ __ASM_BLOCK_BEGIN(winISteamUGC_STEAMUGC_INTERFACE_VERSION014_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamUGC_STEAMUGC_INTERFACE_VERSION014(void *u_iface)
+struct w_steam_iface *create_winISteamUGC_STEAMUGC_INTERFACE_VERSION014(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMUGC_INTERFACE_VERSION014");
     TRACE("-> %p\n", r);
@@ -12538,7 +12538,7 @@ __ASM_BLOCK_BEGIN(winISteamUGC_STEAMUGC_INTERFACE_VERSION015_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamUGC_STEAMUGC_INTERFACE_VERSION015(void *u_iface)
+struct w_steam_iface *create_winISteamUGC_STEAMUGC_INTERFACE_VERSION015(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMUGC_INTERFACE_VERSION015");
     TRACE("-> %p\n", r);
@@ -13904,7 +13904,7 @@ __ASM_BLOCK_BEGIN(winISteamUGC_STEAMUGC_INTERFACE_VERSION016_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamUGC_STEAMUGC_INTERFACE_VERSION016(void *u_iface)
+struct w_steam_iface *create_winISteamUGC_STEAMUGC_INTERFACE_VERSION016(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMUGC_INTERFACE_VERSION016");
     TRACE("-> %p\n", r);
@@ -15317,7 +15317,7 @@ __ASM_BLOCK_BEGIN(winISteamUGC_STEAMUGC_INTERFACE_VERSION017_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamUGC_STEAMUGC_INTERFACE_VERSION017(void *u_iface)
+struct w_steam_iface *create_winISteamUGC_STEAMUGC_INTERFACE_VERSION017(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMUGC_INTERFACE_VERSION017");
     TRACE("-> %p\n", r);
@@ -16746,7 +16746,7 @@ __ASM_BLOCK_BEGIN(winISteamUGC_STEAMUGC_INTERFACE_VERSION018_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamUGC_STEAMUGC_INTERFACE_VERSION018(void *u_iface)
+struct w_steam_iface *create_winISteamUGC_STEAMUGC_INTERFACE_VERSION018(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMUGC_INTERFACE_VERSION018");
     TRACE("-> %p\n", r);
@@ -18242,7 +18242,7 @@ __ASM_BLOCK_BEGIN(winISteamUGC_STEAMUGC_INTERFACE_VERSION020_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamUGC_STEAMUGC_INTERFACE_VERSION020(void *u_iface)
+struct w_steam_iface *create_winISteamUGC_STEAMUGC_INTERFACE_VERSION020(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMUGC_INTERFACE_VERSION020");
     TRACE("-> %p\n", r);
@@ -18253,7 +18253,7 @@ struct w_steam_iface *create_winISteamUGC_STEAMUGC_INTERFACE_VERSION020(void *u_
 
 void init_winISteamUGC_rtti( char *base )
 {
-#ifdef __x86_64__
+#if defined(__x86_64__) || defined(__aarch64__)
     init_winISteamUGC_STEAMUGC_INTERFACE_VERSION001_rtti( base );
     init_winISteamUGC_STEAMUGC_INTERFACE_VERSION002_rtti( base );
     init_winISteamUGC_STEAMUGC_INTERFACE_VERSION003_rtti( base );
@@ -18272,5 +18272,5 @@ void init_winISteamUGC_rtti( char *base )
     init_winISteamUGC_STEAMUGC_INTERFACE_VERSION017_rtti( base );
     init_winISteamUGC_STEAMUGC_INTERFACE_VERSION018_rtti( base );
     init_winISteamUGC_STEAMUGC_INTERFACE_VERSION020_rtti( base );
-#endif /* __x86_64__ */
+#endif /* defined(__x86_64__) || defined(__aarch64__) */
 }

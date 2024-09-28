@@ -131,7 +131,7 @@ __ASM_BLOCK_BEGIN(winISteamNetworkingSocketsSerialized_SteamNetworkingSocketsSer
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamNetworkingSocketsSerialized_SteamNetworkingSocketsSerialized002(void *u_iface)
+struct w_steam_iface *create_winISteamNetworkingSocketsSerialized_SteamNetworkingSocketsSerialized002(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamNetworkingSocketsSerialized002");
     TRACE("-> %p\n", r);
@@ -270,7 +270,7 @@ __ASM_BLOCK_BEGIN(winISteamNetworkingSocketsSerialized_SteamNetworkingSocketsSer
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamNetworkingSocketsSerialized_SteamNetworkingSocketsSerialized003(void *u_iface)
+struct w_steam_iface *create_winISteamNetworkingSocketsSerialized_SteamNetworkingSocketsSerialized003(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamNetworkingSocketsSerialized003");
     TRACE("-> %p\n", r);
@@ -281,8 +281,8 @@ struct w_steam_iface *create_winISteamNetworkingSocketsSerialized_SteamNetworkin
 
 void init_winISteamNetworkingSocketsSerialized_rtti( char *base )
 {
-#ifdef __x86_64__
+#if defined(__x86_64__) || defined(__aarch64__)
     init_winISteamNetworkingSocketsSerialized_SteamNetworkingSocketsSerialized002_rtti( base );
     init_winISteamNetworkingSocketsSerialized_SteamNetworkingSocketsSerialized003_rtti( base );
-#endif /* __x86_64__ */
+#endif /* defined(__x86_64__) || defined(__aarch64__) */
 }

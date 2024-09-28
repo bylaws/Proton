@@ -13,9 +13,25 @@ NTSTATUS ISteamUser_SteamUser012_GetHSteamUser( void *args )
     return 0;
 }
 
+NTSTATUS wow64_ISteamUser_SteamUser012_GetHSteamUser( void *args )
+{
+    struct wow64_ISteamUser_SteamUser012_GetHSteamUser_params *params = (struct wow64_ISteamUser_SteamUser012_GetHSteamUser_params *)args;
+    struct u_ISteamUser_SteamUser012 *iface = (struct u_ISteamUser_SteamUser012 *)params->linux_side;
+    params->_ret = iface->GetHSteamUser(  );
+    return 0;
+}
+
 NTSTATUS ISteamUser_SteamUser012_BLoggedOn( void *args )
 {
     struct ISteamUser_SteamUser012_BLoggedOn_params *params = (struct ISteamUser_SteamUser012_BLoggedOn_params *)args;
+    struct u_ISteamUser_SteamUser012 *iface = (struct u_ISteamUser_SteamUser012 *)params->linux_side;
+    params->_ret = iface->BLoggedOn(  );
+    return 0;
+}
+
+NTSTATUS wow64_ISteamUser_SteamUser012_BLoggedOn( void *args )
+{
+    struct wow64_ISteamUser_SteamUser012_BLoggedOn_params *params = (struct wow64_ISteamUser_SteamUser012_BLoggedOn_params *)args;
     struct u_ISteamUser_SteamUser012 *iface = (struct u_ISteamUser_SteamUser012 *)params->linux_side;
     params->_ret = iface->BLoggedOn(  );
     return 0;
@@ -29,6 +45,14 @@ NTSTATUS ISteamUser_SteamUser012_GetSteamID( void *args )
     return 0;
 }
 
+NTSTATUS wow64_ISteamUser_SteamUser012_GetSteamID( void *args )
+{
+    struct wow64_ISteamUser_SteamUser012_GetSteamID_params *params = (struct wow64_ISteamUser_SteamUser012_GetSteamID_params *)args;
+    struct u_ISteamUser_SteamUser012 *iface = (struct u_ISteamUser_SteamUser012 *)params->linux_side;
+    *(CSteamID *)params->_ret = iface->GetSteamID(  );
+    return 0;
+}
+
 NTSTATUS ISteamUser_SteamUser012_InitiateGameConnection( void *args )
 {
     struct ISteamUser_SteamUser012_InitiateGameConnection_params *params = (struct ISteamUser_SteamUser012_InitiateGameConnection_params *)args;
@@ -37,9 +61,25 @@ NTSTATUS ISteamUser_SteamUser012_InitiateGameConnection( void *args )
     return 0;
 }
 
+NTSTATUS wow64_ISteamUser_SteamUser012_InitiateGameConnection( void *args )
+{
+    struct wow64_ISteamUser_SteamUser012_InitiateGameConnection_params *params = (struct wow64_ISteamUser_SteamUser012_InitiateGameConnection_params *)args;
+    struct u_ISteamUser_SteamUser012 *iface = (struct u_ISteamUser_SteamUser012 *)params->linux_side;
+    params->_ret = iface->InitiateGameConnection( (void *)params->pAuthBlob, params->cbMaxAuthBlob, params->steamIDGameServer, params->unIPServer, params->usPortServer, params->bSecure );
+    return 0;
+}
+
 NTSTATUS ISteamUser_SteamUser012_TerminateGameConnection( void *args )
 {
     struct ISteamUser_SteamUser012_TerminateGameConnection_params *params = (struct ISteamUser_SteamUser012_TerminateGameConnection_params *)args;
+    struct u_ISteamUser_SteamUser012 *iface = (struct u_ISteamUser_SteamUser012 *)params->linux_side;
+    iface->TerminateGameConnection( params->unIPServer, params->usPortServer );
+    return 0;
+}
+
+NTSTATUS wow64_ISteamUser_SteamUser012_TerminateGameConnection( void *args )
+{
+    struct wow64_ISteamUser_SteamUser012_TerminateGameConnection_params *params = (struct wow64_ISteamUser_SteamUser012_TerminateGameConnection_params *)args;
     struct u_ISteamUser_SteamUser012 *iface = (struct u_ISteamUser_SteamUser012 *)params->linux_side;
     iface->TerminateGameConnection( params->unIPServer, params->usPortServer );
     return 0;
@@ -53,18 +93,43 @@ NTSTATUS ISteamUser_SteamUser012_TrackAppUsageEvent( void *args )
     return 0;
 }
 
+NTSTATUS wow64_ISteamUser_SteamUser012_TrackAppUsageEvent( void *args )
+{
+    struct wow64_ISteamUser_SteamUser012_TrackAppUsageEvent_params *params = (struct wow64_ISteamUser_SteamUser012_TrackAppUsageEvent_params *)args;
+    struct u_ISteamUser_SteamUser012 *iface = (struct u_ISteamUser_SteamUser012 *)params->linux_side;
+    iface->TrackAppUsageEvent( params->gameID, params->eAppUsageEvent, (const char *)params->pchExtraInfo );
+    return 0;
+}
+
 NTSTATUS ISteamUser_SteamUser012_GetUserDataFolder( void *args )
 {
     struct ISteamUser_SteamUser012_GetUserDataFolder_params *params = (struct ISteamUser_SteamUser012_GetUserDataFolder_params *)args;
     struct u_ISteamUser_SteamUser012 *iface = (struct u_ISteamUser_SteamUser012 *)params->linux_side;
     params->_ret = iface->GetUserDataFolder( params->pchBuffer, params->cubBuffer );
-    steamclient_unix_path_to_dos_path( params->_ret, params->pchBuffer, params->pchBuffer, params->cubBuffer, 0 );
+    steamclient_unix_path_to_dos_path( params->_ret, (const char *)params->pchBuffer, (char *)params->pchBuffer, params->cubBuffer, 0 );
+    return 0;
+}
+
+NTSTATUS wow64_ISteamUser_SteamUser012_GetUserDataFolder( void *args )
+{
+    struct wow64_ISteamUser_SteamUser012_GetUserDataFolder_params *params = (struct wow64_ISteamUser_SteamUser012_GetUserDataFolder_params *)args;
+    struct u_ISteamUser_SteamUser012 *iface = (struct u_ISteamUser_SteamUser012 *)params->linux_side;
+    params->_ret = iface->GetUserDataFolder( (char *)params->pchBuffer, params->cubBuffer );
+    steamclient_unix_path_to_dos_path( params->_ret, (const char *)params->pchBuffer, (char *)params->pchBuffer, params->cubBuffer, 0 );
     return 0;
 }
 
 NTSTATUS ISteamUser_SteamUser012_StartVoiceRecording( void *args )
 {
     struct ISteamUser_SteamUser012_StartVoiceRecording_params *params = (struct ISteamUser_SteamUser012_StartVoiceRecording_params *)args;
+    struct u_ISteamUser_SteamUser012 *iface = (struct u_ISteamUser_SteamUser012 *)params->linux_side;
+    iface->StartVoiceRecording(  );
+    return 0;
+}
+
+NTSTATUS wow64_ISteamUser_SteamUser012_StartVoiceRecording( void *args )
+{
+    struct wow64_ISteamUser_SteamUser012_StartVoiceRecording_params *params = (struct wow64_ISteamUser_SteamUser012_StartVoiceRecording_params *)args;
     struct u_ISteamUser_SteamUser012 *iface = (struct u_ISteamUser_SteamUser012 *)params->linux_side;
     iface->StartVoiceRecording(  );
     return 0;
@@ -78,11 +143,27 @@ NTSTATUS ISteamUser_SteamUser012_StopVoiceRecording( void *args )
     return 0;
 }
 
+NTSTATUS wow64_ISteamUser_SteamUser012_StopVoiceRecording( void *args )
+{
+    struct wow64_ISteamUser_SteamUser012_StopVoiceRecording_params *params = (struct wow64_ISteamUser_SteamUser012_StopVoiceRecording_params *)args;
+    struct u_ISteamUser_SteamUser012 *iface = (struct u_ISteamUser_SteamUser012 *)params->linux_side;
+    iface->StopVoiceRecording(  );
+    return 0;
+}
+
 NTSTATUS ISteamUser_SteamUser012_GetCompressedVoice( void *args )
 {
     struct ISteamUser_SteamUser012_GetCompressedVoice_params *params = (struct ISteamUser_SteamUser012_GetCompressedVoice_params *)args;
     struct u_ISteamUser_SteamUser012 *iface = (struct u_ISteamUser_SteamUser012 *)params->linux_side;
     params->_ret = iface->GetCompressedVoice( params->pDestBuffer, params->cbDestBufferSize, params->nBytesWritten );
+    return 0;
+}
+
+NTSTATUS wow64_ISteamUser_SteamUser012_GetCompressedVoice( void *args )
+{
+    struct wow64_ISteamUser_SteamUser012_GetCompressedVoice_params *params = (struct wow64_ISteamUser_SteamUser012_GetCompressedVoice_params *)args;
+    struct u_ISteamUser_SteamUser012 *iface = (struct u_ISteamUser_SteamUser012 *)params->linux_side;
+    params->_ret = iface->GetCompressedVoice( (void *)params->pDestBuffer, params->cbDestBufferSize, (uint32_t *)params->nBytesWritten );
     return 0;
 }
 
@@ -94,11 +175,27 @@ NTSTATUS ISteamUser_SteamUser012_DecompressVoice( void *args )
     return 0;
 }
 
+NTSTATUS wow64_ISteamUser_SteamUser012_DecompressVoice( void *args )
+{
+    struct wow64_ISteamUser_SteamUser012_DecompressVoice_params *params = (struct wow64_ISteamUser_SteamUser012_DecompressVoice_params *)args;
+    struct u_ISteamUser_SteamUser012 *iface = (struct u_ISteamUser_SteamUser012 *)params->linux_side;
+    params->_ret = iface->DecompressVoice( (void *)params->pCompressed, params->cbCompressed, (void *)params->pDestBuffer, params->cbDestBufferSize, (uint32_t *)params->nBytesWritten );
+    return 0;
+}
+
 NTSTATUS ISteamUser_SteamUser012_GetAuthSessionTicket( void *args )
 {
     struct ISteamUser_SteamUser012_GetAuthSessionTicket_params *params = (struct ISteamUser_SteamUser012_GetAuthSessionTicket_params *)args;
     struct u_ISteamUser_SteamUser012 *iface = (struct u_ISteamUser_SteamUser012 *)params->linux_side;
     params->_ret = iface->GetAuthSessionTicket( params->pTicket, params->cbMaxTicket, params->pcbTicket );
+    return 0;
+}
+
+NTSTATUS wow64_ISteamUser_SteamUser012_GetAuthSessionTicket( void *args )
+{
+    struct wow64_ISteamUser_SteamUser012_GetAuthSessionTicket_params *params = (struct wow64_ISteamUser_SteamUser012_GetAuthSessionTicket_params *)args;
+    struct u_ISteamUser_SteamUser012 *iface = (struct u_ISteamUser_SteamUser012 *)params->linux_side;
+    params->_ret = iface->GetAuthSessionTicket( (void *)params->pTicket, params->cbMaxTicket, (uint32_t *)params->pcbTicket );
     return 0;
 }
 
@@ -110,9 +207,25 @@ NTSTATUS ISteamUser_SteamUser012_BeginAuthSession( void *args )
     return 0;
 }
 
+NTSTATUS wow64_ISteamUser_SteamUser012_BeginAuthSession( void *args )
+{
+    struct wow64_ISteamUser_SteamUser012_BeginAuthSession_params *params = (struct wow64_ISteamUser_SteamUser012_BeginAuthSession_params *)args;
+    struct u_ISteamUser_SteamUser012 *iface = (struct u_ISteamUser_SteamUser012 *)params->linux_side;
+    params->_ret = iface->BeginAuthSession( (const void *)params->pAuthTicket, params->cbAuthTicket, params->steamID );
+    return 0;
+}
+
 NTSTATUS ISteamUser_SteamUser012_EndAuthSession( void *args )
 {
     struct ISteamUser_SteamUser012_EndAuthSession_params *params = (struct ISteamUser_SteamUser012_EndAuthSession_params *)args;
+    struct u_ISteamUser_SteamUser012 *iface = (struct u_ISteamUser_SteamUser012 *)params->linux_side;
+    iface->EndAuthSession( params->steamID );
+    return 0;
+}
+
+NTSTATUS wow64_ISteamUser_SteamUser012_EndAuthSession( void *args )
+{
+    struct wow64_ISteamUser_SteamUser012_EndAuthSession_params *params = (struct wow64_ISteamUser_SteamUser012_EndAuthSession_params *)args;
     struct u_ISteamUser_SteamUser012 *iface = (struct u_ISteamUser_SteamUser012 *)params->linux_side;
     iface->EndAuthSession( params->steamID );
     return 0;
@@ -126,9 +239,25 @@ NTSTATUS ISteamUser_SteamUser012_CancelAuthTicket( void *args )
     return 0;
 }
 
+NTSTATUS wow64_ISteamUser_SteamUser012_CancelAuthTicket( void *args )
+{
+    struct wow64_ISteamUser_SteamUser012_CancelAuthTicket_params *params = (struct wow64_ISteamUser_SteamUser012_CancelAuthTicket_params *)args;
+    struct u_ISteamUser_SteamUser012 *iface = (struct u_ISteamUser_SteamUser012 *)params->linux_side;
+    iface->CancelAuthTicket( params->hAuthTicket );
+    return 0;
+}
+
 NTSTATUS ISteamUser_SteamUser012_UserHasLicenseForApp( void *args )
 {
     struct ISteamUser_SteamUser012_UserHasLicenseForApp_params *params = (struct ISteamUser_SteamUser012_UserHasLicenseForApp_params *)args;
+    struct u_ISteamUser_SteamUser012 *iface = (struct u_ISteamUser_SteamUser012 *)params->linux_side;
+    params->_ret = iface->UserHasLicenseForApp( params->steamID, params->appID );
+    return 0;
+}
+
+NTSTATUS wow64_ISteamUser_SteamUser012_UserHasLicenseForApp( void *args )
+{
+    struct wow64_ISteamUser_SteamUser012_UserHasLicenseForApp_params *params = (struct wow64_ISteamUser_SteamUser012_UserHasLicenseForApp_params *)args;
     struct u_ISteamUser_SteamUser012 *iface = (struct u_ISteamUser_SteamUser012 *)params->linux_side;
     params->_ret = iface->UserHasLicenseForApp( params->steamID, params->appID );
     return 0;

@@ -218,22 +218,6 @@ uint32_t __thiscall winISteamNetworkingUtils_SteamNetworkingUtils001_GetConfigVa
     return params._ret;
 }
 
-int8_t __thiscall winISteamNetworkingUtils_SteamNetworkingUtils001_GetConfigValueInfo(struct w_steam_iface *_this, uint32_t eValue, const char **pOutName, uint32_t *pOutDataType, uint32_t *pOutScope, uint32_t *pOutNextValue)
-{
-    struct ISteamNetworkingUtils_SteamNetworkingUtils001_GetConfigValueInfo_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eValue = eValue,
-        .pOutName = pOutName,
-        .pOutDataType = pOutDataType,
-        .pOutScope = pOutScope,
-        .pOutNextValue = pOutNextValue,
-    };
-    TRACE("%p\n", _this);
-    STEAMCLIENT_CALL( ISteamNetworkingUtils_SteamNetworkingUtils001_GetConfigValueInfo, &params );
-    return params._ret;
-}
-
 uint32_t __thiscall winISteamNetworkingUtils_SteamNetworkingUtils001_GetFirstConfigValue(struct w_steam_iface *_this)
 {
     struct ISteamNetworkingUtils_SteamNetworkingUtils001_GetFirstConfigValue_params params =
@@ -334,7 +318,7 @@ __ASM_BLOCK_BEGIN(winISteamNetworkingUtils_SteamNetworkingUtils001_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamNetworkingUtils_SteamNetworkingUtils001(void *u_iface)
+struct w_steam_iface *create_winISteamNetworkingUtils_SteamNetworkingUtils001(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamNetworkingUtils001");
     TRACE("-> %p\n", r);
@@ -559,22 +543,6 @@ uint32_t __thiscall winISteamNetworkingUtils_SteamNetworkingUtils002_GetConfigVa
     return params._ret;
 }
 
-int8_t __thiscall winISteamNetworkingUtils_SteamNetworkingUtils002_GetConfigValueInfo(struct w_steam_iface *_this, uint32_t eValue, const char **pOutName, uint32_t *pOutDataType, uint32_t *pOutScope, uint32_t *pOutNextValue)
-{
-    struct ISteamNetworkingUtils_SteamNetworkingUtils002_GetConfigValueInfo_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eValue = eValue,
-        .pOutName = pOutName,
-        .pOutDataType = pOutDataType,
-        .pOutScope = pOutScope,
-        .pOutNextValue = pOutNextValue,
-    };
-    TRACE("%p\n", _this);
-    STEAMCLIENT_CALL( ISteamNetworkingUtils_SteamNetworkingUtils002_GetConfigValueInfo, &params );
-    return params._ret;
-}
-
 uint32_t __thiscall winISteamNetworkingUtils_SteamNetworkingUtils002_GetFirstConfigValue(struct w_steam_iface *_this)
 {
     struct ISteamNetworkingUtils_SteamNetworkingUtils002_GetFirstConfigValue_params params =
@@ -675,7 +643,7 @@ __ASM_BLOCK_BEGIN(winISteamNetworkingUtils_SteamNetworkingUtils002_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamNetworkingUtils_SteamNetworkingUtils002(void *u_iface)
+struct w_steam_iface *create_winISteamNetworkingUtils_SteamNetworkingUtils002(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamNetworkingUtils002");
     TRACE("-> %p\n", r);
@@ -901,22 +869,6 @@ uint32_t __thiscall winISteamNetworkingUtils_SteamNetworkingUtils003_GetConfigVa
     return params._ret;
 }
 
-int8_t __thiscall winISteamNetworkingUtils_SteamNetworkingUtils003_GetConfigValueInfo(struct w_steam_iface *_this, uint32_t eValue, const char **pOutName, uint32_t *pOutDataType, uint32_t *pOutScope, uint32_t *pOutNextValue)
-{
-    struct ISteamNetworkingUtils_SteamNetworkingUtils003_GetConfigValueInfo_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eValue = eValue,
-        .pOutName = pOutName,
-        .pOutDataType = pOutDataType,
-        .pOutScope = pOutScope,
-        .pOutNextValue = pOutNextValue,
-    };
-    TRACE("%p\n", _this);
-    STEAMCLIENT_CALL( ISteamNetworkingUtils_SteamNetworkingUtils003_GetConfigValueInfo, &params );
-    return params._ret;
-}
-
 uint32_t __thiscall winISteamNetworkingUtils_SteamNetworkingUtils003_GetFirstConfigValue(struct w_steam_iface *_this)
 {
     struct ISteamNetworkingUtils_SteamNetworkingUtils003_GetFirstConfigValue_params params =
@@ -1018,7 +970,7 @@ __ASM_BLOCK_BEGIN(winISteamNetworkingUtils_SteamNetworkingUtils003_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamNetworkingUtils_SteamNetworkingUtils003(void *u_iface)
+struct w_steam_iface *create_winISteamNetworkingUtils_SteamNetworkingUtils003(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamNetworkingUtils003");
     TRACE("-> %p\n", r);
@@ -1283,7 +1235,7 @@ const char * __thiscall winISteamNetworkingUtils_SteamNetworkingUtils004_GetConf
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamNetworkingUtils_SteamNetworkingUtils004_GetConfigValueInfo, &params );
-    return params._ret;
+    return bufcache_obtain( params._ret, params._ret_size );
 }
 
 uint32_t __thiscall winISteamNetworkingUtils_SteamNetworkingUtils004_IterateGenericEditableConfigValues(struct w_steam_iface *_this, uint32_t eCurrent, int8_t bEnumerateDevVars)
@@ -1404,7 +1356,7 @@ __ASM_BLOCK_BEGIN(winISteamNetworkingUtils_SteamNetworkingUtils004_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamNetworkingUtils_SteamNetworkingUtils004(void *u_iface)
+struct w_steam_iface *create_winISteamNetworkingUtils_SteamNetworkingUtils004(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamNetworkingUtils004");
     TRACE("-> %p\n", r);
@@ -1415,10 +1367,10 @@ struct w_steam_iface *create_winISteamNetworkingUtils_SteamNetworkingUtils004(vo
 
 void init_winISteamNetworkingUtils_rtti( char *base )
 {
-#ifdef __x86_64__
+#if defined(__x86_64__) || defined(__aarch64__)
     init_winISteamNetworkingUtils_SteamNetworkingUtils001_rtti( base );
     init_winISteamNetworkingUtils_SteamNetworkingUtils002_rtti( base );
     init_winISteamNetworkingUtils_SteamNetworkingUtils003_rtti( base );
     init_winISteamNetworkingUtils_SteamNetworkingUtils004_rtti( base );
-#endif /* __x86_64__ */
+#endif /* defined(__x86_64__) || defined(__aarch64__) */
 }

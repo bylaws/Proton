@@ -194,7 +194,7 @@ __ASM_BLOCK_BEGIN(winISteamParties_SteamParties002_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamParties_SteamParties002(void *u_iface)
+struct w_steam_iface *create_winISteamParties_SteamParties002(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamParties002");
     TRACE("-> %p\n", r);
@@ -205,7 +205,7 @@ struct w_steam_iface *create_winISteamParties_SteamParties002(void *u_iface)
 
 void init_winISteamParties_rtti( char *base )
 {
-#ifdef __x86_64__
+#if defined(__x86_64__) || defined(__aarch64__)
     init_winISteamParties_SteamParties002_rtti( base );
-#endif /* __x86_64__ */
+#endif /* defined(__x86_64__) || defined(__aarch64__) */
 }

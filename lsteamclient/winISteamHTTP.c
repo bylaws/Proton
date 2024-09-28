@@ -251,7 +251,7 @@ __ASM_BLOCK_BEGIN(winISteamHTTP_STEAMHTTP_INTERFACE_VERSION001_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamHTTP_STEAMHTTP_INTERFACE_VERSION001(void *u_iface)
+struct w_steam_iface *create_winISteamHTTP_STEAMHTTP_INTERFACE_VERSION001(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMHTTP_INTERFACE_VERSION001");
     TRACE("-> %p\n", r);
@@ -664,7 +664,7 @@ __ASM_BLOCK_BEGIN(winISteamHTTP_STEAMHTTP_INTERFACE_VERSION002_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamHTTP_STEAMHTTP_INTERFACE_VERSION002(void *u_iface)
+struct w_steam_iface *create_winISteamHTTP_STEAMHTTP_INTERFACE_VERSION002(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMHTTP_INTERFACE_VERSION002");
     TRACE("-> %p\n", r);
@@ -1077,7 +1077,7 @@ __ASM_BLOCK_BEGIN(winISteamHTTP_STEAMHTTP_INTERFACE_VERSION003_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamHTTP_STEAMHTTP_INTERFACE_VERSION003(void *u_iface)
+struct w_steam_iface *create_winISteamHTTP_STEAMHTTP_INTERFACE_VERSION003(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMHTTP_INTERFACE_VERSION003");
     TRACE("-> %p\n", r);
@@ -1088,9 +1088,9 @@ struct w_steam_iface *create_winISteamHTTP_STEAMHTTP_INTERFACE_VERSION003(void *
 
 void init_winISteamHTTP_rtti( char *base )
 {
-#ifdef __x86_64__
+#if defined(__x86_64__) || defined(__aarch64__)
     init_winISteamHTTP_STEAMHTTP_INTERFACE_VERSION001_rtti( base );
     init_winISteamHTTP_STEAMHTTP_INTERFACE_VERSION002_rtti( base );
     init_winISteamHTTP_STEAMHTTP_INTERFACE_VERSION003_rtti( base );
-#endif /* __x86_64__ */
+#endif /* defined(__x86_64__) || defined(__aarch64__) */
 }

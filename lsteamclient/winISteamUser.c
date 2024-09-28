@@ -387,7 +387,7 @@ __ASM_BLOCK_BEGIN(winISteamUser_SteamUser004_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamUser_SteamUser004(void *u_iface)
+struct w_steam_iface *create_winISteamUser_SteamUser004(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamUser004");
     TRACE("-> %p\n", r);
@@ -985,7 +985,7 @@ __ASM_BLOCK_BEGIN(winISteamUser_SteamUser005_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamUser_SteamUser005(void *u_iface)
+struct w_steam_iface *create_winISteamUser_SteamUser005(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamUser005");
     TRACE("-> %p\n", r);
@@ -1189,7 +1189,7 @@ __ASM_BLOCK_BEGIN(winISteamUser_SteamUser006_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamUser_SteamUser006(void *u_iface)
+struct w_steam_iface *create_winISteamUser_SteamUser006(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamUser006");
     TRACE("-> %p\n", r);
@@ -1407,7 +1407,7 @@ __ASM_BLOCK_BEGIN(winISteamUser_SteamUser007_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamUser_SteamUser007(void *u_iface)
+struct w_steam_iface *create_winISteamUser_SteamUser007(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamUser007");
     TRACE("-> %p\n", r);
@@ -1530,7 +1530,7 @@ __ASM_BLOCK_BEGIN(winISteamUser_SteamUser008_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamUser_SteamUser008(void *u_iface)
+struct w_steam_iface *create_winISteamUser_SteamUser008(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamUser008");
     TRACE("-> %p\n", r);
@@ -1651,7 +1651,7 @@ __ASM_BLOCK_BEGIN(winISteamUser_SteamUser009_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamUser_SteamUser009(void *u_iface)
+struct w_steam_iface *create_winISteamUser_SteamUser009(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamUser009");
     TRACE("-> %p\n", r);
@@ -1759,7 +1759,7 @@ __ASM_BLOCK_BEGIN(winISteamUser_SteamUser010_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamUser_SteamUser010(void *u_iface)
+struct w_steam_iface *create_winISteamUser_SteamUser010(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamUser010");
     TRACE("-> %p\n", r);
@@ -1940,7 +1940,7 @@ __ASM_BLOCK_BEGIN(winISteamUser_SteamUser011_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamUser_SteamUser011(void *u_iface)
+struct w_steam_iface *create_winISteamUser_SteamUser011(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamUser011");
     TRACE("-> %p\n", r);
@@ -2194,7 +2194,7 @@ __ASM_BLOCK_BEGIN(winISteamUser_SteamUser012_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamUser_SteamUser012(void *u_iface)
+struct w_steam_iface *create_winISteamUser_SteamUser012(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamUser012");
     TRACE("-> %p\n", r);
@@ -2468,7 +2468,7 @@ __ASM_BLOCK_BEGIN(winISteamUser_SteamUser013_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamUser_SteamUser013(void *u_iface)
+struct w_steam_iface *create_winISteamUser_SteamUser013(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamUser013");
     TRACE("-> %p\n", r);
@@ -2801,7 +2801,7 @@ __ASM_BLOCK_BEGIN(winISteamUser_SteamUser014_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamUser_SteamUser014(void *u_iface)
+struct w_steam_iface *create_winISteamUser_SteamUser014(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamUser014");
     TRACE("-> %p\n", r);
@@ -3148,7 +3148,7 @@ __ASM_BLOCK_BEGIN(winISteamUser_SteamUser015_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamUser_SteamUser015(void *u_iface)
+struct w_steam_iface *create_winISteamUser_SteamUser015(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamUser015");
     TRACE("-> %p\n", r);
@@ -3497,7 +3497,7 @@ __ASM_BLOCK_BEGIN(winISteamUser_SteamUser016_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamUser_SteamUser016(void *u_iface)
+struct w_steam_iface *create_winISteamUser_SteamUser016(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamUser016");
     TRACE("-> %p\n", r);
@@ -3874,7 +3874,7 @@ __ASM_BLOCK_BEGIN(winISteamUser_SteamUser017_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamUser_SteamUser017(void *u_iface)
+struct w_steam_iface *create_winISteamUser_SteamUser017(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamUser017");
     TRACE("-> %p\n", r);
@@ -4266,7 +4266,7 @@ __ASM_BLOCK_BEGIN(winISteamUser_SteamUser018_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamUser_SteamUser018(void *u_iface)
+struct w_steam_iface *create_winISteamUser_SteamUser018(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamUser018");
     TRACE("-> %p\n", r);
@@ -4710,7 +4710,7 @@ __ASM_BLOCK_BEGIN(winISteamUser_SteamUser019_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamUser_SteamUser019(void *u_iface)
+struct w_steam_iface *create_winISteamUser_SteamUser019(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamUser019");
     TRACE("-> %p\n", r);
@@ -5180,7 +5180,7 @@ __ASM_BLOCK_BEGIN(winISteamUser_SteamUser020_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamUser_SteamUser020(void *u_iface)
+struct w_steam_iface *create_winISteamUser_SteamUser020(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamUser020");
     TRACE("-> %p\n", r);
@@ -5664,7 +5664,7 @@ __ASM_BLOCK_BEGIN(winISteamUser_SteamUser021_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamUser_SteamUser021(void *u_iface)
+struct w_steam_iface *create_winISteamUser_SteamUser021(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamUser021");
     TRACE("-> %p\n", r);
@@ -6149,7 +6149,7 @@ __ASM_BLOCK_BEGIN(winISteamUser_SteamUser022_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamUser_SteamUser022(void *u_iface)
+struct w_steam_iface *create_winISteamUser_SteamUser022(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamUser022");
     TRACE("-> %p\n", r);
@@ -6649,7 +6649,7 @@ __ASM_BLOCK_BEGIN(winISteamUser_SteamUser023_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamUser_SteamUser023(void *u_iface)
+struct w_steam_iface *create_winISteamUser_SteamUser023(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamUser023");
     TRACE("-> %p\n", r);
@@ -6660,7 +6660,7 @@ struct w_steam_iface *create_winISteamUser_SteamUser023(void *u_iface)
 
 void init_winISteamUser_rtti( char *base )
 {
-#ifdef __x86_64__
+#if defined(__x86_64__) || defined(__aarch64__)
     init_winISteamUser_SteamUser004_rtti( base );
     init_winISteamUser_SteamUser005_rtti( base );
     init_winISteamUser_SteamUser006_rtti( base );
@@ -6681,5 +6681,5 @@ void init_winISteamUser_rtti( char *base )
     init_winISteamUser_SteamUser021_rtti( base );
     init_winISteamUser_SteamUser022_rtti( base );
     init_winISteamUser_SteamUser023_rtti( base );
-#endif /* __x86_64__ */
+#endif /* defined(__x86_64__) || defined(__aarch64__) */
 }

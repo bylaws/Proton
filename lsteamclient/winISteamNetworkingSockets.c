@@ -410,7 +410,7 @@ __ASM_BLOCK_BEGIN(winISteamNetworkingSockets_SteamNetworkingSockets002_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamNetworkingSockets_SteamNetworkingSockets002(void *u_iface)
+struct w_steam_iface *create_winISteamNetworkingSockets_SteamNetworkingSockets002(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamNetworkingSockets002");
     TRACE("-> %p\n", r);
@@ -869,7 +869,7 @@ __ASM_BLOCK_BEGIN(winISteamNetworkingSockets_SteamNetworkingSockets004_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamNetworkingSockets_SteamNetworkingSockets004(void *u_iface)
+struct w_steam_iface *create_winISteamNetworkingSockets_SteamNetworkingSockets004(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamNetworkingSockets004");
     TRACE("-> %p\n", r);
@@ -1376,7 +1376,7 @@ __ASM_BLOCK_BEGIN(winISteamNetworkingSockets_SteamNetworkingSockets006_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamNetworkingSockets_SteamNetworkingSockets006(void *u_iface)
+struct w_steam_iface *create_winISteamNetworkingSockets_SteamNetworkingSockets006(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamNetworkingSockets006");
     TRACE("-> %p\n", r);
@@ -1957,7 +1957,7 @@ __ASM_BLOCK_BEGIN(winISteamNetworkingSockets_SteamNetworkingSockets008_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamNetworkingSockets_SteamNetworkingSockets008(void *u_iface)
+struct w_steam_iface *create_winISteamNetworkingSockets_SteamNetworkingSockets008(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamNetworkingSockets008");
     TRACE("-> %p\n", r);
@@ -2551,7 +2551,7 @@ __ASM_BLOCK_BEGIN(winISteamNetworkingSockets_SteamNetworkingSockets009_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamNetworkingSockets_SteamNetworkingSockets009(void *u_iface)
+struct w_steam_iface *create_winISteamNetworkingSockets_SteamNetworkingSockets009(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamNetworkingSockets009");
     TRACE("-> %p\n", r);
@@ -3187,8 +3187,7 @@ void /*ISteamNetworkingFakeUDPPort*/ * __thiscall winISteamNetworkingSockets_Ste
     };
     TRACE("%p\n", _this);
     STEAMCLIENT_CALL( ISteamNetworkingSockets_SteamNetworkingSockets012_CreateFakeUDPPort, &params );
-    params._ret = create_winISteamNetworkingFakeUDPPort_SteamNetworkingFakeUDPPort001( params._ret );
-    return params._ret;
+    return create_winISteamNetworkingFakeUDPPort_SteamNetworkingFakeUDPPort001( params._ret );
 }
 
 void __thiscall winISteamNetworkingSockets_SteamNetworkingSockets012_destructor(struct w_steam_iface *_this)
@@ -3251,7 +3250,7 @@ __ASM_BLOCK_BEGIN(winISteamNetworkingSockets_SteamNetworkingSockets012_vtables)
     );
 __ASM_BLOCK_END
 
-struct w_steam_iface *create_winISteamNetworkingSockets_SteamNetworkingSockets012(void *u_iface)
+struct w_steam_iface *create_winISteamNetworkingSockets_SteamNetworkingSockets012(U_PTR(void *u_iface, u_iface))
 {
     struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamNetworkingSockets012");
     TRACE("-> %p\n", r);
@@ -3262,12 +3261,12 @@ struct w_steam_iface *create_winISteamNetworkingSockets_SteamNetworkingSockets01
 
 void init_winISteamNetworkingSockets_rtti( char *base )
 {
-#ifdef __x86_64__
+#if defined(__x86_64__) || defined(__aarch64__)
     init_winISteamNetworkingSockets_SteamNetworkingSockets002_rtti( base );
     init_winISteamNetworkingSockets_SteamNetworkingSockets004_rtti( base );
     init_winISteamNetworkingSockets_SteamNetworkingSockets006_rtti( base );
     init_winISteamNetworkingSockets_SteamNetworkingSockets008_rtti( base );
     init_winISteamNetworkingSockets_SteamNetworkingSockets009_rtti( base );
     init_winISteamNetworkingSockets_SteamNetworkingSockets012_rtti( base );
-#endif /* __x86_64__ */
+#endif /* defined(__x86_64__) || defined(__aarch64__) */
 }
